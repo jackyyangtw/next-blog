@@ -1,0 +1,55 @@
+{
+  "orgId": {
+    "label": {
+      "main": "Organization ID"
+    },
+    "placeholder": {
+      "main": "Please enter your organization ID"
+    },
+    "error_msg": "Please enter a valid organization ID"
+  },
+  "email": {
+    "label": {
+      "main": "Login Account",
+      "contact_email": "Contact Email"
+    },
+    "placeholder": {
+      "main": "Please enter your email"
+    },
+    "error_msg": "Please enter a valid email address"
+  },
+  "name": {
+    "label": {
+      "main": "Name",
+      "contact_person": "Contact Person"
+    },
+    "required_msg": "Please enter a name"
+  },
+  "phone": {
+    "label": {
+      "main": "Phone Number",
+      "contact_phone": "Contact Phone"
+    },
+    "required_msg": "Please enter a phone number",
+    "error_msg": "Please enter a valid phone number"
+  },
+  "password": {
+    "label": {
+      "main": "Password",
+      "new_password": "New Password"
+    },
+    "placeholder": {
+      "main": "Please enter your password",
+      "new_password": "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and at least 12 characters"
+    },
+    "error_msg": "Password must be at least 12 characters long",
+    "complexity_error": "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
+    "confirm_error": "Password confirmation does not match"
+  },
+  "confirm_Password": {
+    "label": {
+      "main": "Confirm Password"
+    },
+    "error_msg": "Password confirmation does not match"
+  }
+}

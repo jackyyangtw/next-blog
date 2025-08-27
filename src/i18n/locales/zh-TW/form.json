@@ -1,0 +1,55 @@
+{
+  "orgId": {
+    "label": {
+      "main": "組織ID"
+    },
+    "placeholder": {
+      "main": "請輸入您的組織ID"
+    },
+    "error_msg": "請輸入有效的組織ID"
+  },
+  "email": {
+    "label": {
+      "main": "登入帳號",
+      "contact_email": "聯絡人信箱"
+    },
+    "placeholder": {
+      "main": "請輸入您的電子郵件"
+    },
+    "error_msg": "請輸入有效的電子郵件地址"
+  },
+  "name": {
+    "label": {
+      "main": "姓名",
+      "contact_person": "聯絡人姓名"
+    },
+    "required_msg": "請輸入姓名"
+  },
+  "phone": {
+    "label": {
+      "main": "電話號碼",
+      "contact_phone": "聯絡人電話"
+    },
+    "required_msg": "請輸入電話號碼",
+    "error_msg": "請輸入有效的電話號碼"
+  },
+  "password": {
+    "label": {
+      "main": "密碼",
+      "new_password": "新密碼"
+    },
+    "placeholder": {
+      "main": "請輸入您的密碼",
+      "new_password": "密碼至少需要一個小寫字母、一個大寫字母、一個數字、一個特殊符號、12個字元"
+    },
+    "error_msg": "密碼至少需要12個字元",
+    "complexity_error": "密碼至少需要一個小寫字母、一個大寫字母、一個數字、一個特殊符號",
+    "confirm_error": "密碼確認不一致"
+  },
+  "confirm_Password": {
+    "label": {
+      "main": "密碼確認"
+    },
+    "error_msg": "密碼確認不一致"
+  }
+}

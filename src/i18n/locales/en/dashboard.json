@@ -1,0 +1,29 @@
+{
+  "sidebar": {
+    "/dashboard": "Dashboard",
+    "/dashboard/global-news-hub": "Global News Hub",
+    "/dashboard/deep-dive-column": "Deep Dive Column",
+    "/dashboard/industry-reports": "Industry Reports",
+    "/dashboard/chart": "Chart Analytics",
+    "/dashboard/table-lab": "Table Lab",
+    "/dashboard/financial-metrics": "Financial Metrics",
+    "/dashboard/settings": "Settings",
+    "/dashboard/settings/organization": "Organization Management",
+    "/dashboard/product-info": "License Information"
+  },
+  "user_control": {
+    "change_password": "Change Password",
+    "logout": "Logout",
+    "message": {
+      "change_password_success": "Password changed successfully",
+      "change_password_error": "Password change failed"
+    }
+  },
+  "snackbar": {
+    "session_expired": "Your session will expire in {{remaining}} seconds. The system will automatically log you out. Please log in again.",
+    "not_admin": "You are not authorized to access this page."
+  },
+  "lang_switcher": {
+    "label": "Language"
+  }
+}

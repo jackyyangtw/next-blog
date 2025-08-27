@@ -1,0 +1,10 @@
+{
+  "customPagination": {
+    "per_page": "Per Page"
+  },
+  "customDateRangePicker": {
+    "start_date": "Start Date",
+    "to": "To",
+    "end_date": "End Date"
+  }
+}

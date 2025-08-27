@@ -1,0 +1,1 @@
+export { handleI18nMiddleware, type I18nMiddlewareResult } from './i18n';

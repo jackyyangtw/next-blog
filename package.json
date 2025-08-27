@@ -3,23 +3,53 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.1",
+    "@mui/material": "^7.3.1",
+    "@mui/material-nextjs": "^7.3.0",
+    "@redux-devtools/extension": "^3.3.0",
+    "@sanity/client": "^7.8.2",
+    "@sanity/code-input": "^6.0.1",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^4.4.1",
+    "@tanstack/react-query": "^5.85.5",
+    "@tanstack/react-query-devtools": "^5.85.5",
+    "accept-language": "^3.0.20",
+    "dayjs": "^1.11.13",
+    "i18next": "^25.3.6",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-http-backend": "^3.0.2",
+    "i18next-resources-to-backend": "^1.2.1",
+    "next": "15.4.7",
+    "next-auth": "^4.24.11",
+    "next-sanity": "^10.0.12",
+    "query-string": "^9.2.2",
     "react": "19.1.0",
+    "react-cookie": "^8.0.1",
     "react-dom": "19.1.0",
-    "next": "15.4.7"
+    "react-i18next": "^15.6.1",
+    "react-syntax-highlighter": "^15.6.1",
+    "sanity": "^4.4.1",
+    "styled-components": "^6.1.19",
+    "use-debounce": "^10.0.5",
+    "zod": "^4.0.17",
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.7",
-    "@eslint/eslintrc": "^3"
+    "typescript": "^5"
   }
 }

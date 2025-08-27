@@ -1,0 +1,16 @@
+{
+  "400000": "Business logic error",
+  "400001": "Parameter validation failed",
+  "400002": "Organization does not exist",
+  "400003": "User does not belong to the organization",
+  "400004": "Sub-account limit reached",
+  "400005": "Sub-account already exists",
+  "400006": "Password reset link has expired or is invalid",
+  "400007": "Invalid email address",
+  "401000": "Authentication failed",
+  "401001": "Invalid username or password",
+  "403000": "Permission denied",
+  "unauthorized": "Unauthorized",
+  "unknown_error": "Unknown error",
+  "server_error": "Server error"
+}

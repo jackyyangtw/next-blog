@@ -1,0 +1,10 @@
+{
+  "customPagination": {
+    "per_page": "每頁數量"
+  },
+  "customDateRangePicker": {
+    "start_date": "開始日期",
+    "to": "至",
+    "end_date": "結束日期"
+  }
+}

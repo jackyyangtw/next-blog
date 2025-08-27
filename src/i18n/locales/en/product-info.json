@@ -1,0 +1,18 @@
+{
+  "title": "License Information",
+  "data_grid": {
+    "name": "Plan Name",
+    "price": "Price",
+    "account_count": "Account Count",
+    "status": {
+      "name": "Status",
+      "0": "Will Expire",
+      "1": "Expired",
+      "2": "Subscribed",
+      "3": "Pending Renewal",
+      "4": "Pending"
+    },
+    "activation_time": "Activation Time",
+    "expiration_time": "Expiration Time"
+  }
+}

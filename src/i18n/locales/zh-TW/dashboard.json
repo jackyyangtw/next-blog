@@ -1,0 +1,29 @@
+{
+  "sidebar": {
+    "/dashboard": "Dashboard",
+    "/dashboard/global-news-hub": "全球快訊",
+    "/dashboard/deep-dive-column": "深度專欄",
+    "/dashboard/industry-reports":"產業報告",
+    "/dashboard/chart": "圖表分析室",
+    "/dashboard/table-lab": "表格工作室",
+    "/dashboard/financial-metrics":"財務指標",
+    "/dashboard/settings": "設定",
+    "/dashboard/settings/organization": "組織管理",
+    "/dashboard/product-info": "授權資訊"
+  },
+  "user_control": {
+    "change_password": "修改密碼",
+    "logout": "登出",
+    "message": {
+      "change_password_success": "密碼修改成功",
+      "change_password_error": "密碼修改失敗"
+    }
+  },
+  "snackbar": {
+    "session_expired": "您的登入即將過期，剩下 {{remaining}} 秒，系統將自動登出，請重新登入。",
+    "not_admin": "您沒有權限訪問此頁面。"
+  },
+  "lang_switcher": {
+    "label": "語系切換"
+  }
+}

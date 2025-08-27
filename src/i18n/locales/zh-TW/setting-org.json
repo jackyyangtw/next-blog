@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "title": "組織設定"
+  },
+  "message": {
+    "success": {
+      "user_add": "使用者新增成功",
+      "user_edit": "使用者更新成功",
+      "user_delete": "使用者刪除成功",
+      "org_profile_update": "組織資料更新成功"
+    }
+  },
+  "user_control_header": {
+    "title": "使用者管理",
+    "search_placeholder": "組織、姓名、帳號、電話",
+    "search_button": "查詢",
+    "add_user": "新增使用者"
+  },
+  "data_grid": {
+    "email": "登入帳號",
+    "organization_name": "組織",
+    "name": "姓名",
+    "contact_phone": "聯絡電話",
+    "status": "狀態",
+    "login_info": "最後登入時間",
+    "unlogin": "尚未登入",
+    "active": "啟用",
+    "inactive": "停用",
+    "action": {
+      "edit": "編輯",
+      "delete": "刪除"
+    }
+  },
+  "org_profile_card": {
+    "title": "組織資料",
+    "company": "公司",
+    "tax_id": "公司統編",
+    "contact_person": "聯絡人姓名",
+    "contact_email": "聯絡人信箱",
+    "contact_phone": "聯絡人電話",
+    "available_accounts": "可用帳號",
+    "edit": "編輯"
+  }
+}
