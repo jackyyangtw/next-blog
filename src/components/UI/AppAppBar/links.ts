@@ -4,6 +4,7 @@ interface NavLink {
   target?: string;
   rel?: string;
   auth?: boolean;
+  role?: string;
 }
 
 export const links: NavLink[] = [
@@ -12,6 +13,7 @@ export const links: NavLink[] = [
     href: "/studio",
     target: "_blank",
     rel: "noopener noreferrer",
+    role: "admin",
   },
   {
     label: "文章",
@@ -21,4 +23,13 @@ export const links: NavLink[] = [
 
 export const getIsActive = (pathname: string, link: NavLink) => {
   return link.href === "/" ? pathname === "/" : pathname.includes(link.href);
+};
+
+export const getVisibleLinks = (isAdmin: boolean, isAuthenticated: boolean) => {
+  return links.filter((link) => {
+    if (link.role === "admin") {
+      return isAdmin;
+    }
+    return !link.auth || isAuthenticated;
+  });
 };

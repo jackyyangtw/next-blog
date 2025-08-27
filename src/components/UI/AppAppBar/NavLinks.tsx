@@ -7,16 +7,17 @@ import NextLink from "next/link";
 import { useSession } from "next-auth/react";
 
 // ------------- links -------------
-import { links, getIsActive } from "./links";
+import {  getIsActive, getVisibleLinks } from "./links";
 
 // ------------- next -------------
 import { usePathname } from "next/navigation";
 
 export default function NavLinks() {
-  const { status } = useSession();
+  const { status, data: session } = useSession();
   const isAuthenticated = status === "authenticated";
-  const visibleLinks = links.filter((link) => !link.auth || isAuthenticated);
+  const isAdmin = session?.user?.role === "admin";
   const pathname = usePathname();
+  const visibleLinks = getVisibleLinks(isAdmin, isAuthenticated);
   return (
     <Box sx={{ display: { xs: "none", md: "flex" } }}>
       {visibleLinks.map((link) => {

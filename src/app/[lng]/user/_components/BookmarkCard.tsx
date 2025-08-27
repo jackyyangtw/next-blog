@@ -3,7 +3,6 @@
 // ------------- MUI -------------
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import CardActionArea from "@mui/material/CardActionArea";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -28,7 +27,7 @@ export function BookmarkCard({ bookmark }: { bookmark: BookmarkDoc }) {
           <Grid size={3}>
             <Box
               component="img"
-              src={urlFor(bookmark.post.photo).url()}
+              src={urlFor(bookmark.post.photo).width(600).height(600).url()}
               sx={{ width: "100%", height: "100%" }}
             />
           </Grid>
@@ -51,7 +50,12 @@ export function BookmarkCard({ bookmark }: { bookmark: BookmarkDoc }) {
                 justifyContent="flex-end"
                 alignItems="center"
               >
-                <Avatar src={urlFor(bookmark.post.author.avatar).url()} />
+                <Avatar
+                  src={urlFor(bookmark.post.author.avatar)
+                    .width(100)
+                    .height(100)
+                    .url()}
+                />
                 <Typography variant="body2" color="text.secondary">
                   {bookmark.post.author.name}
                 </Typography>

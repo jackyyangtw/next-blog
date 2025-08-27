@@ -8,6 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
 // ------------- Components -------------
 import Filter from "./_components/Filter";
 import PostCards from "@/components/UI/PostCards";
@@ -51,6 +52,11 @@ export default function PostPage() {
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <Filter />
       {isPostsLoading ? <CircularProgress /> : <PostCards posts={posts.data} />}
+      {posts?.data.length === 0 && (
+        <Typography variant="h3" sx={{ mb: 2 }}>
+          沒有文章
+        </Typography>
+      )}
       <Box
         sx={{
           display: "flex",

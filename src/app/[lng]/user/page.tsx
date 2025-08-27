@@ -15,12 +15,12 @@ import { BookmarkCard } from "./_components/BookmarkCard";
 import { useSession } from "next-auth/react";
 
 // ------------- Tanstack Query -------------
-import { useUser } from "@/lib/api/user/hooks";
+// import { useUser } from "@/lib/api/user/hooks";
 import { useBookmarks } from "@/lib/api/bookmarks/hooks";
 
 export default function User() {
   const { data: session, status } = useSession();
-  const { data: user } = useUser();
+  // const { data: user } = useUser();
   const { data: bookmarks } = useBookmarks();
   console.log(bookmarks);
 
@@ -50,7 +50,10 @@ export default function User() {
           </Stack>
         </Grid>
         <Grid size={8}>
-          <Stack direction="column" justifyContent="space-between">
+          <Typography variant="h3" sx={{ mb: 2 }}>
+            最愛文章
+          </Typography>
+          <Stack direction="column" justifyContent="space-between" gap={2}>
             {bookmarks?.map((bookmark) => (
               <BookmarkCard key={bookmark._id} bookmark={bookmark} />
             ))}

@@ -47,6 +47,7 @@ export default function FavoriteButton({ postId }: FavoriteButtonProps) {
   const [tipOpen, setTipOpen] = React.useState(false);
   const handleToggle = () => {
     if (status === "unauthenticated") {
+      showSnackbar({ message: "請先登入", severity: "warning" });
       router.push("/auth");
       return;
     }
