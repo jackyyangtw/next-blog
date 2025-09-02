@@ -1,10 +1,12 @@
-import Box from "@mui/material/Box";
+// ------------- MUI -------------
 import Card from "@mui/material/Card";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { signOut } from "next-auth/react";
 import Stack from "@mui/material/Stack";
+
+// ------------- Hooks -------------
+import { useLogout } from "@/hooks/auth/useLogout";
 
 interface UserCardProps {
   name?: string | null;
@@ -12,9 +14,10 @@ interface UserCardProps {
   image?: string | null;
 }
 
-export function UserCard({ name, email, image }: UserCardProps) {
+export default function UserCard({ name, email, image }: UserCardProps) {
+  const logout = useLogout();
   return (
-    <Card sx={{ maxWidth: 360, mx: "auto", mt: 4, p: 2 }}>
+    <Card sx={{ maxWidth: 360, mx: "auto", p: 2 }}>
       <Stack
         direction="column"
         alignItems="center"
@@ -31,7 +34,7 @@ export function UserCard({ name, email, image }: UserCardProps) {
         <Typography variant="body2" color="text.secondary">
           {email ?? "未提供信箱"}
         </Typography>
-        <Button variant="contained" color="primary" onClick={() => signOut()}>
+        <Button variant="contained" color="primary" onClick={logout}>
           登出
         </Button>
       </Stack>

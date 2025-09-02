@@ -2,39 +2,17 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../query-keys";
 import { fetchBookmarks, addBookmark, removeBookmark } from "./fetch";
+import { useSession } from "next-auth/react";
 
 export const useBookmarks = () => {
+  const { status } = useSession();
+  const isAuthenticated = status === "authenticated";
   return useQuery({
     queryKey: queryKeys.bookmarks,
     queryFn: fetchBookmarks,
+    enabled: isAuthenticated,
   });
 };
-
-// export const useAddBookmark = () => {
-//   const queryClient = useQueryClient();
-//   const key = queryKeys.bookmarks;
-
-//   return useMutation({
-//     mutationKey: ["add-bookmark"],
-//     mutationFn: (postId: string) => addBookmark(postId),
-//     onSettled: () => {
-//       queryClient.invalidateQueries({ queryKey: key });
-//     },
-//   });
-// };
-
-// export const useRemoveBookmark = () => {
-//   const queryClient = useQueryClient();
-//   const key = queryKeys.bookmarks;
-
-//   return useMutation({
-//     mutationKey: ["remove-bookmark"],
-//     mutationFn: (postId: string) => removeBookmark(postId),
-//     onSettled: () => {
-//       queryClient.invalidateQueries({ queryKey: key });
-//     },
-//   });
-// };
 
 type Bookmark = { post: { _id: string } }; // 依你現有資料結構最小型定義
 export const useAddBookmark = () => {

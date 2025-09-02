@@ -6,7 +6,7 @@ import { client } from "@/sanity/lib/client";
 export async function GET() {
   // 1) 驗證登入
   const session = await getServerSession(authOptions);
-  const userId = (session?.user as { _id: string })?._id;
+  const userId = session?.user?._id;
   if (!userId) {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
@@ -58,7 +58,8 @@ export async function GET() {
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
-  const userId = (session?.user as { _id: string })?._id;
+  const userId = session?.user?._id;
+  console.log("userId", userId);
   if (!userId) {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
@@ -106,7 +107,7 @@ export async function POST(req: Request) {
 
 export async function DELETE(req: Request) {
   const session = await getServerSession(authOptions);
-  const userId = (session?.user as { _id: string })?._id;
+  const userId = session?.user?._id;
   if (!userId) {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
@@ -130,7 +131,7 @@ export async function DELETE(req: Request) {
     if (!bookmarkId) {
       return new Response(JSON.stringify({ message: "Not found" }), {
         status: 404,
-        headers: { "content-type": "application/json", },
+        headers: { "content-type": "application/json" },
       });
     }
     await client.delete(bookmarkId);

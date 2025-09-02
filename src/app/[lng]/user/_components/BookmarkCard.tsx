@@ -19,7 +19,7 @@ import Avatar from "@mui/material/Avatar";
 // ------------- Next -------------
 import NextLink from "next/link";
 
-export function BookmarkCard({ bookmark }: { bookmark: BookmarkDoc }) {
+export default function BookmarkCard({ bookmark }: { bookmark: BookmarkDoc }) {
   return (
     <Card sx={{ p: 0 }}>
       <CardActionArea component={NextLink} href={`/post/${bookmark.post.slug}`}>
