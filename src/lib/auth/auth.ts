@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user, account, profile, trigger }) {
+    async jwt({ token, user, trigger }) {
       // 只在登入時處理
       if (trigger === "signIn" && user && user.email) {
         const { email, name, image } = user;

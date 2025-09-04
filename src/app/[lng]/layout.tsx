@@ -18,7 +18,6 @@ import Container from "@mui/material/Container";
 import Providers from "@/Providers";
 
 // ----------------------- Components -----------------------
-import AppAppBar from "@/components/UI/AppAppBar/AppAppBar";
 import AppWrapper from "./_components/AppWrapper";
 
 export const generateMetadata = async ({

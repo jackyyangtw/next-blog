@@ -4,7 +4,7 @@ import { handleI18nMiddleware } from "@/middlewares";
 
 export const config = {
   matcher: [
-    "/((?!studio|api|_next/static|_next/image|assets|favicon.ico|sw.js|images|pdf).*)",
+    "/((?!studio|api|_next/static|_next/image|assets|favicon.ico|sw.js|images|sitemap.xml|server-sitemap.xml).*)",
   ],
 };
 export async function middleware(req: NextRequest) {

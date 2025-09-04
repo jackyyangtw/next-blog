@@ -73,7 +73,9 @@ export default function Filter() {
                 ? "1px solid"
                 : "none",
             }}
-            color={selectedCategories.includes(cat.slug) ? "primary" : "default"}
+            color={
+              selectedCategories.includes(cat.slug) ? "primary" : "default"
+            }
           />
         ))}
       </Box>
