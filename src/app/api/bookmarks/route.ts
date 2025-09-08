@@ -1,7 +1,7 @@
 // import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth";
-import { dynamicClient } from "@/sanity/lib/client";
+import { client } from "@/sanity/lib/client";
 
 // 取得所有書籤
 export async function GET() {
@@ -43,7 +43,7 @@ export async function GET() {
   `;
 
   try {
-    const items = await dynamicClient.fetch(
+    const items = await client.fetch(
       query,
       { userId },
       { cache: "no-store" }
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
       });
     }
     // 檢查是否已存在
-    const exist = await dynamicClient.fetch(
+    const exist = await client.fetch(
       '*[_type=="bookmark" && user._ref==$userId && post._ref==$postId][0]._id',
       { userId, postId }
     );
@@ -97,7 +97,7 @@ export async function POST(req: Request) {
       user: { _type: "reference", _ref: userId },
       post: { _type: "reference", _ref: postId },
     };
-    const created = await dynamicClient.create(doc);
+    const created = await client.create(doc);
     return new Response(JSON.stringify(created), {
       status: 201,
       headers: { "content-type": "application/json" },
@@ -131,7 +131,7 @@ export async function DELETE(req: Request) {
       });
     }
     // 找到 bookmark id
-    const bookmarkId = await dynamicClient.fetch(
+    const bookmarkId = await client.fetch(
       '*[_type=="bookmark" && user._ref==$userId && post._ref==$postId][0]._id',
       { userId, postId }
     );
@@ -141,7 +141,7 @@ export async function DELETE(req: Request) {
         headers: { "content-type": "application/json" },
       });
     }
-    await dynamicClient.delete(bookmarkId);
+    await client.delete(bookmarkId);
     return new Response(JSON.stringify({ message: "Bookmark deleted" }), {
       status: 200,
       headers: { "content-type": "application/json" },

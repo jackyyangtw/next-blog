@@ -1,20 +1,29 @@
-import { createClient } from 'next-sanity'
+// src/sanity/lib/client.ts
+import { createClient } from "next-sanity";
 
-import { apiVersion, dataset, developerToken, projectId } from '../env'
+import {
+  apiVersion,
+  dataset,
+  developerToken,
+  projectId,
+  buildToken,
+} from "../env";
+
+const token =
+  process.env.NODE_ENV === "production" ? buildToken : developerToken;
 
 export const client = createClient({
-  token: developerToken,
+  token,
   projectId,
   dataset,
   apiVersion,
-  useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
-})
+  useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
+});
 
-// 動態內容（用戶資料）
-export const dynamicClient = createClient({
-  token: developerToken,
+// 用於前端圖片，走 CDN，不帶 token
+export const publicClient = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false,
-})
+  useCdn: true,
+});
