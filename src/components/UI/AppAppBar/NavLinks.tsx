@@ -7,7 +7,7 @@ import NextLink from "next/link";
 import { useSession } from "next-auth/react";
 
 // ------------- links -------------
-import {  getIsActive, getVisibleLinks } from "./links";
+import { getIsActive, getVisibleLinks } from "./links";
 
 // ------------- next -------------
 import { usePathname } from "next/navigation";
@@ -33,11 +33,7 @@ export default function NavLinks() {
               variant={isActive ? "contained" : "text"}
               color={isActive ? "primary" : "info"}
               size="small"
-              sx={
-                isActive
-                  ? { fontWeight: 700, backgroundColor: "red" }
-                  : undefined
-              }
+              sx={isActive ? { fontWeight: 700 } : undefined}
             >
               {link.label}
             </Button>

@@ -91,9 +91,13 @@ export default function AppAppBar() {
               </NextLink>
             )}
             {isAuthenticated && (
-              <NextLink href="/user">
+              <Button
+                href="/user"
+                component={NextLink}
+                sx={{ minWidth: "unset", p: 0, borderRadius: "100%" }}
+              >
                 <Avatar src={session?.user?.image || ""} />
-              </NextLink>
+              </Button>
             )}
             <ColorModeIconDropdown />
           </Box>

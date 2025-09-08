@@ -7,5 +7,14 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
+  useCdn: true, // Set to false if statically generating pages, using ISR or tag-based revalidation
+})
+
+// 動態內容（用戶資料）
+export const dynamicClient = createClient({
+  token: developerToken,
+  projectId,
+  dataset,
+  apiVersion,
+  useCdn: false,
 })

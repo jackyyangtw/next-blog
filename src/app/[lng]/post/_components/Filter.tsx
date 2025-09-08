@@ -31,7 +31,6 @@ export default function Filter() {
         justifyContent: "space-between",
         alignItems: { xs: "start", md: "center" },
         gap: 4,
-        // overflow: "auto",
       }}
     >
       <Box
@@ -45,10 +44,6 @@ export default function Filter() {
         <Chip
           label="全部種類"
           size="medium"
-          sx={{
-            backgroundColor: "transparent",
-            border: !selectedCategories.length ? "1px solid" : "none",
-          }}
           onClick={() => {
             setParams({ categories: [], page: 1, keyword: "" });
           }}
@@ -67,12 +62,6 @@ export default function Filter() {
               });
             }}
             size="medium"
-            sx={{
-              backgroundColor: "transparent",
-              border: selectedCategories.includes(cat.slug)
-                ? "1px solid"
-                : "none",
-            }}
             color={
               selectedCategories.includes(cat.slug) ? "primary" : "default"
             }

@@ -17,8 +17,21 @@ const ReactQueryDevtools =
       )
     : () => null;
 
-export default function ReactQueryProvider({ children }: { children: ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+export default function ReactQueryProvider({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        // defaultOptions: {
+        //   queries: {
+        //     refetchOnWindowFocus: false,
+        //   },
+        // },
+      })
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -3,11 +3,11 @@
 - ✅ 文章分類、搜尋功能
 - ✅ 會員功能(收藏、顯示使用者資料頁面)
 - ✅ 詳細頁面加入喜歡(不用登入)、收藏功能(❌要登入)
-- sitemap、文章SEO優化、結構資料
-- / 呈現所有post infinite loading
+- ✅ sitemap、文章SEO優化、結構資料
 - i18n
 - 圖片優化
 - 部屬至vercel
+- / 呈現所有post infinite loading
 - 留言功能
 - 評價功能
 

@@ -4,7 +4,7 @@ import { typographyClasses } from "@mui/material/Typography";
 import { buttonBaseClasses } from "@mui/material/ButtonBase";
 import { chipClasses } from "@mui/material/Chip";
 import { iconButtonClasses } from "@mui/material/IconButton";
-import { gray, red, green } from "../themePrimitives";
+import { gray, red, green,brand } from "../themePrimitives";
 
 export const dataDisplayCustomizations: Components<Theme> = {
   MuiList: {
@@ -97,6 +97,7 @@ export const dataDisplayCustomizations: Components<Theme> = {
           fontWeight: 600,
         },
         variants: [
+          // default
           {
             props: {
               color: "default",
@@ -122,6 +123,47 @@ export const dataDisplayCustomizations: Components<Theme> = {
               }),
             },
           },
+          // primary
+          {
+            props: {
+              color: "primary",
+            },
+            style: {
+              borderColor: brand[200],
+              backgroundColor: brand[50],
+              [`& .${chipClasses.label}`]: {
+                color: brand[500],
+              },
+              [`& .${chipClasses.icon}`]: {
+                color: brand[500],
+              },
+              "&:hover": {
+                backgroundColor: brand[100],
+                borderColor: brand[400],
+              },
+              "&:active": {
+                backgroundColor: alpha(brand[200], 0.7),
+              },
+              ...theme.applyStyles("dark", {
+                borderColor: brand[800],
+                backgroundColor: brand[900],
+                [`& .${chipClasses.label}`]: {
+                  color: brand[300],
+                },
+                [`& .${chipClasses.icon}`]: {
+                  color: brand[300],
+                },
+                "&:hover": {
+                  borderColor: brand[700],
+                  backgroundColor: alpha(brand[900], 0.6),
+                },
+                "&:active": {
+                  backgroundColor: alpha(brand[900], 0.5),
+                },
+              }),
+            },
+          },
+          // success
           {
             props: {
               color: "success",
@@ -147,6 +189,7 @@ export const dataDisplayCustomizations: Components<Theme> = {
               }),
             },
           },
+          // error
           {
             props: {
               color: "error",
@@ -172,6 +215,7 @@ export const dataDisplayCustomizations: Components<Theme> = {
               }),
             },
           },
+          // small
           {
             props: { size: "small" },
             style: {
@@ -184,6 +228,7 @@ export const dataDisplayCustomizations: Components<Theme> = {
               },
             },
           },
+          // medium
           {
             props: { size: "medium" },
             style: {
