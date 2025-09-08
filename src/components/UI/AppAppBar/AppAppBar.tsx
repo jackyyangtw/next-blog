@@ -14,7 +14,6 @@ import Avatar from "@mui/material/Avatar";
 
 // ------------- icons -------------
 import ColorModeIconDropdown from "@/components/theme/ColorModeDropdown";
-import Sitemark from "@/components/Icons/SitemarkIcon";
 
 // ------------- next -------------
 import NextLink from "next/link";
@@ -70,7 +69,13 @@ export default function AppAppBar() {
             sx={{ flexGrow: 1, display: "flex", alignItems: "center", px: 0 }}
           >
             <NextLink href="/">
-              <Sitemark />
+              {/* <Sitemark /> */}
+              <Box
+                component="img"
+                src="/images/site_logo.svg"
+                alt="logo"
+                sx={{ width: 100 }}
+              ></Box>
             </NextLink>
             <NavLinks />
           </Box>

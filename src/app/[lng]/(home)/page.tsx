@@ -7,15 +7,34 @@ import Typography from "@mui/material/Typography";
 // ------------- Components -------------
 import PostsSection from "./_components/PostSection";
 
-export default async function Home() {
+// ------------- i18n -------------
+import { getServerTranslation } from "@/i18n/index";
+import { Locale } from "@/i18n/types";
+
+interface HomeProps {
+  params: Promise<{ lng: Locale }>;
+}
+
+export const generateMetadata = async ({ params }: HomeProps) => {
+  const { lng } = await params;
+  const tCommon = await getServerTranslation(lng, "common");
+  return {
+    title: tCommon.t("site_name"),
+    description: tCommon.t("site_description"),
+  };
+};
+
+export default async function Home({ params }: HomeProps) {
+  const { lng } = await params;
+  const tCommon = await getServerTranslation(lng, "common");
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <Box>
         <Typography variant="h1" gutterBottom>
-          Blog
+          {tCommon.t("site_name")}
         </Typography>
-        <Typography>
-          Stay in the loop with the latest about our products
+        <Typography variant="h2" gutterBottom>
+          {tCommon.t("site_description")}
         </Typography>
       </Box>
       <PostsSection />

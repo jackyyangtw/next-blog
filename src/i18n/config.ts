@@ -7,7 +7,7 @@ import { Namespace } from "@/i18n/types";
 export const fallbackLng: Locale = "zh-TW";
 export const languages: Locale[] = [fallbackLng, "en"];
 export const cookieName = "i18next";
-export const defaultNS: Namespace = "home";
+export const defaultNS: Namespace = "common";
 export function getI18nextOptions(lng: Locale = fallbackLng, ns = defaultNS) {
   return {
     debug: false,

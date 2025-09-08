@@ -7,7 +7,8 @@ import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 
 // ------------- links -------------
-import { getIsActive, getVisibleLinks } from "./links";
+import { getIsActive } from "./links";
+import { useNavLinks } from "./links";
 
 // ------------- next auth -------------
 import { useSession } from "next-auth/react";
@@ -26,6 +27,7 @@ export default function MobileDrawer({
   const { status, data: session } = useSession();
   const isAuthenticated = status === "authenticated";
   const isAdmin = session?.user?.role === "admin";
+  const { getVisibleLinks } = useNavLinks();
   const visibleLinks = getVisibleLinks(isAdmin, isAuthenticated);
   const pathname = usePathname();
   return (

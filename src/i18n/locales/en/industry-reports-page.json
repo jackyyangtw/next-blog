@@ -1,9 +1,0 @@
-{
-  "input": {
-    "search_placeholder": "Search industry report title..."
-  },
-  "content_page": {
-    "download_pdf": "Download PDF",
-    "pdf_loading": "PDF loading..."
-  }
-}

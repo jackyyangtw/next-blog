@@ -11,11 +11,14 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import { useSetPostsQueryParams, usePostsQueryParams } from "../_hooks";
 
+// ------------- i18n -------------
+import { useClientTranslation } from "@/i18n/client";
+
 export default function Search() {
   const setParams = useSetPostsQueryParams();
   const { keyword } = usePostsQueryParams();
   const [inputValue, setInputValue] = useState("");
-
+  const { t } = useClientTranslation("posts-page");
   // A. 當 URL 的 keyword 改變時，只同步到輸入框（不動 URL）
   useEffect(() => {
     setInputValue(keyword ?? "");
@@ -40,7 +43,7 @@ export default function Search() {
       <OutlinedInput
         size="small"
         id="search"
-        placeholder="搜尋文章標題、內容…"
+        placeholder={t("search_placeholder")}
         sx={{
           flexGrow: 1,
         }}

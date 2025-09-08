@@ -1,14 +1,16 @@
 "use client";
-import * as React from 'react';
-import DarkModeIcon from '@mui/icons-material/DarkModeRounded';
-import LightModeIcon from '@mui/icons-material/LightModeRounded';
-import Box from '@mui/material/Box';
-import IconButton, { IconButtonOwnProps } from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { useColorScheme } from '@mui/material/styles';
+import * as React from "react";
+import DarkModeIcon from "@mui/icons-material/DarkModeRounded";
+import LightModeIcon from "@mui/icons-material/LightModeRounded";
+import Box from "@mui/material/Box";
+import IconButton, { IconButtonOwnProps } from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { useColorScheme } from "@mui/material/styles";
+import { useClientTranslation } from "@/i18n/client";
 
 export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
+  const { t } = useClientTranslation("component");
   const { mode, systemMode, setMode } = useColorScheme();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -18,7 +20,7 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleMode = (targetMode: 'system' | 'light' | 'dark') => () => {
+  const handleMode = (targetMode: "system" | "light" | "dark") => () => {
     setMode(targetMode);
     handleClose();
   };
@@ -27,18 +29,18 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
       <Box
         data-screenshot="toggle-mode"
         sx={(theme) => ({
-          verticalAlign: 'bottom',
-          display: 'inline-flex',
-          width: '2.25rem',
-          height: '2.25rem',
+          verticalAlign: "bottom",
+          display: "inline-flex",
+          width: "2.25rem",
+          height: "2.25rem",
           borderRadius: (theme.vars || theme).shape.borderRadius,
-          border: '1px solid',
+          border: "1px solid",
           borderColor: (theme.vars || theme).palette.divider,
         })}
       />
     );
   }
-  const resolvedMode = (systemMode || mode) as 'light' | 'dark';
+  const resolvedMode = (systemMode || mode) as "light" | "dark";
   const icon = {
     light: <LightModeIcon />,
     dark: <DarkModeIcon />,
@@ -50,9 +52,9 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
         onClick={handleClick}
         disableRipple
         size="small"
-        aria-controls={open ? 'color-scheme-menu' : undefined}
+        aria-controls={open ? "color-scheme-menu" : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={open ? "true" : undefined}
         {...props}
       >
         {icon}
@@ -65,24 +67,36 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
         onClick={handleClose}
         slotProps={{
           paper: {
-            variant: 'outlined',
+            variant: "outlined",
             elevation: 0,
             sx: {
-              my: '4px',
+              my: "4px",
             },
           },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem selected={mode === 'system'} onClick={handleMode('system')}>
-          System
+        <MenuItem
+          selected={mode === "system"}
+          onClick={handleMode("system")}
+          sx={{ minWidth: "100px" }}
+        >
+          {t("ColorModeIconDropdown.system")}
         </MenuItem>
-        <MenuItem selected={mode === 'light'} onClick={handleMode('light')}>
-          Light
+        <MenuItem
+          selected={mode === "light"}
+          onClick={handleMode("light")}
+          sx={{ minWidth: "100px" }}
+        >
+          {t("ColorModeIconDropdown.light")}
         </MenuItem>
-        <MenuItem selected={mode === 'dark'} onClick={handleMode('dark')}>
-          Dark
+        <MenuItem
+          selected={mode === "dark"}
+          onClick={handleMode("dark")}
+          sx={{ minWidth: "100px" }}
+        >
+          {t("ColorModeIconDropdown.dark")}
         </MenuItem>
       </Menu>
     </React.Fragment>

@@ -1,6 +1,4 @@
 {
-  "site_name": "優分析-全球資料庫",
-  "auth": {
-    "logout": "登出"
-  }
+  "site_name": "前端隨手記",
+  "site_description": "做中學，學中做。前端開發筆記。"
 }

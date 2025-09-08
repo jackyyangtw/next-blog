@@ -1,0 +1,13 @@
+{
+  "LangSwitcher": {
+    "label": "Language"
+  },
+  "CustomPagination": {
+    "select_label": "per page"
+  },
+  "ColorModeIconDropdown": {
+    "system": "System",
+    "light": "Light",
+    "dark": "Dark"
+  }
+}

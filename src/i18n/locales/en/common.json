@@ -1,6 +1,4 @@
 {
-  "site_name": "UAnalyze Global Database (UAGD)",
-  "auth": {
-    "logout": "Logout"
-  }
+  "site_name": "Frontend Journal",
+  "site_description": "Learn by doing, do by learning. Frontend development notes."
 }

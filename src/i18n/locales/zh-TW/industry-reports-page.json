@@ -1,9 +1,0 @@
-{
-  "input": {
-    "search_placeholder": "搜尋產業報告標題..."
-  },
-  "content_page": {
-    "download_pdf": "下載 PDF",
-    "pdf_loading": "PDF 載入中..."
-  }
-}

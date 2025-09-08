@@ -2,24 +2,17 @@ import { Locale } from "@/types/locale";
 
 // 語系資源的命名空間型別
 export type Namespace =
-  // pages
-  | "dashboard"
-  | "setting-org"
-  | "reset-password"
-  | "login"
-  | "product-info"
-  | "news-page"
-  | "industry-reports-page"
-  | "deep-dive-column"
-  // UI components
-  | "dialog"
   // common
-  | "form"
   | "common"
-  | "error"
-  | "home"
-  | "footer"
-  | "components";
+  // component
+  | "component"
+  // auth
+  | "auth"
+  // pages
+  | "user-page"
+  | "posts-page"
+  // nav-links
+  | "nav-links";
 
 // 語系設定介面
 export interface I18nConfig {
@@ -30,7 +23,7 @@ export interface I18nConfig {
   defaultNamespace: Namespace;
 }
 
-export type Locale = 'en' | 'zh-TW';
+export type Locale = "en" | "zh-TW";
 
 export interface LocaleConfig {
   label: string;

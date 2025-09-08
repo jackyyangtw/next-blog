@@ -1,0 +1,13 @@
+{
+  "LangSwitcher": {
+    "label": "語言"
+  },
+  "CustomPagination": {
+    "select_label": "每頁顯示"
+  },
+  "ColorModeIconDropdown": {
+    "system": "系統",
+    "light": "淺色",
+    "dark": "深色"
+  }
+}

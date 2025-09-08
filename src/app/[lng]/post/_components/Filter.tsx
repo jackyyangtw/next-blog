@@ -14,11 +14,14 @@ import { useCategories } from "@/lib/api/categories/hooks";
 // ------------- hooks -------------
 import { usePostsQueryParams, useSetPostsQueryParams } from "../_hooks";
 
+// ------------- i18n -------------
+import { useClientTranslation } from "@/i18n/client";
+
 export default function Filter() {
   const { data: categories, isPending, isError } = useCategories();
   const { categories: selectedCategories } = usePostsQueryParams();
   const setParams = useSetPostsQueryParams();
-
+  const { t } = useClientTranslation("posts-page");
   if (isPending) return <CircularProgress />;
   if (isError) return <div>Error</div>;
 
@@ -42,7 +45,7 @@ export default function Filter() {
         }}
       >
         <Chip
-          label="全部種類"
+          label={t("all_kind")}
           size="medium"
           onClick={() => {
             setParams({ categories: [], page: 1, keyword: "" });

@@ -9,6 +9,10 @@ import { navigationCustomizations } from "./customizations/navigation";
 import { surfacesCustomizations } from "./customizations/surfaces";
 import { colorSchemes, typography, shadows, shape } from "./themePrimitives";
 
+// ------------- i18n -------------
+import { getMUILocale, fallbackLng } from "@/i18n/config";
+import { Locale } from "@/i18n/types";
+
 interface AppThemeProps {
   children: React.ReactNode;
   /**
@@ -16,33 +20,38 @@ interface AppThemeProps {
    */
   disableCustomTheme?: boolean;
   themeComponents?: ThemeOptions["components"];
+  locale?: Locale;
 }
 
 export default function AppTheme(props: AppThemeProps) {
-  const { children, disableCustomTheme, themeComponents } = props;
+  const { children, disableCustomTheme, themeComponents, locale } = props;
   const theme = React.useMemo(() => {
+    const muiLocale = getMUILocale(locale ?? fallbackLng);
     return disableCustomTheme
       ? {}
-      : createTheme({
-          // For more details about CSS variables configuration, see https://mui.com/material-ui/customization/css-theme-variables/configuration/
-          cssVariables: {
-            colorSchemeSelector: "class",
-            cssVarPrefix: "template",
+      : createTheme(
+          {
+            // For more details about CSS variables configuration, see https://mui.com/material-ui/customization/css-theme-variables/configuration/
+            cssVariables: {
+              colorSchemeSelector: "class",
+              cssVarPrefix: "template",
+            },
+            colorSchemes, // Recently added in v6 for building light & dark mode app, see https://mui.com/material-ui/customization/palette/#color-schemes
+            typography,
+            shadows,
+            shape,
+            components: {
+              ...inputsCustomizations,
+              ...dataDisplayCustomizations,
+              ...feedbackCustomizations,
+              ...navigationCustomizations,
+              ...surfacesCustomizations,
+              ...themeComponents,
+            },
           },
-          colorSchemes, // Recently added in v6 for building light & dark mode app, see https://mui.com/material-ui/customization/palette/#color-schemes
-          typography,
-          shadows,
-          shape,
-          components: {
-            ...inputsCustomizations,
-            ...dataDisplayCustomizations,
-            ...feedbackCustomizations,
-            ...navigationCustomizations,
-            ...surfacesCustomizations,
-            ...themeComponents,
-          },
-        });
-  }, [disableCustomTheme, themeComponents]);
+          muiLocale
+        );
+  }, [disableCustomTheme, themeComponents, locale]);
   if (disableCustomTheme) {
     return <React.Fragment>{children}</React.Fragment>;
   }

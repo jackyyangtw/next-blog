@@ -17,12 +17,15 @@ import { useSession } from "next-auth/react";
 // ------------- Tanstack Query -------------
 import { useBookmarks } from "@/lib/api/bookmarks/hooks";
 
+// ------------- i18n -------------
+import { useClientTranslation } from "@/i18n/client";
+
 export default function User() {
   const { data: session, status } = useSession();
   const { data: bookmarks, isPending } = useBookmarks();
-
+  const { t } = useClientTranslation("user-page");
   if (status === "loading") {
-    return <Typography sx={{ mt: 4, textAlign: "center" }}>載入中…</Typography>;
+    return <Typography sx={{ mt: 4, textAlign: "center" }}>{t("loading_user")}</Typography>;
   }
 
   return (
@@ -47,7 +50,7 @@ export default function User() {
           }}
         >
           <Typography variant="h3" sx={{ mb: 2 }}>
-            最愛文章
+            {t("bookmark")}
           </Typography>
           {bookmarks && bookmarks.length > 0 && (
             <Stack direction="column" justifyContent="space-between" gap={2}>
@@ -58,7 +61,7 @@ export default function User() {
           )}
           {bookmarks && bookmarks.length === 0 && !isPending && (
             <Typography variant="body1" sx={{ mb: 2 }}>
-              沒有最愛文章
+              {t("no_bookmark")}
             </Typography>
           )}
           {isPending && <CircularProgress />}
