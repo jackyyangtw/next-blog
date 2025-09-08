@@ -1,13 +1,12 @@
 // next-sitemap.config.js
-
 /** @type {import('next-sitemap').IConfig} */
+const rawBaseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const baseUrl = rawBaseUrl.replace(/\/+$/, ""); // 去尾斜線，避免 //server-sitemap.xml
 module.exports = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  siteUrl: baseUrl,
   generateRobotsTxt: true,
-  exclude: ['/server-sitemap.xml'],
+  exclude: ["/server-sitemap.xml", "/*/user", "/*/auth"],
   robotsTxtOptions: {
-    additionalSitemaps: [
-      `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/server-sitemap.xml`,
-    ],
+    additionalSitemaps: [`${baseUrl}/server-sitemap.xml`],
   },
-}
+};

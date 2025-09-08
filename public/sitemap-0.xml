@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>http://localhost:3000/en</loc><lastmod>2025-09-08T07:34:42.453Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/zh-TW</loc><lastmod>2025-09-08T07:34:42.453Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/en/user</loc><lastmod>2025-09-08T07:34:42.453Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/zh-TW/user</loc><lastmod>2025-09-08T07:34:42.453Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/en/auth</loc><lastmod>2025-09-08T07:34:42.453Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/zh-TW/auth</loc><lastmod>2025-09-08T07:34:42.453Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/en/post</loc><lastmod>2025-09-08T07:34:42.453Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>http://localhost:3000/zh-TW/post</loc><lastmod>2025-09-08T07:34:42.453Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://next-blog-swart-psi.vercel.app/en/post</loc><lastmod>2025-09-08T08:49:30.885Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://next-blog-swart-psi.vercel.app/zh-TW/post</loc><lastmod>2025-09-08T08:49:30.885Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://next-blog-swart-psi.vercel.app/en</loc><lastmod>2025-09-08T08:49:30.885Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://next-blog-swart-psi.vercel.app/zh-TW</loc><lastmod>2025-09-08T08:49:30.885Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>

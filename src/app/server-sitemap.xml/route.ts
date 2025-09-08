@@ -1,18 +1,20 @@
 // app/server-sitemap.xml/route.ts
+// https://www.npmjs.com/package/next-sitemap
+import { PostDoc } from "@/schema/type/post";
 import { getServerSideSitemap } from "next-sitemap";
-
-export async function GET() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-  // 一次抓多一點，或你的 API 做無限分頁內部合併
-  const res = await fetch(`${baseUrl}/api/posts`, {
-    cache: "no-store",
-  });
-  const { data: posts } = (await res.json()) as {
-    data: Array<{ slug: string; _createdAt?: string }>;
-  };
+import { client } from "@/sanity/lib/client";
+import { NextRequest } from "next/server";
+export async function GET(req: NextRequest) {
+  const origin = req.nextUrl.origin;
+  const posts = await client.fetch<PostDoc[]>(
+    `*[_type == "post"] | order(_createdAt desc) {
+      "slug": slug.current,
+      _createdAt
+    }`
+  );
 
   const fields = posts.map((p) => ({
-    loc: `${baseUrl}/posts/${p.slug}`,
+    loc: `${origin}/post/${p.slug}`,
     lastmod: new Date(p._createdAt ?? Date.now()).toISOString(),
     changefreq: "weekly" as const,
     priority: 0.7,
