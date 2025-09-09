@@ -1,18 +1,11 @@
 // src/app/[lng]/(home)/_components/PostsSection.tsx  ← Server Component（不要 "use client"）
 import Grid from "@mui/material/Grid";
 import PostCards from "@/components/UI/PostCards";
-import {client} from "@/sanity/lib/client"
+import { client } from "@/sanity/lib/client";
 import { PostDoc } from "@/schema/type/post";
 
 export default async function PostsSection() {
-  // // SSR 取得文章資料
-  // const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  // const posts = await fetch(`${baseUrl}/api/posts`).then((res) => {
-  //   if (!res.ok) {
-  //     throw new Error("Failed to fetch posts");
-  //   }
-  //   return res.json();
-  // });
+  // SSR 取得文章資料
   const posts = await client.fetch<PostDoc[]>(
     `*[_type == "post"] | order(_createdAt desc) {
       _id,
@@ -33,7 +26,9 @@ export default async function PostsSection() {
         email,
         avatar
       }
-    }`
+    }`,
+    {},
+    { next: { tags: ["posts"] } }
   );
   return (
     <Grid container spacing={2} columns={12}>
