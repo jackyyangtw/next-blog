@@ -23,14 +23,15 @@ import { PostDoc } from "@/schema/type/post";
 
 // ------------- next -------------
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 interface PostPageProps {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; lng: string }>;
 }
 
 const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:3000";
 
-const getPost = async (slug: string): Promise<PostDoc> => {
+const getPost = async (slug: string): Promise<PostDoc | null> => {
   return await client.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
       title,
@@ -60,6 +61,9 @@ const getPost = async (slug: string): Promise<PostDoc> => {
 export async function generateMetadata({ params }: PostPageProps) {
   const { slug } = await params;
   const post = await getPost(slug);
+  if (!post) {
+    return { title: "Post Not Found" };
+  }
   return {
     title: post.title,
     description: post.description,
@@ -68,20 +72,23 @@ export async function generateMetadata({ params }: PostPageProps) {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = await params;
+  const { slug, lng } = await params;
   const post = await getPost(slug);
+  if (!post) {
+    notFound();
+  }
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    headline: post.title,
-    description: post.description,
-    image: post.photo ? urlFor(post.photo).width(1200).height(628).url() : "",
+    headline: post?.title ?? "",
+    description: post?.description ?? "",
+    image: post?.photo ? urlFor(post.photo).width(1200).height(628).url() : "",
     author: {
       "@type": "Person",
-      name: post.author?.name ?? "Unknown",
+      name: post?.author?.name ?? "",
     },
-    datePublished: post._createdAt ?? "",
-    dateModified: post._createdAt ?? "",
+    datePublished: post?._createdAt ?? "",
+    dateModified: post?._createdAt ?? "",
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `${siteUrl}/post/${slug}`,
