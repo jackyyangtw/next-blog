@@ -7,7 +7,9 @@
     "build": "next build && next-sitemap --config next-sitemap.config.js",
     "start": "next start",
     "lint": "next lint",
-    "sitemap": "next-sitemap"
+    "sitemap": "next-sitemap",
+    "tsc": "tsc --noEmit",
+    "typegen": "next typegen"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -29,7 +31,7 @@
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
     "i18next-resources-to-backend": "^1.2.1",
-    "next": "^15.4.10",
+    "next": "^15.4.11",
     "next-auth": "^4.24.11",
     "next-sanity": "^10.0.12",
     "next-sanity-image": "^6.2.0",

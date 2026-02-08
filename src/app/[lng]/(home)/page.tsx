@@ -1,11 +1,12 @@
 // src/app/[lng]/(home)/page.tsx
-
+import { Suspense } from "react";
 // ------------- MUI -------------
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 // ------------- Components -------------
 import PostsSection from "./_components/PostSection";
+import LocaingSkeleton from "./_components/Skeleton";
 
 // ------------- i18n -------------
 import { getServerTranslation } from "@/i18n/index";
@@ -37,7 +38,9 @@ export default async function Home({ params }: HomeProps) {
           {tCommon.t("site_description")}
         </Typography>
       </Box>
-      <PostsSection />
+      <Suspense fallback={<LocaingSkeleton />}>
+        <PostsSection />
+      </Suspense>
     </Box>
   );
 }

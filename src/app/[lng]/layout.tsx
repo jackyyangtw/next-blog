@@ -37,15 +37,8 @@ export async function generateStaticParams() {
   return languages.map((lng) => ({ lng }));
 }
 
-type RootLayoutProps = {
-  children: ReactElement;
-  params: Promise<{ lng: string }>;
-};
-
-export default async function RootLayout({
-  children,
-  params,
-}: RootLayoutProps) {
+export default async function RootLayout(props: LayoutProps<"/[lng]">) {
+  const { children, params } = props;
   const { lng } = await params;
   return (
     <html lang={lng} dir={dir(lng)} suppressHydrationWarning>
