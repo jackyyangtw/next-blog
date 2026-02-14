@@ -19,6 +19,8 @@ import Providers from "@/Providers";
 
 // ----------------------- Components -----------------------
 import AppWrapper from "./_components/AppWrapper";
+import Footer from "./_components/Footer";
+import Box from "@mui/material/Box";
 
 export const generateMetadata = async ({
   params,
@@ -49,15 +51,32 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
 
-            <Container
-              maxWidth="lg"
-              component="main"
-              sx={{ display: "flex", flexDirection: "column", my: 16, gap: 4 }}
-            >
-              <Providers>
-                <AppWrapper>{children}</AppWrapper>
-              </Providers>
-            </Container>
+{/* Providers 包裹在最外層，確保 Footer 也能吃到 context */}
+<Providers>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  flexGrow: 1, // 撐開空間，讓 Footer 靠到底部
+                }}
+              >
+                {/* 內容區塊：維持原本的 Container 限制 */}
+                <Container
+                  component="main"
+                  maxWidth="lg"
+                  sx={{ 
+                    my: { xs: 8, md: 16 }, 
+                    gap: 4, 
+                    flexGrow: 1 // 讓主內容區塊自動填滿剩餘空間
+                  }}
+                >
+                  <AppWrapper>{children}</AppWrapper>
+                </Container>
+
+                {/* Footer 移出 Container，但在 Providers 內 */}
+                <Footer />
+              </Box>
+            </Providers>
           </AppTheme>
         </AppRouterCacheProvider>
       </body>

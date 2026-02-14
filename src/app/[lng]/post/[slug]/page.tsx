@@ -11,7 +11,7 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 
 // ------------- icons -------------
-import LinkIcon from "@mui/icons-material/Link";
+import EventIcon from "@mui/icons-material/Event";
 
 // ------------- Components -------------
 import RichText from "@/app/[lng]/post/[slug]/_components/RichText/RichText";
@@ -24,6 +24,10 @@ import { PostDoc } from "@/schema/type/post";
 // ------------- next -------------
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Divider from "@mui/material/Divider";
+
+// ------------- utils -------------
+import { formatDate } from "@/utils/date/formate";
 
 interface PostPageProps {
   params: Promise<{ slug: string; lng: string }>;
@@ -48,6 +52,7 @@ const getPost = async (slug: string): Promise<PostDoc | null> => {
       slug,
       content,
       _id,
+      _createdAt,
       categories[]->{
         _id,
         "slug": slug.current, 
@@ -103,29 +108,65 @@ export default async function PostPage({ params }: PostPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <Box display="flex" alignItems="center" gap={1}>
-        <Typography variant="h1">{post.title}</Typography>
-        <FavoriteButton postId={post?._id} />
+      
+      {/* 標題區塊 */}
+      <Box mb={4}>
+        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" mb={2}>
+          <Typography variant="h3" component="h1" fontWeight="700">
+            {post.title}
+          </Typography>
+          <FavoriteButton postId={post?._id} />
+        </Stack>
+
+        <Stack direction="row" spacing={2} color="text.secondary" mb={3}>
+          <Stack direction="row" alignItems="center" gap={0.5}>
+            <EventIcon sx={{ fontSize: 16 }} />
+            <Typography variant="body2">
+              {formatDate(post._createdAt)}
+            </Typography>
+          </Stack>
+          {/* 這裡可以放閱讀時間估計 */}
+        </Stack>
+
+        <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 3, fontStyle: 'italic' }}>
+          {post.description}
+        </Typography>
+
+        <Stack direction="row" gap={1} flexWrap="wrap">
+          {post.categories.map((category) => (
+            <Chip
+              key={category.slug}
+              label={category.title}
+              size="small"
+              variant="outlined"
+              component={Link}
+              href={`/post?categories=${category.slug}`}
+              clickable
+            />
+          ))}
+        </Stack>
       </Box>
-      <Typography variant="h2">{post.description}</Typography>
-      <Stack direction="row" gap={1} flexWrap="wrap">
-        {post.categories.map((category) => (
-          <Chip
-            key={category.slug}
-            label={category.title}
-            icon={<LinkIcon />}
-            component={Link}
-            href={`/post?categories=${category.slug}`}
-            clickable
-          />
-        ))}
-      </Stack>
-      {/* banner */}
-      {post.photo && <Banner post={post} />}
-      {/* content */}
-      <Paper elevation={3} sx={{ p: 2 }}>
+
+      {/* 橫幅圖片 */}
+      {post.photo && (
+        <Box mb={6} sx={{ borderRadius: 2, overflow: 'hidden' }}>
+          <Banner post={post} />
+        </Box>
+      )}
+
+      {/* 文章主體 */}
+      <Box sx={{ position: 'relative' }}>
         <RichText value={post.content} />
-      </Paper>
+      </Box>
+
+      <Divider sx={{ my: 6 }} />
+
+      {/* 可以在這裡加一個「返回列表」的按鈕 */}
+      <Box textAlign="center">
+        <Link href="/post" style={{ textDecoration: 'none' }}>
+          <Typography color="primary">← 回到所有文章</Typography>
+        </Link>
+      </Box>
     </>
   );
 }

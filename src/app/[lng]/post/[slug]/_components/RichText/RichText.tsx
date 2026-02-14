@@ -21,6 +21,9 @@ import { useDialogStore } from "@/store/useDialogStore";
 
 // ------------- Types -------------
 import { BlockContent } from "@/schema/type/blockContent";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface RichTextImageValue {
   asset?: { _ref: string; _type: string };
@@ -96,20 +99,61 @@ export default function RichText({ value }: { value: BlockContent }) {
         open={imageDialog}
         onClose={() => closeDialog("imageDialog")}
         maxWidth="xl"
-        fullWidth
+        // 增加點擊背景模糊
+        slotProps={{
+          backdrop: {
+            sx: { backdropFilter: "blur(8px)", backgroundColor: "rgba(0,0,0,0.7)" }
+          },
+          paper: {
+            sx: {
+              bgcolor: "#1E1E1E",
+              borderRadius: 4,
+              overflow: "hidden",
+              position: "relative",
+              boxShadow: "0 24px 48px rgba(0,0,0,0.5)"
+            }
+          }
+        }}
       >
         {dialogContent.value && (
           <>
-            <DialogTitle>
-              {dialogContent.value.caption || dialogContent.value.alt || ""}
-            </DialogTitle>
-            <DialogContent sx={{ display: "flex", justifyContent: "center" }}>
+            {/* 懸浮關閉按鈕 */}
+            <IconButton
+              onClick={() => closeDialog("imageDialog")}
+              sx={{
+                position: "absolute",
+                right: 12,
+                top: 12,
+                color: "white",
+                bgcolor: "rgba(0,0,0,0.3)",
+                "&:hover": { bgcolor: "rgba(0,0,0,0.5)" },
+                zIndex: 1
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+
+            <DialogContent sx={{ p: 0, display: "flex", flexDirection: "column" }}>
               <Box
                 component="img"
-                src={urlFor(dialogContent.value).width(1200).url()}
+                src={urlFor(dialogContent.value).width(1600).url()}
                 alt={dialogContent.value.alt || ""}
-                sx={{ maxWidth: "100%", maxHeight: "80vh" }}
+                sx={{ 
+                  width: "100%", 
+                  height: "auto", 
+                  maxHeight: "85vh", 
+                  objectFit: "contain",
+                  display: "block"
+                }}
               />
+              {/* 將標題/圖說放在底部，增加設計感 */}
+              {(dialogContent.value.caption || dialogContent.value.alt) && (
+                <Box sx={{ p: 2, textAlign: "center", color: "grey.400" }}>
+                  <Typography variant="body2">
+                    {dialogContent.value.caption || dialogContent.value.alt}
+                  </Typography>
+                </Box>
+              )}
             </DialogContent>
           </>
         )}

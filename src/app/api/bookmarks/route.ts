@@ -95,7 +95,7 @@ export async function POST(req: Request) {
     const doc = {
       _type: "bookmark",
       user: { _type: "reference", _ref: userId },
-      post: { _type: "reference", _ref: postId },
+      post: { _type: "reference", _ref: postId, weak: true },
     };
     const created = await client.create(doc);
     return new Response(JSON.stringify(created), {

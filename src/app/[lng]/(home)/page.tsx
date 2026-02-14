@@ -29,7 +29,19 @@ export default async function Home({ params }: HomeProps) {
   const { lng } = await params;
   const tCommon = await getServerTranslation(lng, "common");
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 4,
+        py: 8,
+        background: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)`,
+        backgroundSize: "40px 40px",
+        // borderBottom: "1px solid",
+        // borderColor: "divider",
+        mb: 6,
+      }}
+    >
       <Box>
         <Typography variant="h1" gutterBottom>
           {tCommon.t("site_name")}

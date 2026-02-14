@@ -17,6 +17,7 @@ export const bookmarkType = defineType({
       title: "Post",
       type: "reference",
       to: [{ type: "post" }],
+      weak: true,
       validation: (Rule) => Rule.required(),
     }),
     defineField({
