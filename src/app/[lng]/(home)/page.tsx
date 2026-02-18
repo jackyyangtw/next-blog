@@ -50,7 +50,9 @@ export default async function Home({ params }: HomeProps) {
           {tCommon.t("site_description")}
         </Typography>
       </Box>
-      <PostsSection />
+      <Suspense fallback={<LocaingSkeleton />}>
+        <PostsSection />
+      </Suspense>
     </Box>
   );
 }
