@@ -8,7 +8,6 @@ import Box from "@mui/material/Box";
 import React, { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 
 // ------------- Sanity -------------
 import { urlFor } from "@/sanity/lib/image";

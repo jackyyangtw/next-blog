@@ -1,4 +1,4 @@
-import { createTheme, alpha, PaletteMode, Shadows } from "@mui/material/styles";
+import { createTheme, alpha, Shadows } from "@mui/material/styles";
 
 declare module "@mui/material/Paper" {
   interface PaperPropsVariantOverrides {
@@ -27,8 +27,6 @@ declare module "@mui/material/styles" {
 }
 
 const defaultTheme = createTheme();
-
-const customShadows: Shadows = [...defaultTheme.shadows];
 
 export const brand = {
   50: "hsl(210, 100%, 95%)",

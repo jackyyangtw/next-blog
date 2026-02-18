@@ -39,7 +39,7 @@ export default function LangSwitcher() {
           getOptionLabel={(option) => option.label}
           value={LOCALES.find((l) => l.value === locale)}
           disableClearable
-          onChange={(event, newValue) => {
+          onChange={(_, newValue) => {
             if (newValue) {
               changeLocale(newValue.value);
             }
