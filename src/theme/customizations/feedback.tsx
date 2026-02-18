@@ -19,7 +19,7 @@ export const feedbackCustomizations: Components<Theme> = {
         style: ({ theme }) => ({
           backgroundColor: alpha(theme.palette.info.main, 1),
           ...theme.applyStyles("dark", {
-            backgroundColor: alpha(theme.palette.info.main, 0.3),
+            backgroundColor: alpha(theme.palette.info.main, 0.8),
           }),
         }),
       },
@@ -29,7 +29,7 @@ export const feedbackCustomizations: Components<Theme> = {
         style: ({ theme }) => ({
           backgroundColor: alpha(theme.palette.success.main, 1),
           ...theme.applyStyles("dark", {
-            backgroundColor: alpha(theme.palette.success.main, 0.3),
+            backgroundColor: alpha(theme.palette.success.main, 0.8),
           }),
         }),
       },
@@ -39,7 +39,7 @@ export const feedbackCustomizations: Components<Theme> = {
         style: ({ theme }) => ({
           backgroundColor: alpha(theme.palette.error.main, 1),
           ...theme.applyStyles("dark", {
-            backgroundColor: alpha(theme.palette.error.main, 0.3),
+            backgroundColor: alpha(theme.palette.error.main, 0.8),
           }),
         }),
       },
@@ -49,7 +49,7 @@ export const feedbackCustomizations: Components<Theme> = {
         style: ({ theme }) => ({
           backgroundColor: alpha(theme.palette.warning.main, 1),
           ...theme.applyStyles("dark", {
-            backgroundColor: alpha(theme.palette.warning.main, 0.3),
+            backgroundColor: alpha(theme.palette.warning.main, 0.8),
           }),
         }),
       },

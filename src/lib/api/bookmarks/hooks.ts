@@ -28,11 +28,17 @@ export const useAddBookmark = () => {
       await queryClient.cancelQueries({ queryKey: key });
       const previous = queryClient.getQueryData<Bookmark[]>(key) ?? [];
 
-      // 先把新收藏塞進快取
       queryClient.setQueryData<Bookmark[]>(key, (old = []) => {
-        // 已存在就直接回傳（避免重複）
-        if (old.some((b) => b.post._id === postId)) return old;
-        return [...old, { post: { _id: postId } }];
+        if (old.some((b) => b.post?._id === postId)) return old;
+        
+        // 關鍵：補上一個暫時的 _id 解決 Key 缺失問題
+        const tempBookmark = {
+          _id: `temp-${Date.now()}`, // 暫時 ID
+          post: { _id: postId },
+          _isOptimistic: true // 標記為樂觀更新，可以用來在 UI 做樣式區隔
+        };
+        
+        return [...old, tempBookmark];
       });
 
       return { previous };

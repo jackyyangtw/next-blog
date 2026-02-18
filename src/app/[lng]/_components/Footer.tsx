@@ -54,7 +54,7 @@ export default function Footer() {
           <Stack direction="row" spacing={2}>
             {/* 這裡的 IconButton 會自動繼承主題的 text.secondary 顏色 */}
             <IconButton
-              href="https://github.com/your-id"
+              href="https://github.com/jackyyangtw"
               target="_blank"
               sx={{
                 color: "text.secondary",
@@ -64,17 +64,7 @@ export default function Footer() {
               <GitHubIcon />
             </IconButton>
             <IconButton
-              href="https://linkedin.com/in/your-id"
-              target="_blank"
-              sx={{
-                color: "text.secondary",
-                "&:hover": { color: "primary.main" },
-              }}
-            >
-              <LinkedInIcon />
-            </IconButton>
-            <IconButton
-              href="mailto:your-email@example.com"
+              href="mailto:jaky2204@gmail.com"
               sx={{
                 color: "text.secondary",
                 "&:hover": { color: "primary.main" },

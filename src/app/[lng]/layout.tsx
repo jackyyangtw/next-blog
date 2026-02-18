@@ -51,8 +51,8 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
 
-{/* Providers 包裹在最外層，確保 Footer 也能吃到 context */}
-<Providers>
+            {/* Providers 包裹在最外層，確保 Footer 也能吃到 context */}
+            <Providers>
               <Box
                 sx={{
                   display: "flex",
@@ -64,10 +64,10 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
                 <Container
                   component="main"
                   maxWidth="lg"
-                  sx={{ 
-                    my: { xs: 8, md: 16 }, 
-                    gap: 4, 
-                    flexGrow: 1 // 讓主內容區塊自動填滿剩餘空間
+                  sx={{
+                    my: 16,
+                    gap: 4,
+                    flexGrow: 1, // 讓主內容區塊自動填滿剩餘空間
                   }}
                 >
                   <AppWrapper>{children}</AppWrapper>
