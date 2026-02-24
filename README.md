@@ -7,10 +7,7 @@
 - ✅ i18n 
 - ✅ 圖片優化
 - ✅ 部屬至vercel
-- revalidate 首頁Post要使用 Cloudflare 搭配 sanity webhook 才能測試
-- / 呈現所有post infinite loading
-- 留言功能
-- 評價功能
+- ✅ revalidate Post
 
 # 資源
 
