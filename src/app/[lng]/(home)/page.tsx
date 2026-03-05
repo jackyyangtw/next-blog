@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 
 // ------------- Components -------------
 import PostsSection from "./_components/PostSection";
-import LocaingSkeleton from "./_components/Skeleton";
+import PostSkeleton from "@/app/[lng]/_shared/PostSkeleton";
 
 // ------------- i18n -------------
 import { getServerTranslation } from "@/i18n/index";
@@ -50,7 +50,7 @@ export default async function Home({ params }: HomeProps) {
           {tCommon.t("site_description")}
         </Typography>
       </Box>
-      <Suspense fallback={<LocaingSkeleton />}>
+      <Suspense fallback={<PostSkeleton />}>
         <PostsSection />
       </Suspense>
     </Box>

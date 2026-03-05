@@ -30,6 +30,9 @@ import Box from "@mui/material/Box";
 // ------------- hooks -------------
 import { usePostsQueryParams } from "@/app/[lng]/post/_hooks";
 
+// ------------- i18n -------------
+import { useClientTranslation } from "@/i18n/client";
+
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -72,9 +75,14 @@ const DescriptionTypography = styled(Typography)({
   textOverflow: "ellipsis",
 });
 
-
 // 輔助函數：將匹配到的文字高亮處理
-const HighlightText = ({ text, highlight }: { text: string; highlight: string }) => {
+const HighlightText = ({
+  text,
+  highlight,
+}: {
+  text: string;
+  highlight: string;
+}) => {
   if (!highlight.trim()) return <>{text}</>;
 
   // 使用正則表達式拆分文字，並忽略大小寫
@@ -90,12 +98,12 @@ const HighlightText = ({ text, highlight }: { text: string; highlight: string })
             sx={{
               // 改用更強烈的對比色
               backgroundColor: "warning.dark", // 使用 MUI 內建的警告深色
-              color: "#fff",                   // 純白文字確保在深色背景上的閱讀品質
+              color: "#fff", // 純白文字確保在深色背景上的閱讀品質
               fontWeight: "700",
-              borderRadius: "4px",             // 稍微加大圓角比較現代
-              px: "4px",                       // 增加左右間距讓文字不擁擠
-              mx: "1px",                       // 與前後文字稍微留一點縫隙
-              display: "inline-block",         // 確保 padding 生效
+              borderRadius: "4px", // 稍微加大圓角比較現代
+              px: "4px", // 增加左右間距讓文字不擁擠
+              mx: "1px", // 與前後文字稍微留一點縫隙
+              display: "inline-block", // 確保 padding 生效
               lineHeight: 1.2,
             }}
           >
@@ -103,7 +111,7 @@ const HighlightText = ({ text, highlight }: { text: string; highlight: string })
           </Box>
         ) : (
           part
-        )
+        ),
       )}
     </>
   );
@@ -111,18 +119,31 @@ const HighlightText = ({ text, highlight }: { text: string; highlight: string })
 
 export default function PostCards({ posts }: { posts: PostDoc[] }) {
   const { keyword } = usePostsQueryParams(); // 取得目前的關鍵字
-
+  const { lng } = useClientTranslation();
   return (
     <Grid container spacing={3}>
       {posts.map((post) => (
-        <Grid size={{ xs: 12, md: 6 }} key={post._id} sx={{ display: 'flex' }}>
-          <CardActionArea 
-            component={NextLink} 
-            href={`/post/${post.slug}`}
-            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', width: '100%' }}
+        <Grid size={{ xs: 12, md: 6 }} key={post._id} sx={{ display: "flex" }}>
+          <CardActionArea
+            component={NextLink}
+            href={`/${lng}/post/${post.slug}`}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "stretch",
+              width: "100%",
+            }}
           >
             <StyledCard variant="outlined">
-              <Box sx={{ aspectRatio: "16 / 9", borderBottom: "1px solid", borderColor: "divider", width: "100%", position: "relative" }}>
+              <Box
+                sx={{
+                  aspectRatio: "16 / 9",
+                  borderBottom: "1px solid",
+                  borderColor: "divider",
+                  width: "100%",
+                  position: "relative",
+                }}
+              >
                 <Image
                   src={urlFor(post.photo).url()}
                   alt={post.title}
@@ -137,10 +158,20 @@ export default function PostCards({ posts }: { posts: PostDoc[] }) {
                   {/* 高亮標題 */}
                   <HighlightText text={post.title} highlight={keyword} />
                 </TitleTypography>
-                
-                <Stack direction="row" spacing={1} mb={2} sx={{ height: 32, overflow: 'hidden' }}>
+
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  mb={2}
+                  sx={{ height: 32, overflow: "hidden" }}
+                >
                   {post.categories.map((cat) => (
-                    <Chip label={cat.title} size="small" key={cat._id} variant="outlined" />
+                    <Chip
+                      label={cat.title}
+                      size="small"
+                      key={cat._id}
+                      variant="outlined"
+                    />
                   ))}
                 </Stack>
 

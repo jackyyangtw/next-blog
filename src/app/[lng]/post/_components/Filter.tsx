@@ -3,10 +3,10 @@
 // ------------- MUI -------------
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import CircularProgress from "@mui/material/CircularProgress";
 
 // ------------- components -------------
 import Search from "./Search";
+import FilterSkeleton from "./FilterSkeleton";
 
 // ------------- react query -------------
 import { useCategories } from "@/lib/api/categories/hooks";
@@ -22,7 +22,7 @@ export default function Filter() {
   const { categories: selectedCategories } = usePostsQueryParams();
   const setParams = useSetPostsQueryParams();
   const { t } = useClientTranslation("posts-page");
-  if (isPending) return <CircularProgress />;
+  if (isPending) return <FilterSkeleton />;
   if (isError) return <div>Error</div>;
 
   return (
@@ -32,16 +32,17 @@ export default function Filter() {
         flexDirection: { xs: "column-reverse", md: "row" },
         width: "100%",
         justifyContent: "space-between",
-        alignItems: { xs: "start", md: "center" },
-        gap: 4,
+        alignItems: { xs: "stretch", md: "center" },
+        gap: { xs: 2, md: 4 },
       }}
     >
       <Box
         sx={{
-          display: "inline-flex",
+          display: "flex",
+          flexWrap: "wrap",
           flexDirection: "row",
-          gap: 3,
-          overflow: "auto",
+          gap: 1.5,
+          width: "100%",
         }}
       >
         <Chip

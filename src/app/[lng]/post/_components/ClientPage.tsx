@@ -2,13 +2,13 @@
 
 // ------------- MUI -------------
 import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 
 // ------------- Components -------------
 import Filter from "./Filter";
 import PostCards from "@/components/UI/PostCards";
 import CustomPagination from "@/components/custom/CustomPagination";
+import PostSkeleton from "@/app/[lng]/_shared/PostSkeleton";
 
 // ------------- react query -------------
 import { usePosts } from "@/lib/api/posts/hooks";
@@ -48,7 +48,11 @@ export default function ClientPage() {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
       <Filter />
-      {isPostsLoading ? <CircularProgress /> : <PostCards posts={posts.data} />}
+      {isPostsLoading ? (
+        <PostSkeleton count={2} />
+      ) : (
+        <PostCards posts={posts.data} />
+      )}
       {posts?.data.length === 0 && (
         <Typography variant="h3" sx={{ mb: 2 }}>
           沒有文章

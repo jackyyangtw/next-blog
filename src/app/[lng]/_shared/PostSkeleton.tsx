@@ -2,9 +2,8 @@
 import Grid from "@mui/material/Grid";
 import Skeleton from "@mui/material/Skeleton";
 
-const skeletonArray = [...Array(4)];
-
-export default function LocaingSkeleton() {
+export default function PostSkeleton({ count = 4 }: { count?: number }) {
+  const skeletonArray = [...Array(count)];
   return (
     <Grid container spacing={2}>
       {skeletonArray.map((_, i) => (
