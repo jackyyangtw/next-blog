@@ -30,12 +30,12 @@ export default function PhilosophyCard({ title, icon: Icon, description, code }:
         <Box
           sx={{
             p: 1,
-            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
             borderRadius: 1.5,
             display: "flex",
           }}
         >
-          <Icon sx={{ color: "primary.light" }} fontSize="small" />
+          <Icon sx={{ color: "primary.main" }} fontSize="small" />
         </Box>
         <Typography
           variant="h6"

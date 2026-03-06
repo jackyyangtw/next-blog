@@ -1,24 +1,41 @@
 "use client";
 import { Box, alpha, useTheme } from "@mui/material";
-import { useState, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { useColorScheme } from "@mui/material/styles";
 
 const baseOpacity = 0.15; // 稍微提高一點以應對雙層稀釋
 
 export default function TrackingLight() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const boxRef = useRef<HTMLDivElement>(null);
   const { mode, systemMode } = useColorScheme();
   const theme = useTheme();
 
   const currentMode = mode === "system" ? systemMode : mode;
 
   useEffect(() => {
+    const el = boxRef.current;
+    if (!el) return;
+
     let frameId: number;
-    const handleMouseMove = (event: MouseEvent) => {
-      frameId = requestAnimationFrame(() => {
-        setMousePos({ x: event.clientX, y: event.clientY });
-      });
+    let pendingX: number | null = null;
+    let pendingY: number | null = null;
+
+    const updateVariables = () => {
+      if (pendingX !== null && pendingY !== null) {
+        el.style.setProperty("--mouse-x", `${pendingX}px`);
+        el.style.setProperty("--mouse-y", `${pendingY}px`);
+        pendingX = null;
+        pendingY = null;
+      }
+      frameId = requestAnimationFrame(updateVariables);
     };
+    frameId = requestAnimationFrame(updateVariables);
+
+    const handleMouseMove = (event: MouseEvent) => {
+      pendingX = event.clientX;
+      pendingY = event.clientY;
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -26,19 +43,21 @@ export default function TrackingLight() {
     };
   }, []);
 
-  // 計算顏色與透明度
+  // 計算顏色與透明度（僅在 theme/mode 變更時重算，不隨滑鼠重繪）
   const colors = useMemo(() => {
     const mainColor = theme.palette.primary.main;
-    const alphaFactor = currentMode === "dark" ? 1 : 0.5;
     return {
-      core: alpha(mainColor, baseOpacity * alphaFactor),
-      outer: alpha(mainColor, (baseOpacity / 3) * alphaFactor),
+      core: alpha(mainColor, baseOpacity),
+      outer: alpha(mainColor, baseOpacity / 3),
     };
   }, [theme.palette.primary.main, currentMode]);
 
   return (
     <Box
+      ref={boxRef}
       sx={{
+        "--mouse-x": "50vw",
+        "--mouse-y": "50vh",
         position: "fixed",
         top: 0,
         left: 0,
@@ -46,19 +65,17 @@ export default function TrackingLight() {
         height: "100vh",
         pointerEvents: "none",
         zIndex: 1,
-        // 關鍵：使用 mix-blend-mode 讓燈光與背景網格產生物理融合感
         mixBlendMode: currentMode === "dark" ? "screen" : "multiply",
-        // 增加 transition 的秒數與 timing function，製造滑動時的優雅延遲感
-        transition: "background 0.6s cubic-bezier(0.23, 1, 0.32, 1)",
+        // 滑鼠座標改由 CSS 變數更新，不觸發 React 重繪；移除 transition 以減輕 Safari 負擔
         background: `
           radial-gradient(
-            400px circle at ${mousePos.x}px ${mousePos.y}px, 
-            ${colors.core} 0%, 
+            400px circle at var(--mouse-x) var(--mouse-y),
+            ${colors.core} 0%,
             transparent 60%
           ),
           radial-gradient(
-            800px circle at ${mousePos.x}px ${mousePos.y}px, 
-            ${colors.outer} 0%, 
+            800px circle at var(--mouse-x) var(--mouse-y),
+            ${colors.outer} 0%,
             transparent 80%
           )
         `,

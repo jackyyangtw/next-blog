@@ -42,7 +42,7 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
   return (
     <html lang={lng} dir={dir(lng)} suppressHydrationWarning>
       <body>
-        <InitColorSchemeScript attribute="class" />
+        <InitColorSchemeScript attribute="class" defaultMode="dark"/>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <AppTheme>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

@@ -1,3 +1,5 @@
+"use client";
+import { useCurrentMode } from "@/hooks/MUI/useCurrentMode";
 import { MarqueeContainer, MarqueeContent, TechItem } from "./styles";
 import { Typography, Box, Stack } from "@mui/material";
 import {
@@ -10,18 +12,25 @@ import {
   SiGitlab,
 } from "react-icons/si";
 
-const TECH_STACK = [
-  { name: "React", icon: <SiReact color="#61DAFB" /> },
-  { name: "Next.js", icon: <SiNextdotjs color="#FFFFFF" /> },
-  { name: "TypeScript", icon: <SiTypescript color="#3178C6" /> },
-  { name: "Zustand", icon: null },
-  { name: "React Query", icon: <SiReactquery color="#FF4154" /> },
-  { name: "MUI", icon: <SiMui color="#007FFF" /> },
-  { name: "Tailwind", icon: <SiTailwindcss color="#06B6D4" /> },
-  { name: "GitLab", icon: <SiGitlab color="#FC6D26" /> },
-];
-
 export default function TechMarquee() {
+  const currentMode = useCurrentMode();
+
+  const TECH_STACK = [
+    { name: "React", icon: <SiReact color="#61DAFB" /> },
+    {
+      name: "Next.js",
+      icon: (
+        <SiNextdotjs color={currentMode === "dark" ? "#FFFFFF" : "#000000"} />
+      ),
+    },
+    { name: "TypeScript", icon: <SiTypescript color="#3178C6" /> },
+    { name: "Zustand", icon: null },
+    { name: "React Query", icon: <SiReactquery color="#FF4154" /> },
+    { name: "MUI", icon: <SiMui color="#007FFF" /> },
+    { name: "Tailwind", icon: <SiTailwindcss color="#06B6D4" /> },
+    { name: "GitLab", icon: <SiGitlab color="#FC6D26" /> },
+  ];
+
   const displayStack = [...TECH_STACK, ...TECH_STACK];
 
   return (
