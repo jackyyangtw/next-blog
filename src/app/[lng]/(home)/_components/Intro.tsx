@@ -1,17 +1,6 @@
 "use client";
-import React from "react";
+import { Container, Typography, Box, Grid, Button, Stack } from "@mui/material";
 import {
-  Container,
-  Typography,
-  Box,
-  Grid,
-  Button,
-  IconButton,
-  Stack,
-} from "@mui/material";
-import {
-  GitHub,
-  Mail,
   Code,
   Layers,
   Storage,
@@ -21,13 +10,15 @@ import Link from "next/link";
 
 // ------------- Components -------------
 import PhilosophyCard from "./PhilosophyCard";
+import TechMarquee from "./TechMarquee";
+import TrackingLight from "./TrackingLight";
 
 export default function Intro() {
   return (
     <Box
       sx={{
         minHeight: "100vh",
-        bgcolor: "background.default", // hsl(220, 30%, 6%)
+        bgcolor: "background.default",
         color: "text.primary",
         position: "relative",
         overflow: "hidden",
@@ -37,6 +28,8 @@ export default function Intro() {
         backgroundSize: "32px 32px",
       }}
     >
+      <TrackingLight />
+
       <Container maxWidth="lg">
         {/* Hero Section */}
         <Box sx={{ pt: { xs: 12, md: 20 }, pb: { xs: 10, md: 15 } }}>
@@ -91,24 +84,6 @@ export default function Intro() {
                 >
                   查看筆記
                 </Button>
-                <Stack direction="row" spacing={1}>
-                  <IconButton
-                    sx={{
-                      color: "text.secondary",
-                      "&:hover": { color: "primary.main" },
-                    }}
-                  >
-                    <GitHub />
-                  </IconButton>
-                  <IconButton
-                    sx={{
-                      color: "text.secondary",
-                      "&:hover": { color: "primary.main" },
-                    }}
-                  >
-                    <Mail />
-                  </IconButton>
-                </Stack>
               </Stack>
             </Grid>
 
@@ -175,6 +150,8 @@ export default function Intro() {
             </Grid>
           </Grid>
         </Box>
+
+        <TechMarquee />
 
         {/* 技術堅持區塊 */}
         <Box sx={{ py: 10 }}>

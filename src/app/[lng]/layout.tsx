@@ -1,5 +1,3 @@
-// NOT FOUND: https://github.com/vercel/next.js/discussions/50518
-
 // src/app/[lng]/layout.tsx
 import { dir } from "i18next";
 import { languages } from "@/i18n/config";

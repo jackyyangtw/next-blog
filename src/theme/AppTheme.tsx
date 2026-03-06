@@ -1,3 +1,4 @@
+// AppTheme.tsx
 "use client";
 import * as React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
@@ -49,7 +50,7 @@ export default function AppTheme(props: AppThemeProps) {
               ...themeComponents,
             },
           },
-          muiLocale
+          muiLocale,
         );
   }, [disableCustomTheme, themeComponents, locale]);
   if (disableCustomTheme) {
