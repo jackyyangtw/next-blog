@@ -24,7 +24,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 
 // ------------- Components -------------
-import Author from "../../app/[lng]/(home)/_components/Author";
+import Author from "../(home)/_components/Author";
 import Box from "@mui/material/Box";
 
 // ------------- hooks -------------

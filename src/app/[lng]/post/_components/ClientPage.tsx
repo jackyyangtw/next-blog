@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 
 // ------------- Components -------------
 import Filter from "./Filter";
-import PostCards from "@/components/UI/PostCards";
+import PostCards from "@/app/[lng]/_shared/PostCards";
 import CustomPagination from "@/components/custom/CustomPagination";
 import PostSkeleton from "@/app/[lng]/_shared/PostSkeleton";
 

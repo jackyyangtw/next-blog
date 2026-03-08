@@ -50,7 +50,7 @@ export default function TrackingLight() {
       core: alpha(mainColor, baseOpacity),
       outer: alpha(mainColor, baseOpacity / 3),
     };
-  }, [theme.palette.primary.main, currentMode]);
+  }, [theme.palette.primary.main]);
 
   return (
     <Box

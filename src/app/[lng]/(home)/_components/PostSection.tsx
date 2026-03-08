@@ -1,6 +1,6 @@
 // src/app/[lng]/(home)/_components/PostsSection.tsx  ← Server Component（不要 "use client"）
 import Grid from "@mui/material/Grid";
-import PostCards from "@/components/UI/PostCards";
+import PostCards from "@/app/[lng]/_shared/PostCards";
 import { client } from "@/sanity/lib/client";
 import { PostDoc } from "@/schema/type/post";
 

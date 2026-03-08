@@ -88,6 +88,7 @@ export default function FavoriteButton({ postId }: FavoriteButtonProps) {
         color={isFavorite ? "primary" : "default"}
         onClick={handleToggle}
         aria-label={isFavorite ? "移除最愛" : "加入最愛"}
+        data-tour="favorite-button"
         // disabled={isBookmarksLoading}
         sx={{ ml: 1 }}
       >
