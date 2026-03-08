@@ -127,6 +127,7 @@ export default function PostCards({ posts }: { posts: PostDoc[] }) {
           <CardActionArea
             component={NextLink}
             href={`/${lng}/post/${post.slug}`}
+            scroll={false}
             sx={{
               display: "flex",
               flexDirection: "column",

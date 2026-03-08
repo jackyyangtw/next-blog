@@ -1,5 +1,4 @@
 "use client";
-import { useEffect } from "react";
 // ------------- Next sanity -------------
 import { PortableText, type PortableTextComponents } from "next-sanity";
 
@@ -15,9 +14,6 @@ import { urlFor } from "@/sanity/lib/image";
 // ------------- Components -------------
 import { RichTextCodeBlock } from "./CodeBlock";
 
-// ------------- Store -------------
-import { useDialogStore } from "@/store/useDialogStore";
-
 // ------------- Types -------------
 import { BlockContent } from "@/schema/type/blockContent";
 import Typography from "@mui/material/Typography";
@@ -31,19 +27,18 @@ interface RichTextImageValue {
   [key: string]: unknown;
 }
 
-interface DialogState {
-  value: RichTextImageValue | null;
-}
-
 export default function RichText({ value }: { value: BlockContent }) {
-  const { openDialog, imageDialog, closeDialog, reset } = useDialogStore();
-  const [dialogContent, setDialogContent] = useState<DialogState>({
-    value: null,
-  });
+  const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
+  const [image, setImage] = useState<RichTextImageValue | null>(null);
 
   const handleImageClick = (imgValue: RichTextImageValue) => {
-    openDialog("imageDialog");
-    setDialogContent({ value: imgValue });
+    setImage(imgValue);
+    setIsImageDialogOpen(true);
+  };
+
+  const handleCloseImageDialog = () => {
+    setIsImageDialogOpen(false);
+    setImage(null);
   };
 
   const components: PortableTextComponents = {
@@ -85,18 +80,12 @@ export default function RichText({ value }: { value: BlockContent }) {
     },
   };
 
-  useEffect(() => {
-    return () => {
-      reset();
-    };
-  }, [reset]);
-
   return (
     <>
       <PortableText value={value} components={components} />
       <Dialog
-        open={imageDialog}
-        onClose={() => closeDialog("imageDialog")}
+        open={isImageDialogOpen}
+        onClose={handleCloseImageDialog}
         maxWidth="xl"
         // 增加點擊背景模糊
         slotProps={{
@@ -114,11 +103,11 @@ export default function RichText({ value }: { value: BlockContent }) {
           }
         }}
       >
-        {dialogContent.value && (
+        {image && (
           <>
             {/* 懸浮關閉按鈕 */}
             <IconButton
-              onClick={() => closeDialog("imageDialog")}
+              onClick={handleCloseImageDialog}
               sx={{
                 position: "absolute",
                 right: 12,
@@ -135,8 +124,8 @@ export default function RichText({ value }: { value: BlockContent }) {
             <DialogContent sx={{ p: 0, display: "flex", flexDirection: "column" }}>
               <Box
                 component="img"
-                src={urlFor(dialogContent.value).width(1600).url()}
-                alt={dialogContent.value.alt || ""}
+                src={urlFor(image).width(1600).url()}
+                alt={image.alt || ""}
                 sx={{ 
                   width: "100%", 
                   height: "auto", 
@@ -146,10 +135,10 @@ export default function RichText({ value }: { value: BlockContent }) {
                 }}
               />
               {/* 將標題/圖說放在底部，增加設計感 */}
-              {(dialogContent.value.caption || dialogContent.value.alt) && (
+              {(image.caption || image.alt) && (
                 <Box sx={{ p: 2, textAlign: "center", color: "grey.400" }}>
                   <Typography variant="body2">
-                    {dialogContent.value.caption || dialogContent.value.alt}
+                    {image.caption || image.alt}
                   </Typography>
                 </Box>
               )}
