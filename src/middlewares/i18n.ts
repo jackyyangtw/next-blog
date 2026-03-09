@@ -12,6 +12,11 @@ export interface I18nMiddlewareResult {
 }
 
 export function handleI18nMiddleware(req: NextRequest): I18nMiddlewareResult {
+  const { pathname } = req.nextUrl;
+
+  if (pathname.includes(".")) {
+    return { lng: fallbackLng };
+  }
   // 取得語系
   let lng;
   if (req.cookies.has(cookieName)) {
@@ -38,7 +43,7 @@ export function handleI18nMiddleware(req: NextRequest): I18nMiddlewareResult {
   if (req.headers.has("referer")) {
     const refererUrl = new URL(req.headers.get("referer")!);
     const lngInReferer = languages.find((l) =>
-      refererUrl.pathname.startsWith(`/${l}`)
+      refererUrl.pathname.startsWith(`/${l}`),
     );
     const response = NextResponse.next();
     if (lngInReferer) {

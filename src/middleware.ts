@@ -4,7 +4,8 @@ import { handleI18nMiddleware } from "@/middlewares";
 
 export const config = {
   matcher: [
-    "/((?!studio|api|_next/static|_next/image|assets|favicon.ico|sw.js|images|sitemap.xml|server-sitemap.xml).*)",
+    // 修改這裡，增加 .xml 的排除邏輯
+    "/((?!studio|api|_next/static|_next/image|assets|favicon.ico|sw.js|images|.*\\.xml$).*)",
   ],
 };
 export async function middleware(req: NextRequest) {
