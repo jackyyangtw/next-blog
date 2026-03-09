@@ -1,10 +1,28 @@
 "use client";
-import { useFeatureTourStore } from "@/store/useFeatureTourStore";
 import { useState, useEffect, useCallback, useMemo } from "react";
+
+// ------------------ store ----------------
+import { useFeatureTourStore } from "@/store/useFeatureTourStore";
+
+// ------------------ react-joyride ----------------
 import { CallBackProps, EVENTS, STATUS, Step } from "react-joyride";
 import Joyride from "react-joyride";
+
+// ------------------ next-auth ----------------
 import { useSession } from "next-auth/react";
-import { usePathname ,useParams} from "next/navigation";
+
+// ------------------ next-navigation ----------------
+import { usePathname, useParams } from "next/navigation";
+
+// ------------------ mui ----------------
+import { useTheme } from "@mui/material";
+
+// ------------------ components ----------------
+import Tooltip from "./ToolTip";
+import Animations, {
+  FADE_IN_ANIMATION,
+  FADE_IN_ANIMATION_DURATION,
+} from "./Animations";
 
 export default function JoyRide() {
   const { isRunning, completeTour, stopTour, hasCompleted, startTour } =
@@ -13,6 +31,7 @@ export default function JoyRide() {
   const isAuthenticated = status === "authenticated";
   const pathname = usePathname();
   const { slug } = useParams();
+  const theme = useTheme();
 
   const handleTourCallback = useCallback(
     (data: CallBackProps) => {
@@ -45,22 +64,18 @@ export default function JoyRide() {
       content:
         "進入任一文章頁後，點右上角的書籤圖示即可加入收藏，之後可在個人頁查看。",
     };
+    const toggleFavoriteStep: Step = {
+      target: '[data-tour="favorite-button"]',
+      content: "這就是收藏按鈕，點擊即可加入或移除收藏。",
+    };
     if (!hasFavoriteTarget) {
       return [authStep, guideStep];
     }
-    return [
-      authStep,
-      {
-        target: '[data-tour="favorite-button"]',
-        content: "這就是收藏按鈕，點擊即可加入或移除收藏。",
-      },
-      guideStep,
-    ];
+    return [authStep, toggleFavoriteStep, guideStep];
   }, [hasFavoriteTarget, isAuthenticated]);
 
   useEffect(() => {
     const isPostDetailPage = pathname.includes("/post/") && slug;
-    // console.log('isPostDetailPage', Boolean(isPostDetailPage));
     setHasFavoriteTarget(Boolean(isPostDetailPage));
   }, [pathname, slug]);
 
@@ -70,26 +85,32 @@ export default function JoyRide() {
   }, [status, hasCompleted, isRunning, startTour]);
 
   return (
-    <Joyride
-      run={isRunning}
-      continuous
-      showSkipButton
-      showProgress
-      disableScrolling
-      callback={handleTourCallback}
-      steps={tutorialSteps}
-      locale={{
-        back: "上一步",
-        close: "關閉",
-        last: "完成",
-        next: "下一步",
-        skip: "略過",
-      }}
-      styles={{
-        options: {
-          zIndex: 1500,
-        },
-      }}
-    />
+    <>
+      <Animations />
+      <Joyride
+        run={isRunning}
+        continuous
+        showSkipButton
+        showProgress
+        disableScrolling
+        callback={handleTourCallback}
+        steps={tutorialSteps}
+        tooltipComponent={Tooltip}
+        styles={{
+          options: {
+            zIndex: 1500,
+            overlayColor: "rgba(0, 0, 0, 0.75)",
+            spotlightShadow: "0 0 15px rgba(0, 0, 0, 0.5)",
+            primaryColor: theme.palette.primary.main,
+          },
+          overlay: {
+            animation: `${FADE_IN_ANIMATION} ${FADE_IN_ANIMATION_DURATION}ms ease-out forwards`,
+          },
+          spotlight: {
+            borderRadius: 8,
+          },
+        }}
+      />
+    </>
   );
 }
