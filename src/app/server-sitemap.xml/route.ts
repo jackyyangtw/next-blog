@@ -18,10 +18,8 @@ export async function GET(req: NextRequest) {
     languages.map((lng) => ({
       loc: `${origin}/${lng}/post/${p.slug}`,
       lastmod: new Date(p._createdAt ?? Date.now()).toISOString(),
-      alternateRefs: languages.map((l) => ({
-        href: `${origin}/${l}/post/${p.slug}`,
-        hreflang: l,
-      })),
+      changefreq: "weekly" as const,
+      priority: 0.7,
     })),
   );
 
