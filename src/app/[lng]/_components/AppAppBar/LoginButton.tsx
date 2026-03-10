@@ -4,13 +4,14 @@ import { useSession } from "next-auth/react";
 import { useClientTranslation } from "@/i18n/client";
 
 export default function LoginButton() {
+  const { lng } = useClientTranslation();
   const { status, data: session } = useSession();
   const isAuthenticated = status === "authenticated";
   const { t } = useClientTranslation("auth");
   return (
     <>
       {!isAuthenticated && (
-        <NextLink href="/auth">
+        <NextLink href={`/${lng}/auth`}>
           <Button
             color="primary"
             variant="text"
@@ -23,7 +24,7 @@ export default function LoginButton() {
       )}
       {isAuthenticated && (
         <Button
-          href="/user"
+          href={`/${lng}/user`}
           component={NextLink}
           sx={{ minWidth: "unset", p: 0, borderRadius: "100%" }}
           data-tour="auth-entry"

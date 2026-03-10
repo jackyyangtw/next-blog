@@ -22,6 +22,9 @@ import LangSwitcher from "@/components/lang/LangSwitcher";
 import MobileDrawer from "./MobileDrawer";
 import LoginButton from "./LoginButton";
 
+// ------------- i18n -------------
+import { useClientTranslation } from "@/i18n/client";
+
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -40,7 +43,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 export default function AppAppBar() {
   const [open, setOpen] = React.useState(false);
-
+  const { lng } = useClientTranslation();
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -63,7 +66,7 @@ export default function AppAppBar() {
             <Box
               sx={{ flexGrow: 1, display: "flex", alignItems: "center", px: 0 }}
             >
-              <NextLink href="/">
+              <NextLink href={`/${lng}`}>
                 {/* <Sitemark /> */}
                 <Box
                   component="img"

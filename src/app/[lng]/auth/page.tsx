@@ -19,7 +19,7 @@ import { signIn } from "next-auth/react";
 import { useClientTranslation } from "@/i18n/client";
 
 export default function SignIn() {
-  const { t } = useClientTranslation("auth-page");
+  const { t ,lng} = useClientTranslation("auth-page");
   return (
     <SignInContainer direction="column" justifyContent="space-between">
       <Card variant="outlined">
@@ -27,7 +27,7 @@ export default function SignIn() {
           <Button
             fullWidth
             variant="outlined"
-            onClick={() => signIn("google", { callbackUrl: "/user" })}
+            onClick={() => signIn("google", { callbackUrl: `/${lng}/user` })}
             startIcon={<GoogleIcon />}
           >
             {t("login_with_google")}
