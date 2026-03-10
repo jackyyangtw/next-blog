@@ -10,15 +10,15 @@ interface NavLink {
 }
 
 export const useNavLinks = () => {
-  const { t } = useClientTranslation("nav-links");
+  const { t ,lng} = useClientTranslation("nav-links");
   const links: NavLink[] = [
     {
       label: t("/post"),
-      href: "/post",
+      href: `/${lng}/post`,
     },
     {
       label: t("/studio"),
-      href: "/studio",
+      href: `/${lng}/studio`,
       target: "_blank",
       rel: "noopener noreferrer",
       role: "admin",

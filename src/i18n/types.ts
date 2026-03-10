@@ -12,6 +12,7 @@ export type Namespace =
   | "user-page"
   | "posts-page"
   | "home-page"
+  | "auth-page"
   // nav-links
   | "nav-links";
 

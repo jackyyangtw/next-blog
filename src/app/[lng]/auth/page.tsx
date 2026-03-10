@@ -15,7 +15,11 @@ import { Card } from "./_styles/Card";
 // --------------------- NextAuth--------------------
 import { signIn } from "next-auth/react";
 
+// --------------------- i18n--------------------
+import { useClientTranslation } from "@/i18n/client";
+
 export default function SignIn() {
+  const { t } = useClientTranslation("auth-page");
   return (
     <SignInContainer direction="column" justifyContent="space-between">
       <Card variant="outlined">
@@ -26,7 +30,7 @@ export default function SignIn() {
             onClick={() => signIn("google", { callbackUrl: "/user" })}
             startIcon={<GoogleIcon />}
           >
-            使用 Google 登入
+            {t("login_with_google")}
           </Button>
         </Box>
       </Card>
