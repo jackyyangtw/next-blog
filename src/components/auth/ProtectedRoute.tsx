@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useAppSnackbarStore } from "@/store/useAppSnackbarStore";
 
+// 用於前端路由守衛，確保用戶登入才能訪問某些頁面。
+// 用於 page.tsx 非ＲＳＣ的情況
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { status } = useSession();
   const router = useRouter();

@@ -1,37 +1,35 @@
-"use client";
-import * as React from "react";
-
 // --------------------- MUI--------------------
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-
-// --------------------- Icons--------------------
-import GoogleIcon from "@mui/icons-material/Google";
 
 // --------------------- Styles--------------------
 import { SignInContainer } from "./_styles/SigninContainer";
 import { Card } from "./_styles/Card";
 
+// --------------------- Components--------------------
+import LoginButton from "./_styles/LoginButton";
+
 // --------------------- NextAuth--------------------
-import { signIn } from "next-auth/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/auth";
 
 // --------------------- i18n--------------------
-import { useClientTranslation } from "@/i18n/client";
+import { Locale } from "@/i18n/types";
 
-export default function SignIn() {
-  const { t ,lng} = useClientTranslation("auth-page");
+// --------------------- next/navigation--------------------
+import { redirect } from "next/navigation";
+
+export default async function SignIn({params}: {params: Promise<{lng: Locale}>}) {
+  const { lng } = await params;
+  const session = await getServerSession(authOptions);
+  const isAuthenticated = session?.user?.email;
+  if (isAuthenticated) {
+    return redirect(`/${lng}/user`);
+  }
   return (
     <SignInContainer direction="column" justifyContent="space-between">
       <Card variant="outlined">
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={() => signIn("google", { callbackUrl: `/${lng}/user` })}
-            startIcon={<GoogleIcon />}
-          >
-            {t("login_with_google")}
-          </Button>
+          <LoginButton />
         </Box>
       </Card>
     </SignInContainer>
