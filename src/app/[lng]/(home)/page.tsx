@@ -18,8 +18,6 @@ export const generateMetadata = async ({ params }: HomeProps) => {
   };
 };
 
-
-
 export default async function Home() {
   return (
     <>

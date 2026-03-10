@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "title": "Frontend Notes",
+    "description": "Learn by building. Frontend development notes."
+  },
+  "hero": {
+    "title_line_1": "Between logic and aesthetics,",
+    "title_line_2": "I build high-performance components.",
+    "description": "I am Jacky. I specialize in the React ecosystem and hold an almost obsessive standard for code quality. I enjoy abstracting complex problems into elegant and scalable technical architecture.",
+    "cta": "View Notes"
+  },
+  "principles": {
+    "section_title": "Technical Principles",
+    "items": {
+      "component": {
+        "title": "Lean Components",
+        "description": "I believe a component should not exceed 200 lines. Clear responsibility boundaries keep code readable and maintainable."
+      },
+      "state": {
+        "title": "State Purity",
+        "description": "I strictly follow one-way data flow and avoid passing Hooks as props to preserve architectural purity."
+      },
+      "automation": {
+        "title": "Automated Quality",
+        "description": "A robust CI/CD pipeline ensures every line merged into master meets quality standards."
+      }
+    }
+  },
+  "footer": {
+    "quote": "When I am not coding, I look for melodies beyond logic on the piano keys."
+  }
+}

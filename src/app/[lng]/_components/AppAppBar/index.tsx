@@ -6,11 +6,9 @@ import { alpha, styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import MenuIcon from "@mui/icons-material/Menu";
-import Avatar from "@mui/material/Avatar";
 
 // ------------- icons -------------
 import ColorModeIconDropdown from "@/components/theme/ColorModeDropdown";
@@ -20,10 +18,9 @@ import NextLink from "next/link";
 
 // ------------- components -------------
 import NavLinks from "./NavLinks";
+import LangSwitcher from "@/components/lang/LangSwitcher";
 import MobileDrawer from "./MobileDrawer";
-
-// ------------- next auth -------------
-import { useSession } from "next-auth/react";
+import LoginButton from "./LoginButton";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -48,15 +45,8 @@ export default function AppAppBar() {
     setOpen(newOpen);
   };
 
-  const { status, data: session } = useSession();
-  const isAuthenticated = status === "authenticated";
-
-
-
-
   return (
     <>
-
       <AppBar
         position="fixed"
         enableColorOnDark
@@ -69,7 +59,7 @@ export default function AppAppBar() {
       >
         <Container maxWidth="lg">
           <StyledToolbar variant="dense" disableGutters>
-            {/* 電腦版 */}
+            {/* site icon */}
             <Box
               sx={{ flexGrow: 1, display: "flex", alignItems: "center", px: 0 }}
             >
@@ -84,8 +74,8 @@ export default function AppAppBar() {
               </NextLink>
               <NavLinks />
             </Box>
-
-            {/* 電腦版登入按鈕 */}
+            
+            {/* 電腦版 */}
             <Box
               sx={{
                 display: { xs: "none", md: "flex" },
@@ -93,35 +83,21 @@ export default function AppAppBar() {
                 alignItems: "center",
               }}
             >
-              {!isAuthenticated && (
-                <NextLink href="/auth">
-                  <Button
-                    color="primary"
-                    variant="text"
-                    size="small"
-                    data-tour="auth-entry"
-                  >
-                    登入
-                  </Button>
-                </NextLink>
-              )}
-              {isAuthenticated && (
-                <Button
-                  href="/user"
-                  component={NextLink}
-                  sx={{ minWidth: "unset", p: 0, borderRadius: "100%" }}
-                  data-tour="auth-entry"
-                >
-                  <Avatar src={session?.user?.image || ""} />
-                </Button>
-              )}
+              <LoginButton />
               <ColorModeIconDropdown />
+              <LangSwitcher />
             </Box>
 
             {/* 手機版 */}
             <Box sx={{ display: { xs: "flex", md: "none" }, gap: 1 }}>
-              <ColorModeIconDropdown size="medium" />
-              <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
+              <LoginButton />
+              <ColorModeIconDropdown />
+              <LangSwitcher />
+              <IconButton
+                size="small"
+                aria-label="Menu button"
+                onClick={toggleDrawer(true)}
+              >
                 <MenuIcon />
               </IconButton>
               <MobileDrawer open={open} setOpen={setOpen} />

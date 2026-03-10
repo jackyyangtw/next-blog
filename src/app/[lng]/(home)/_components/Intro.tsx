@@ -7,6 +7,7 @@ import {
   IntegrationInstructions,
 } from "@mui/icons-material";
 import Link from "next/link";
+import { useClientTranslation } from "@/i18n/client";
 
 // ------------- Components -------------
 import PhilosophyCard from "./PhilosophyCard";
@@ -14,6 +15,8 @@ import TechMarquee from "./TechMarquee";
 import TrackingLight from "./TrackingLight";
 
 export default function Intro() {
+  const { t } = useClientTranslation("home-page");
+
   return (
     <Box
       sx={{
@@ -51,9 +54,9 @@ export default function Intro() {
                     theme.palette.mode === "dark" ? "transparent" : "unset",
                 }}
               >
-                在邏輯與美感之間，
+                {t("hero.title_line_1")}
                 <br />
-                建構高效能元件。
+                {t("hero.title_line_2")}
               </Typography>
               <Typography
                 variant="subtitle1"
@@ -64,9 +67,7 @@ export default function Intro() {
                   lineHeight: 1.6,
                 }}
               >
-                我是 Jacky。擅長 React
-                生態系開發，對程式碼品質有著近乎偏執的堅持。
-                我享受將複雜問題抽象化，建立既優雅又具擴充性的技術架構。
+                {t("hero.description")}
               </Typography>
               <Stack direction="row" spacing={3} alignItems="center">
                 <Button
@@ -82,7 +83,7 @@ export default function Intro() {
                   component={Link}
                   href="/post"
                 >
-                  查看筆記
+                  {t("hero.cta")}
                 </Button>
               </Stack>
             </Grid>
@@ -156,30 +157,30 @@ export default function Intro() {
         {/* 技術堅持區塊 */}
         <Box sx={{ py: 10 }}>
           <Typography variant="h2" sx={{ mb: 8, textAlign: "center" }}>
-            技術堅持與原則
+            {t("principles.section_title")}
           </Typography>
           <Grid container spacing={4}>
             <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <PhilosophyCard
-                title="元件精簡化"
+                title={t("principles.items.component.title")}
                 icon={Layers}
-                description="堅信元件不應超過 200 行，透過精準拆分職責確保程式碼的可讀性與可維護性。"
+                description={t("principles.items.component.description")}
                 code="if(lines > 200) refactor();"
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <PhilosophyCard
-                title="狀態純粹度"
+                title={t("principles.items.state.title")}
                 icon={Storage}
-                description="嚴格遵守單向資料流，禁止將 Hook 當作 Prop 傳遞，以維護架構的純粹性。"
+                description={t("principles.items.state.description")}
                 code="props.hook // ❌ Rejected"
               />
             </Grid>
             <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <PhilosophyCard
-                title="自動化品質"
+                title={t("principles.items.automation.title")}
                 icon={IntegrationInstructions}
-                description="配置完善的 GitLab CI/CD 流程，確保每一行進入 Master 的程式碼都符合品質標準。"
+                description={t("principles.items.automation.description")}
                 code="stage: code_quality_check"
               />
             </Grid>
@@ -210,7 +211,7 @@ export default function Intro() {
               <Code fontSize="small" />
             </Box>
             <Typography variant="body2">
-              當我不寫程式時，我在琴鍵上尋找邏輯以外的旋律。
+              {t("footer.quote")}
             </Typography>
           </Stack>
         </Box>

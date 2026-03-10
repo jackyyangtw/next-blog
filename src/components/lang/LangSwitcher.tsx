@@ -3,10 +3,10 @@
 
 "use client";
 import * as React from "react";
-import Autocomplete from "@mui/material/Autocomplete";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import AppTheme from "@/theme/AppTheme";
+import LanguageIcon from "@mui/icons-material/Language";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { useClientTranslation } from "@/i18n/client";
 import { useRouter, usePathname } from "next/navigation";
 import { Locale } from "@/i18n/types";
@@ -16,48 +16,55 @@ export default function LangSwitcher() {
   const router = useRouter();
   const pathName = usePathname();
   const { lng, t } = useClientTranslation("component");
-  const [locale, setLocale] = React.useState<Locale>(lng);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const currentLocale = LOCALES.find((locale) => locale.value === lng) ?? LOCALES[0];
 
   const changeLocale = (newValue: Locale) => {
-    // 更新 MUI 的語系設定
-    setLocale(newValue);
-
-    // 更新 i18next 的語系設定
-    // i18n.changeLanguage(newValue);
-
-    // 移除當前語系前綴並更新路徑
     const currentPath = pathName.replace(`/${lng}`, "");
     router.push(`/${newValue}${currentPath}`);
-    router.refresh(); // ✅ 重新整理頁面 (處理 build 後的語系切換問題)
+    router.refresh();
+    setAnchorEl(null);
+  };
+
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
   };
 
   return (
-    <Box>
-      <AppTheme locale={locale}>
-        <Autocomplete
-          options={LOCALES}
-          getOptionLabel={(option) => option.label}
-          value={LOCALES.find((l) => l.value === locale)}
-          disableClearable
-          onChange={(_, newValue) => {
-            if (newValue) {
-              changeLocale(newValue.value);
-            }
-          }}
-          renderInput={(params) => (
-            <TextField {...params} label={t("LangSwitcher.label")} fullWidth />
-          )}
-          sx={{
-            width: {
-              xs: "100%",
-              sm: "180px",
-            },
-            "& .MuiAutocomplete-endAdornment": {
-              right: "0 !important",
-            },
-          }}
-        />
-      </AppTheme>
-    </Box>
+    <>
+      <IconButton
+        id="language-switcher-button"
+        aria-label={t("LangSwitcher.label")}
+        aria-controls={isMenuOpen ? "language-switcher-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={isMenuOpen ? "true" : undefined}
+        onClick={handleOpenMenu}
+        size="small"
+      >
+        <LanguageIcon />
+      </IconButton>
+      <Menu
+        id="language-switcher-menu"
+        anchorEl={anchorEl}
+        open={isMenuOpen}
+        onClose={handleCloseMenu}
+        MenuListProps={{ "aria-labelledby": "language-switcher-button" }}
+      >
+        {LOCALES.map((locale) => (
+          <MenuItem
+            key={locale.value}
+            selected={locale.value === currentLocale.value}
+            onClick={() => changeLocale(locale.value)}
+          >
+            {locale.label}
+          </MenuItem>
+        ))}
+      </Menu>
+    </>
   );
 }

@@ -1,4 +1,4 @@
-import { Locale } from "@/types/locale";
+// import { Locale } from "@/types/locale";
 
 // 語系資源的命名空間型別
 export type Namespace =
@@ -11,6 +11,7 @@ export type Namespace =
   // pages
   | "user-page"
   | "posts-page"
+  | "home-page"
   // nav-links
   | "nav-links";
 

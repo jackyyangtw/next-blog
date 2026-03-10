@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "title": "前端隨手記",
+    "description": "做中學，學中做。前端開發筆記。"
+  },
+  "hero": {
+    "title_line_1": "在邏輯與美感之間，",
+    "title_line_2": "建構高效能元件。",
+    "description": "我是 Jacky。擅長 React 生態系開發，對程式碼品質有著近乎偏執的堅持。我享受將複雜問題抽象化，建立既優雅又具擴充性的技術架構。",
+    "cta": "查看筆記"
+  },
+  "principles": {
+    "section_title": "技術堅持與原則",
+    "items": {
+      "component": {
+        "title": "元件精簡化",
+        "description": "堅信元件不應超過 200 行，透過精準拆分職責確保程式碼的可讀性與可維護性。"
+      },
+      "state": {
+        "title": "狀態純粹度",
+        "description": "嚴格遵守單向資料流，禁止將 Hook 當作 Prop 傳遞，以維護架構的純粹性。"
+      },
+      "automation": {
+        "title": "自動化品質",
+        "description": "配置完善的 GitLab CI/CD 流程，確保每一行進入 Master 的程式碼都符合品質標準。"
+      }
+    }
+  },
+  "footer": {
+    "quote": "當我不寫程式時，我在琴鍵上尋找邏輯以外的旋律。"
+  }
+}

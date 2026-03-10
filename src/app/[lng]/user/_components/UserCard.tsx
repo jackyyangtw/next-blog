@@ -7,15 +7,11 @@ import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 
-// ------------- Components -------------
-import LangSwitcher from "@/components/lang/LangSwitcher";
-
 // ------------- Hooks -------------
 import { useLogout } from "@/hooks/auth/useLogout";
 
 // ------------- i18n -------------
 import { useClientTranslation } from "@/i18n/client";
-
 
 interface UserCardProps {
   name?: string | null;
@@ -58,7 +54,6 @@ export default function UserCard({ name, email, image }: UserCardProps) {
         <Divider flexItem sx={{ width: "100%" }} />
         {/* 語言切換與登出按鈕 */}
         <Stack direction="row" spacing={2} width="100%" justifyContent="center">
-          <LangSwitcher />
           <Button
             variant="contained"
             color="primary"
