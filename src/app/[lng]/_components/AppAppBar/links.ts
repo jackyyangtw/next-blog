@@ -18,7 +18,7 @@ export const useNavLinks = () => {
     },
     {
       label: t("/studio"),
-      href: `/${lng}/studio`,
+      href: `/studio`,
       target: "_blank",
       rel: "noopener noreferrer",
       role: "admin",
