@@ -1,10 +1,12 @@
 import { Avatar, Button } from "@mui/material";
 import NextLink from "next/link";
 import { useSession } from "next-auth/react";
+import { useClientTranslation } from "@/i18n/client";
 
 export default function LoginButton() {
   const { status, data: session } = useSession();
   const isAuthenticated = status === "authenticated";
+  const { t } = useClientTranslation("auth");
   return (
     <>
       {!isAuthenticated && (
@@ -15,7 +17,7 @@ export default function LoginButton() {
             size="small"
             data-tour="auth-entry"
           >
-            登入
+            {t("login")}
           </Button>
         </NextLink>
       )}
