@@ -1,5 +1,5 @@
 // src/app/[lng]/(home)/_components/Author.tsx
-import * as React from "react";
+
 // ------------- MUI -------------
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";

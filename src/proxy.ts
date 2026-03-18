@@ -8,7 +8,7 @@ export const config = {
     "/((?!studio|api|_next/static|_next/image|assets|favicon.ico|sw.js|images|.*\\.xml$).*)",
   ],
 };
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   // console.log("🧩 Middleware triggered:", req.nextUrl.pathname);
   // =====================
   // 1. i18n 語系導向邏輯
