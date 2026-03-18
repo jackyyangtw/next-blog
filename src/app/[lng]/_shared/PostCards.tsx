@@ -1,6 +1,5 @@
 // src/app/[lng]/(home)/_components/PostCards.tsx
 "use client";
-import * as React from "react";
 
 // ------------- MUI -------------
 import Grid from "@mui/material/Grid";

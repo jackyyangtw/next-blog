@@ -4,7 +4,7 @@ import { PortableText, type PortableTextComponents } from "next-sanity";
 
 // ------------- MUI -------------
 import Box from "@mui/material/Box";
-import React, { useState } from "react";
+import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 
@@ -90,7 +90,10 @@ export default function RichText({ value }: { value: BlockContent }) {
         // 增加點擊背景模糊
         slotProps={{
           backdrop: {
-            sx: { backdropFilter: "blur(8px)", backgroundColor: "rgba(0,0,0,0.7)" }
+            sx: {
+              backdropFilter: "blur(8px)",
+              backgroundColor: "rgba(0,0,0,0.7)",
+            },
           },
           paper: {
             sx: {
@@ -98,9 +101,9 @@ export default function RichText({ value }: { value: BlockContent }) {
               borderRadius: 4,
               overflow: "hidden",
               position: "relative",
-              boxShadow: "0 24px 48px rgba(0,0,0,0.5)"
-            }
-          }
+              boxShadow: "0 24px 48px rgba(0,0,0,0.5)",
+            },
+          },
         }}
       >
         {image && (
@@ -115,23 +118,25 @@ export default function RichText({ value }: { value: BlockContent }) {
                 color: "white",
                 bgcolor: "rgba(0,0,0,0.3)",
                 "&:hover": { bgcolor: "rgba(0,0,0,0.5)" },
-                zIndex: 1
+                zIndex: 1,
               }}
             >
               <CloseIcon />
             </IconButton>
 
-            <DialogContent sx={{ p: 0, display: "flex", flexDirection: "column" }}>
+            <DialogContent
+              sx={{ p: 0, display: "flex", flexDirection: "column" }}
+            >
               <Box
                 component="img"
                 src={urlFor(image).width(1600).url()}
                 alt={image.alt || ""}
-                sx={{ 
-                  width: "100%", 
-                  height: "auto", 
-                  maxHeight: "85vh", 
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                  maxHeight: "85vh",
                   objectFit: "contain",
-                  display: "block"
+                  display: "block",
                 }}
               />
               {/* 將標題/圖說放在底部，增加設計感 */}

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 
 // ------------------ store ----------------
 import { useFeatureTourStore } from "@/store/useFeatureTourStore";
@@ -49,7 +49,8 @@ export default function JoyRide() {
     [completeTour, stopTour],
   );
 
-  const [hasFavoriteTarget, setHasFavoriteTarget] = useState(false);
+  const isPostDetailPage = pathname.includes("/post/") && !!slug;
+  const hasFavoriteTarget = isPostDetailPage;
   const tutorialSteps = useMemo<Step[]>(() => {
     const authStep: Step = {
       target: '[data-tour="auth-entry"]',
@@ -73,11 +74,6 @@ export default function JoyRide() {
     }
     return [authStep, toggleFavoriteStep, guideStep];
   }, [hasFavoriteTarget, isAuthenticated]);
-
-  useEffect(() => {
-    const isPostDetailPage = pathname.includes("/post/") && slug;
-    setHasFavoriteTarget(Boolean(isPostDetailPage));
-  }, [pathname, slug]);
 
   useEffect(() => {
     if (status === "loading" || hasCompleted || isRunning) return;

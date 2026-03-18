@@ -1,7 +1,7 @@
 // src/app/[lng]/(home)/_components/Search.tsx
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
@@ -17,17 +17,18 @@ import { useClientTranslation } from "@/i18n/client";
 export default function Search() {
   const setParams = useSetPostsQueryParams();
   const { keyword } = usePostsQueryParams();
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(keyword ?? "");
   const { t } = useClientTranslation("posts-page");
-  // A. 當 URL 的 keyword 改變時，只同步到輸入框（不動 URL）
-  useEffect(() => {
-    setInputValue(keyword ?? "");
-  }, [keyword, setInputValue]);
 
   // 點擊搜尋 icon 時才觸發搜尋
   const handleSearch = useCallback(() => {
     setParams({ page: 1, keyword: inputValue, categories: [] });
   }, [inputValue, setParams]);
+
+  const handleClear = useCallback(() => {
+    setInputValue("");
+    setParams({ page: 1, keyword: "", categories: [] });
+  }, [setParams]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -35,12 +36,13 @@ export default function Search() {
         handleSearch();
       }
     },
-    [handleSearch]
+    [handleSearch],
   );
 
   return (
     <FormControl sx={{ width: { xs: "100%", md: "30ch" } }} variant="outlined">
       <OutlinedInput
+        key={keyword}
         size="small"
         id="search"
         placeholder={t("search_placeholder")}
@@ -56,7 +58,7 @@ export default function Search() {
               <IconButton
                 aria-label="清除搜尋"
                 edge="end"
-                onClick={() => setInputValue("")}
+                onClick={handleClear}
                 size="small"
                 tabIndex={0}
                 sx={{ mr: "4px" }}
