@@ -1,13 +1,17 @@
 // src/app/[lng]/post/[slug]/page.tsx
 // 圖片優化: https://www.npmjs.com/package/next-sanity-image
+
+import { Suspense } from "react";
+
+// ------------- next -------------
+import { notFound } from "next/navigation";
+
 // ------------- Sanity -------------
 import { urlFor } from "@/sanity/lib/image";
 
 // ------------- Components -------------
 import PostDetailContent from "./_components/PostDetailContent";
-
-// ------------- next -------------
-import { notFound } from "next/navigation";
+import PostPageSkeleton from "./_components/PostPageSkeleton";
 
 // ------------- utils -------------
 import { getPost } from "../_lib/getPost";
@@ -31,12 +35,12 @@ export async function generateMetadata({ params }: PostPageProps) {
   };
 }
 
-export default async function PostPage({ params }: PostPageProps) {
-  const { slug, lng } = await params;
+async function PostPageContent({ slug, lng }: { slug: string; lng: string }) {
   const post = await getPost(slug);
   if (!post) {
     notFound();
   }
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -63,5 +67,15 @@ export default async function PostPage({ params }: PostPageProps) {
       />
       <PostDetailContent post={post} lng={lng} />
     </>
+  );
+}
+
+// support PPR (Partial Prerendering)
+export default async function PostPage({ params }: PostPageProps) {
+  const { slug, lng } = await params;
+  return (
+    <Suspense fallback={<PostPageSkeleton />}>
+      <PostPageContent slug={slug} lng={lng} />
+    </Suspense>
   );
 }

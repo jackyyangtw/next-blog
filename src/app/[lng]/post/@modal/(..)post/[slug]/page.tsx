@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import PostModal from "./PostModal";
-import { getPost } from "../../_lib/getPost";
-import PostDetailContent from "../../[slug]/_components/PostDetailContent";
+import { getPost } from "../../../_lib/getPost";
+import PostDetailContent from "../../../[slug]/_components/PostDetailContent";
 
 interface InterceptedPostPageProps {
   params: Promise<{ slug: string; lng: string }>;
@@ -19,7 +19,12 @@ export default async function InterceptedPostPage({
 
   return (
     <PostModal>
-      <PostDetailContent post={post} lng={lng} showBackLink={false} showCategories={false} />
+      <PostDetailContent
+        post={post}
+        lng={lng}
+        showBackLink={false}
+        showCategories={false}
+      />
     </PostModal>
   );
 }

@@ -18,6 +18,7 @@ import Providers from "@/Providers";
 import AppWrapper from "./_components/AppWrapper";
 import Footer from "./_components/Footer";
 import Box from "@mui/material/Box";
+import { Suspense } from "react";
 
 export const generateMetadata = async ({
   params,
@@ -67,11 +68,15 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
                     flexGrow: 1, // 讓主內容區塊自動填滿剩餘空間
                   }}
                 >
-                  <AppWrapper>{children}</AppWrapper>
+                  <Suspense fallback={null}>
+                    <AppWrapper>{children}</AppWrapper>
+                  </Suspense>
                 </Container>
 
                 {/* Footer 移出 Container，但在 Providers 內 */}
-                <Footer />
+                <Suspense fallback={null}>
+                  <Footer />
+                </Suspense>
               </Box>
             </Providers>
           </AppTheme>
