@@ -12,6 +12,7 @@ import { urlFor } from "@/sanity/lib/image";
 // ------------- Components -------------
 import PostDetailContent from "./_components/PostDetailContent";
 import PostPageSkeleton from "./_components/PostPageSkeleton";
+import RelatedPostsSection from "./_components/RelatedPostsSection";
 
 // ------------- utils -------------
 import { getPost } from "../_lib/getPost";
@@ -66,6 +67,11 @@ async function PostPageContent({ slug, lng }: { slug: string; lng: string }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <PostDetailContent post={post} lng={lng} />
+      <RelatedPostsSection
+        slug={slug}
+        lng={lng}
+        categoryIds={post.categories.map((category) => category._id)}
+      />
     </>
   );
 }
