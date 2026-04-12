@@ -23,7 +23,8 @@ export default function LangSwitcher() {
   const changeLocale = (newValue: Locale) => {
     const currentPath = pathName.replace(`/${lng}`, "");
     router.push(`/${newValue}${currentPath}`);
-    router.refresh();
+    // router.refresh();
+    window.location.reload();
     setAnchorEl(null);
   };
 
