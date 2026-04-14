@@ -10,10 +10,10 @@
     "sitemap": "next-sitemap",
     "tsc": "tsc --noEmit",
     "typegen": "next typegen",
-    "prepare": "husky",
-    "lint-staged": {
-      "**/*": "prettier --write --ignore-unknown"
-    }
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   },
   "pnpm": {
     "overrides": {
