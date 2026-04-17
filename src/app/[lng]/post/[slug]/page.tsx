@@ -21,18 +21,43 @@ interface PostPageProps {
   params: Promise<{ slug: string; lng: string }>;
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:3000";
+const siteUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function generateMetadata({ params }: PostPageProps) {
-  const { slug } = await params;
+  const { slug, lng } = await params;
   const post = await getPost(slug);
   if (!post) {
     return { title: "Post Not Found" };
   }
+
+  // Construct absolute URLs for alternates
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
   return {
     title: post.title,
     description: post.description,
-    image: post.photo ? urlFor(post.photo).width(1200).height(628).url() : "",
+    alternates: {
+      canonical: `${baseUrl}/${lng}/post/${slug}`,
+      languages: {
+        en: `${baseUrl}/en/post/${slug}`,
+        "zh-TW": `${baseUrl}/zh-TW/post/${slug}`,
+      },
+    },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      images: post.photo
+        ? [urlFor(post.photo).width(1200).height(628).url()]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: post.photo
+        ? [urlFor(post.photo).width(1200).height(628).url()]
+        : [],
+    },
   };
 }
 

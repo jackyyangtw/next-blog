@@ -6,7 +6,7 @@ import { client } from "@/sanity/lib/client";
 import { NextRequest } from "next/server";
 import { languages } from "@/i18n/config";
 export async function GET(req: NextRequest) {
-  const origin = req.nextUrl.origin;
+  const origin = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
   const posts = await client.fetch<PostDoc[]>(
     `*[_type == "post"] | order(_createdAt desc) {
       "slug": slug.current,

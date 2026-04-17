@@ -29,6 +29,9 @@ export const generateMetadata = async ({
   const tCommon = await getServerTranslation(lng, "common");
   return {
     title: tCommon.t("site_name"),
+    metadataBase: new URL(
+      process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000",
+    ),
   };
 };
 
