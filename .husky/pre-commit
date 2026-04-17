@@ -1,1 +1,3 @@
+pnpm lint
+pnpm tsc
 npx lint-staged
