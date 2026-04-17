@@ -26,6 +26,7 @@ overrides:
   vite@>=7.1.0 <=7.3.1: ">=7.3.2"
   next@>=16.0.0-beta.0 <16.2.3: ">=16.2.3"
   follow-redirects@<=1.15.11: ">=1.16.0"
+  dompurify@<=3.3.3: ">=3.4.0"
 
 importers:
   .:
@@ -5720,12 +5721,11 @@ packages:
       }
     engines: { node: ">= 4" }
 
-  dompurify@3.3.2:
+  dompurify@3.4.0:
     resolution:
       {
-        integrity: sha512-6obghkliLdmKa56xdbLOpUZ43pAR6xFy1uOrxBaIDjT+yaRuuybLjGS9eVBoSR/UPU5fq3OXClEHLJNGvbxKpQ==,
+        integrity: sha512-nolgK9JcaUXMSmW+j1yaSvaEaoXYHwWyGJlkoCTghc97KgGDDSnpoU/PlEnw63Ah+TGKFOyY+X5LnxaWbCSfXg==,
       }
-    engines: { node: ">=20" }
 
   domutils@3.2.2:
     resolution:
@@ -14986,7 +14986,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.3.2:
+  dompurify@3.4.0:
     optionalDependencies:
       "@types/trusted-types": 2.0.7
 
@@ -16125,7 +16125,7 @@ snapshots:
 
   isomorphic-dompurify@2.26.0:
     dependencies:
-      dompurify: 3.3.2
+      dompurify: 3.4.0
       jsdom: 26.1.0
     transitivePeerDependencies:
       - bufferutil
