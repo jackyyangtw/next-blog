@@ -42,7 +42,8 @@ export function RichTextCodeBlock({
       variant="outlined"
       sx={{
         position: "relative",
-        my: 2,
+        mt: 2,
+        mb: 5,
         borderRadius: 2,
         overflow: "auto",
         // bgcolor: "background.default",
@@ -70,7 +71,12 @@ export function RichTextCodeBlock({
         },
       }}
     >
-      <Stack direction="row" justifyContent="flex-end" alignItems="center" gap={1}>
+      <Stack
+        direction="row"
+        justifyContent="flex-end"
+        alignItems="center"
+        gap={1}
+      >
         {/* 語言標籤 */}
         {language && (
           <Typography
