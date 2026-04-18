@@ -10,6 +10,7 @@ import {
   SiMui,
   SiTailwindcss,
   SiGitlab,
+  SiShadcnui,
 } from "react-icons/si";
 
 export default function TechMarquee() {
@@ -27,7 +28,13 @@ export default function TechMarquee() {
     { name: "Zustand", icon: null },
     { name: "React Query", icon: <SiReactquery color="#FF4154" /> },
     { name: "MUI", icon: <SiMui color="#007FFF" /> },
-    { name: "Tailwind", icon: <SiTailwindcss color="#06B6D4" /> },
+    { name: "Tailwind CSS", icon: <SiTailwindcss color="#06B6D4" /> },
+    {
+      name: "shadcn/ui",
+      icon: (
+        <SiShadcnui color={currentMode === "dark" ? "#FFFFFF" : "#000000"} />
+      ),
+    },
     { name: "GitLab", icon: <SiGitlab color="#FC6D26" /> },
   ];
 
