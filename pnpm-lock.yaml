@@ -37,7 +37,6 @@ overrides:
   "@babel/plugin-transform-modules-systemjs@>=7.12.0 <=7.29.3": ">=7.29.4"
   brace-expansion@>=5.0.0 <5.0.6: ">=5.0.6"
   esbuild@>=0.17.0 <0.28.1: ">=0.28.1"
-  uuid@13.0.0: 13.0.1
 
 importers:
   .:
