@@ -76,23 +76,55 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Validate Vercel secrets
+        run: |
+          test -n "$VERCEL_TOKEN" || (echo "Missing GitHub secret: VERCEL_TOKEN" && exit 1)
+          test -n "$VERCEL_ORG_ID" || (echo "Missing GitHub secret: VERCEL_ORG_ID" && exit 1)
+          test -n "$VERCEL_PROJECT_ID" || (echo "Missing GitHub secret: VERCEL_PROJECT_ID" && exit 1)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
+      - name: Prepare Vercel deployment metadata
+        run: |
+          {
+            echo "VERCEL_GITHUB_COMMIT_MESSAGE=$(git log -1 --pretty=%s)"
+            echo "VERCEL_GITHUB_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=%an)"
+            echo "VERCEL_GITHUB_COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ae)"
+            echo "VERCEL_GITHUB_REPO=${GITHUB_REPOSITORY#*/}"
+          } >> "$GITHUB_ENV"
+
       - name: Pull Vercel environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build Vercel output
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --prod --token="$VERCEL_TOKEN"
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Deploy prebuilt output
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: |
+          vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" \
+            --meta githubDeployment=1 \
+            --meta githubCommitSha="$GITHUB_SHA" \
+            --meta githubCommitRef="$GITHUB_REF_NAME" \
+            --meta githubCommitMessage="$VERCEL_GITHUB_COMMIT_MESSAGE" \
+            --meta githubCommitAuthorName="$VERCEL_GITHUB_COMMIT_AUTHOR_NAME" \
+            --meta githubCommitAuthorEmail="$VERCEL_GITHUB_COMMIT_AUTHOR_EMAIL" \
+            --meta githubCommitAuthorLogin="$GITHUB_ACTOR" \
+            --meta githubCommitOrg="$GITHUB_REPOSITORY_OWNER" \
+            --meta githubCommitRepo="$VERCEL_GITHUB_REPO"
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
