@@ -8,23 +8,36 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useClientTranslation } from "@/i18n/client";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { Locale } from "@/i18n/types";
-import { LOCALES } from "@/i18n/config";
+import { LOCALES, languages } from "@/i18n/config";
 
 export default function LangSwitcher() {
-  const router = useRouter();
   const pathName = usePathname();
+  const searchParams = useSearchParams();
   const { lng, t } = useClientTranslation("component");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
-  const currentLocale = LOCALES.find((locale) => locale.value === lng) ?? LOCALES[0];
+  const currentLocale =
+    LOCALES.find((locale) => locale.value === lng) ?? LOCALES[0];
 
   const changeLocale = (newValue: Locale) => {
-    const currentPath = pathName.replace(`/${lng}`, "");
-    router.push(`/${newValue}${currentPath}`);
-    // router.refresh();
-    window.location.reload();
+    if (newValue === lng) {
+      setAnchorEl(null);
+      return;
+    }
+
+    const segments = pathName.split("/");
+    const hasLocaleSegment = languages.includes(segments[1] as Locale);
+    const newPathName = hasLocaleSegment
+      ? `/${[newValue, ...segments.slice(2)].join("/")}`
+      : `/${newValue}${pathName === "/" ? "" : pathName}`;
+    const queryString = searchParams.toString();
+    const targetUrl = queryString
+      ? `${newPathName}?${queryString}`
+      : newPathName;
+
+    window.location.assign(targetUrl);
     setAnchorEl(null);
   };
 
