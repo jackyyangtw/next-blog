@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="686" viewBox="0 0 1600 686" role="img" aria-labelledby="title desc">
+  <title id="title">AI Topics Banner</title>
+  <desc id="desc">Abstract AI banner with neural nodes, chat panels, and luminous signal paths.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#101828"/>
+      <stop offset="0.48" stop-color="#1e3a5f"/>
+      <stop offset="1" stop-color="#3b6f68"/>
+    </linearGradient>
+    <linearGradient id="signal" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#38bdf8" stop-opacity="0.18"/>
+      <stop offset="0.52" stop-color="#a7f3d0" stop-opacity="0.78"/>
+      <stop offset="1" stop-color="#facc15" stop-opacity="0.24"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#e0f2fe" stop-opacity="0.56"/>
+      <stop offset="1" stop-color="#e0f2fe" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="686" fill="url(#bg)"/>
+  <ellipse cx="816" cy="318" rx="520" ry="248" fill="url(#glow)" opacity="0.52"/>
+  <path d="M120 486C318 318 466 540 646 376C812 226 986 252 1124 356C1296 486 1392 306 1510 250" fill="none" stroke="url(#signal)" stroke-linecap="round" stroke-width="16" opacity="0.78"/>
+  <g fill="#f8fafc" opacity="0.86">
+    <rect x="154" y="132" width="340" height="168" rx="22"/>
+    <rect x="1106" y="382" width="336" height="168" rx="22"/>
+  </g>
+  <g fill="#0f172a" opacity="0.62">
+    <rect x="204" y="184" width="184" height="14" rx="7"/>
+    <rect x="204" y="228" width="238" height="10" rx="5"/>
+    <rect x="1156" y="434" width="204" height="14" rx="7"/>
+    <rect x="1156" y="478" width="232" height="10" rx="5"/>
+  </g>
+  <g fill="none" stroke="#bae6fd" stroke-linecap="round" stroke-width="5" opacity="0.55">
+    <path d="M658 190L790 286L908 188"/>
+    <path d="M790 286L740 438"/>
+    <path d="M790 286L956 420"/>
+    <path d="M740 438L956 420"/>
+    <path d="M908 188L956 420"/>
+    <path d="M658 190L740 438"/>
+  </g>
+  <g>
+    <circle cx="658" cy="190" r="28" fill="#38bdf8"/>
+    <circle cx="790" cy="286" r="38" fill="#a7f3d0"/>
+    <circle cx="908" cy="188" r="30" fill="#fde68a"/>
+    <circle cx="740" cy="438" r="31" fill="#67e8f9"/>
+    <circle cx="956" cy="420" r="34" fill="#86efac"/>
+  </g>
+  <g fill="#ffffff" opacity="0.22">
+    <circle cx="564" cy="118" r="6"/>
+    <circle cx="1020" cy="144" r="7"/>
+    <circle cx="1112" cy="248" r="5"/>
+    <circle cx="522" cy="480" r="7"/>
+    <circle cx="1048" cy="548" r="6"/>
+  </g>
+</svg>
