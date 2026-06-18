@@ -15,12 +15,15 @@ interface RecommendedPost {
   photo: {
     asset: {
       _id: string;
-      url: string;
+      url?: string;
       metadata?: {
         lqip?: string;
       };
     };
-  };
+    alt?: string;
+  } | null;
+  bannerSource?: string;
+  presetBanner?: string;
   categories: CategoryLite[];
 }
 
@@ -36,7 +39,10 @@ interface ScoredPost extends RecommendedPost {
 
 function getFreshnessScore(createdAt: string): number {
   const createdMs = new Date(createdAt).getTime();
-  const diffDays = Math.max(0, (Date.now() - createdMs) / (1000 * 60 * 60 * 24));
+  const diffDays = Math.max(
+    0,
+    (Date.now() - createdMs) / (1000 * 60 * 60 * 24),
+  );
   return Math.max(0, 1 - diffDays / 90);
 }
 
@@ -60,6 +66,8 @@ export async function getRecommendedPosts({
         _createdAt,
         title,
         description,
+        bannerSource,
+        presetBanner,
         photo{
           asset->{
             _id,
@@ -67,7 +75,8 @@ export async function getRecommendedPosts({
             metadata{
               lqip
             }
-          }
+          },
+          alt
         },
         "slug": slug.current,
         categories[]->{
@@ -91,6 +100,8 @@ export async function getRecommendedPosts({
       _createdAt,
       title,
       description,
+      bannerSource,
+      presetBanner,
       photo{
         asset->{
           _id,
@@ -98,7 +109,8 @@ export async function getRecommendedPosts({
           metadata{
             lqip
           }
-        }
+        },
+        alt
       },
       "slug": slug.current,
       categories[]->{
@@ -112,7 +124,10 @@ export async function getRecommendedPosts({
   );
 
   const sorted = candidates
-    .map<ScoredPost>((post) => ({ ...post, _score: getScore(post, categoryIds) }))
+    .map<ScoredPost>((post) => ({
+      ...post,
+      _score: getScore(post, categoryIds),
+    }))
     .sort((a, b) => b._score - a._score);
 
   const selected: RecommendedPost[] = [];
@@ -154,6 +169,8 @@ export async function getRecommendedPosts({
       _createdAt,
       title,
       description,
+      bannerSource,
+      presetBanner,
       photo{
         asset->{
           _id,
@@ -161,7 +178,8 @@ export async function getRecommendedPosts({
           metadata{
             lqip
           }
-        }
+        },
+        alt
       },
       "slug": slug.current,
       categories[]->{

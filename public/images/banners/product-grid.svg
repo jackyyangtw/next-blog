@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="686" viewBox="0 0 1600 686" role="img" aria-labelledby="title desc">
+  <title id="title">Product Grid Banner</title>
+  <desc id="desc">Clean banner with structured cards, charts, and product interface shapes.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="0.55" stop-color="#dbeafe"/>
+      <stop offset="1" stop-color="#fef3c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="686" fill="url(#bg)"/>
+  <g fill="#ffffff" stroke="#cbd5e1" stroke-width="3">
+    <rect x="150" y="120" width="286" height="190" rx="18"/>
+    <rect x="478" y="120" width="286" height="190" rx="18"/>
+    <rect x="806" y="120" width="286" height="190" rx="18"/>
+    <rect x="1134" y="120" width="286" height="190" rx="18"/>
+    <rect x="150" y="354" width="286" height="190" rx="18"/>
+    <rect x="478" y="354" width="286" height="190" rx="18"/>
+    <rect x="806" y="354" width="286" height="190" rx="18"/>
+    <rect x="1134" y="354" width="286" height="190" rx="18"/>
+  </g>
+  <g fill="#2563eb" opacity="0.82">
+    <rect x="198" y="168" width="94" height="18" rx="9"/>
+    <rect x="526" y="168" width="122" height="18" rx="9"/>
+    <rect x="854" y="168" width="86" height="18" rx="9"/>
+    <rect x="1182" y="168" width="110" height="18" rx="9"/>
+  </g>
+  <g fill="#64748b" opacity="0.65">
+    <rect x="198" y="220" width="170" height="12" rx="6"/>
+    <rect x="526" y="220" width="174" height="12" rx="6"/>
+    <rect x="854" y="220" width="158" height="12" rx="6"/>
+    <rect x="1182" y="220" width="178" height="12" rx="6"/>
+    <rect x="198" y="456" width="180" height="12" rx="6"/>
+    <rect x="526" y="456" width="162" height="12" rx="6"/>
+    <rect x="854" y="456" width="174" height="12" rx="6"/>
+    <rect x="1182" y="456" width="150" height="12" rx="6"/>
+  </g>
+  <g fill="#f59e0b" opacity="0.88">
+    <circle cx="292" cy="436" r="36"/>
+    <circle cx="620" cy="436" r="36"/>
+    <circle cx="948" cy="436" r="36"/>
+    <circle cx="1276" cy="436" r="36"/>
+  </g>
+</svg>

@@ -19,12 +19,10 @@ import { PostDoc } from "@/schema/type/post";
 import NextLink from "next/link";
 import Image from "next/image";
 
-// ------------- Sanity -------------
-import { urlFor } from "@/sanity/lib/image";
-
 // ------------- Components -------------
 import Author from "../(home)/_components/Author";
 import Box from "@mui/material/Box";
+import { getPostBannerAlt, getPostBannerImageSrc } from "@/utils/postBanner";
 
 // ------------- hooks -------------
 import { usePostsQueryParams } from "@/app/[lng]/post/_hooks";
@@ -121,73 +119,89 @@ export default function PostCards({ posts }: { posts: PostDoc[] }) {
   const { lng } = useClientTranslation();
   return (
     <Grid container spacing={3}>
-      {posts.map((post) => (
-        <Grid size={{ xs: 12, md: 6 }} key={post._id} sx={{ display: "flex" }}>
-          <CardActionArea
-            component={NextLink}
-            href={`/${lng}/post/${post.slug}`}
-            scroll={false}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "stretch",
-              width: "100%",
-            }}
+      {posts.map((post) => {
+        const bannerSrc = getPostBannerImageSrc(post, {
+          width: 800,
+          height: 450,
+        });
+
+        return (
+          <Grid
+            size={{ xs: 12, md: 6 }}
+            key={post._id}
+            sx={{ display: "flex" }}
           >
-            <StyledCard variant="outlined">
-              <Box
-                sx={{
-                  aspectRatio: "16 / 9",
-                  borderBottom: "1px solid",
-                  borderColor: "divider",
-                  width: "100%",
-                  position: "relative",
-                }}
-              >
-                <Image
-                  src={urlFor(post.photo).url()}
-                  alt={post.title}
-                  fill
-                  style={{ objectFit: "cover" }}
-                  sizes="(max-width: 600px) 100vw, 800px"
-                />
-              </Box>
-
-              <StyledCardContent>
-                <TitleTypography gutterBottom variant="h6">
-                  {/* 高亮標題 */}
-                  <HighlightText text={post.title} highlight={keyword} />
-                </TitleTypography>
-
-                <Stack
-                  direction="row"
-                  spacing={1}
-                  mb={2}
-                  sx={{ height: 32, overflow: "hidden" }}
+            <CardActionArea
+              component={NextLink}
+              href={`/${lng}/post/${post.slug}`}
+              scroll={false}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "stretch",
+                width: "100%",
+              }}
+            >
+              <StyledCard variant="outlined">
+                <Box
+                  sx={{
+                    aspectRatio: "16 / 9",
+                    borderBottom: "1px solid",
+                    borderColor: "divider",
+                    width: "100%",
+                    position: "relative",
+                  }}
                 >
-                  {post.categories.map((cat) => (
-                    <Chip
-                      label={cat.title}
-                      size="small"
-                      key={cat._id}
-                      variant="outlined"
+                  {bannerSrc ? (
+                    <Image
+                      src={bannerSrc}
+                      alt={getPostBannerAlt(post)}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      sizes="(max-width: 600px) 100vw, 800px"
                     />
-                  ))}
-                </Stack>
+                  ) : null}
+                </Box>
 
-                <DescriptionTypography variant="body2" color="text.secondary">
-                  {/* 高亮描述 */}
-                  <HighlightText text={post.description} highlight={keyword} />
-                </DescriptionTypography>
-              </StyledCardContent>
+                <StyledCardContent>
+                  <TitleTypography gutterBottom variant="h6">
+                    {/* 高亮標題 */}
+                    <HighlightText text={post.title} highlight={keyword} />
+                  </TitleTypography>
 
-              <Box>
-                <Author authors={post.author} post={post} />
-              </Box>
-            </StyledCard>
-          </CardActionArea>
-        </Grid>
-      ))}
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    mb={2}
+                    sx={{ height: 32, overflow: "hidden" }}
+                  >
+                    {post.categories.map((cat) => (
+                      <Chip
+                        label={cat.title}
+                        size="small"
+                        key={cat._id}
+                        variant="outlined"
+                      />
+                    ))}
+                  </Stack>
+
+                  <DescriptionTypography variant="body2" color="text.secondary">
+                    {/* 高亮描述 */}
+                    <HighlightText
+                      text={post.description}
+                      highlight={keyword}
+                    />
+                  </DescriptionTypography>
+                </StyledCardContent>
+
+                <Box>
+                  <Author authors={post.author} post={post} />
+                </Box>
+              </StyledCard>
+            </CardActionArea>
+          </Grid>
+        );
+      })}
     </Grid>
   );
 }

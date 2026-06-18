@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
@@ -12,6 +12,7 @@ import FavoriteButton from "@/app/[lng]/post/[slug]/_components/FavoriteButton";
 import Banner from "@/app/[lng]/post/[slug]/_components/Banner";
 import { PostDoc } from "@/schema/type/post";
 import { formatDate } from "@/utils/date/formate";
+import { hasPostBannerImage } from "@/utils/postBanner";
 
 interface PostDetailContentProps {
   post: PostDoc;
@@ -46,7 +47,9 @@ export default function PostDetailContent({
         <Stack direction="row" spacing={2} color="text.secondary" mb={3}>
           <Stack direction="row" alignItems="center" gap={0.5}>
             <EventIcon sx={{ fontSize: 16 }} />
-            <Typography variant="body2">{formatDate(post._createdAt)}</Typography>
+            <Typography variant="body2">
+              {formatDate(post._createdAt)}
+            </Typography>
           </Stack>
         </Stack>
 
@@ -60,22 +63,22 @@ export default function PostDetailContent({
 
         {showCategories && (
           <Stack direction="row" gap={1} flexWrap="wrap">
-          {post.categories.map((category) => (
-            <Chip
-              key={category.slug}
-              label={category.title}
-              size="small"
-              variant="outlined"
-              component={Link}
-              href={`/${lng}/post?categories=${category.slug}`}
-              clickable
-            />
-          ))}
-        </Stack>
+            {post.categories.map((category) => (
+              <Chip
+                key={category.slug}
+                label={category.title}
+                size="small"
+                variant="outlined"
+                component={Link}
+                href={`/${lng}/post?categories=${category.slug}`}
+                clickable
+              />
+            ))}
+          </Stack>
         )}
       </Box>
 
-      {post.photo && (
+      {hasPostBannerImage(post) && (
         <Box mb={6} sx={{ borderRadius: 2, overflow: "hidden" }}>
           <Banner post={post} />
         </Box>

@@ -6,9 +6,6 @@ import { Suspense } from "react";
 // ------------- next -------------
 import { notFound } from "next/navigation";
 
-// ------------- Sanity -------------
-import { urlFor } from "@/sanity/lib/image";
-
 // ------------- Components -------------
 import PostDetailContent from "./_components/PostDetailContent";
 import PostPageSkeleton from "./_components/PostPageSkeleton";
@@ -16,12 +13,23 @@ import RelatedPostsSection from "./_components/RelatedPostsSection";
 
 // ------------- utils -------------
 import { getPost } from "../_lib/getPost";
+import { getPostBannerImageSrc } from "@/utils/postBanner";
 
 interface PostPageProps {
   params: Promise<{ slug: string; lng: string }>;
 }
 
 const siteUrl = process.env.NEXT_PUBLIC_BASE_URL;
+
+function getAbsoluteImageUrl(src: string | null, baseUrl?: string) {
+  if (!src) {
+    return "";
+  }
+  if (src.startsWith("http")) {
+    return src;
+  }
+  return baseUrl ? new URL(src, baseUrl).toString() : src;
+}
 
 export async function generateMetadata({ params }: PostPageProps) {
   const { slug, lng } = await params;
@@ -32,6 +40,10 @@ export async function generateMetadata({ params }: PostPageProps) {
 
   // Construct absolute URLs for alternates
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+  const imageUrl = getAbsoluteImageUrl(
+    getPostBannerImageSrc(post, { width: 1200, height: 628 }),
+    baseUrl,
+  );
 
   return {
     title: post.title,
@@ -46,17 +58,13 @@ export async function generateMetadata({ params }: PostPageProps) {
     openGraph: {
       title: post.title,
       description: post.description,
-      images: post.photo
-        ? [urlFor(post.photo).width(1200).height(628).url()]
-        : [],
+      images: imageUrl ? [imageUrl] : [],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      images: post.photo
-        ? [urlFor(post.photo).width(1200).height(628).url()]
-        : [],
+      images: imageUrl ? [imageUrl] : [],
     },
   };
 }
@@ -66,13 +74,17 @@ async function PostPageContent({ slug, lng }: { slug: string; lng: string }) {
   if (!post) {
     notFound();
   }
+  const imageUrl = getAbsoluteImageUrl(
+    getPostBannerImageSrc(post, { width: 1200, height: 628 }),
+    siteUrl,
+  );
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: post?.title ?? "",
     description: post?.description ?? "",
-    image: post?.photo ? urlFor(post.photo).width(1200).height(628).url() : "",
+    image: imageUrl,
     author: {
       "@type": "Person",
       name: post?.author?.name ?? "",

@@ -6,6 +6,8 @@ export async function getPost(slug: string): Promise<PostDoc | null> {
     `*[_type == "post" && slug.current == $slug][0]{
       title,
       description,
+      bannerSource,
+      presetBanner,
       photo{
         asset->{
           _id,
@@ -13,7 +15,8 @@ export async function getPost(slug: string): Promise<PostDoc | null> {
           metadata{
             lqip
           }
-        }
+        },
+        alt
       },
       slug,
       content,
@@ -23,6 +26,13 @@ export async function getPost(slug: string): Promise<PostDoc | null> {
         _id,
         "slug": slug.current,
         title
+      },
+      author->{
+        _id,
+        name,
+        "slug": slug.current,
+        email,
+        avatar
       }
     }`,
     { slug },

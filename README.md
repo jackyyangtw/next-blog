@@ -63,7 +63,7 @@ pnpm install
 pnpm dev
 ```
 
-預設開發伺服器會啟動在 `http://localhost:3000`。Sanity Studio 路徑為 `/studio`，需登入且使用者 role 為 `admin`。
+預設開發伺服器會啟動在 `http://localhost:3200`。Sanity Studio 路徑為 `/studio`，需登入且使用者 role 為 `admin`。
 
 ## 常用指令
 

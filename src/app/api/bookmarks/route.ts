@@ -24,6 +24,8 @@ export async function GET() {
         _id,
         title,
         description,
+        bannerSource,
+        presetBanner,
         categories[]->{
           _id,
           title,
@@ -37,17 +39,22 @@ export async function GET() {
           avatar
         },
         "slug": slug.current,
-        photo
+        photo{
+          asset->{
+            _id,
+            url,
+            metadata{
+              lqip
+            }
+          },
+          alt
+        }
       }
     } | order(_createdAt desc)
   `;
 
   try {
-    const items = await client.fetch(
-      query,
-      { userId },
-      { cache: "no-store" }
-    );
+    const items = await client.fetch(query, { userId }, { cache: "no-store" });
     return new Response(JSON.stringify(items), {
       status: 200,
       headers: { "content-type": "application/json" },
@@ -83,7 +90,7 @@ export async function POST(req: Request) {
     // 檢查是否已存在
     const exist = await client.fetch(
       '*[_type=="bookmark" && user._ref==$userId && post._ref==$postId][0]._id',
-      { userId, postId }
+      { userId, postId },
     );
     if (exist) {
       return new Response(JSON.stringify({ message: "Already bookmarked" }), {
@@ -133,7 +140,7 @@ export async function DELETE(req: Request) {
     // 找到 bookmark id
     const bookmarkId = await client.fetch(
       '*[_type=="bookmark" && user._ref==$userId && post._ref==$postId][0]._id',
-      { userId, postId }
+      { userId, postId },
     );
     if (!bookmarkId) {
       return new Response(JSON.stringify({ message: "Not found" }), {

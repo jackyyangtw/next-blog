@@ -1,7 +1,11 @@
 // src/lib/auth/sanity-user.ts
 import { client } from "@/sanity/lib/client";
 
-export async function getOrCreateSanityUser(user: { email: string; name?: string; image?: string }) {
+export async function getOrCreateSanityUser(user: {
+  email: string;
+  name?: string;
+  image?: string;
+}) {
   // 查詢
   const query = `*[_type == "user" && email == $email][0]`;
   let sanityUser = await client.fetch(query, { email: user.email });

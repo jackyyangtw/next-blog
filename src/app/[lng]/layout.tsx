@@ -30,7 +30,7 @@ export const generateMetadata = async ({
   return {
     title: tCommon.t("site_name"),
     metadataBase: new URL(
-      process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000",
+      process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3200",
     ),
   };
 };

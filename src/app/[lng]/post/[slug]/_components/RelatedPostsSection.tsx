@@ -8,8 +8,8 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Image from "next/image";
-import { urlFor } from "@/sanity/lib/image";
 import { getRecommendedPosts } from "../_lib/getRecommendedPosts";
+import { getPostBannerAlt, getPostBannerImageSrc } from "@/utils/postBanner";
 
 interface RelatedPostsSectionProps {
   slug: string;
@@ -35,90 +35,123 @@ export default async function RelatedPostsSection({
       </Typography>
 
       <Grid container spacing={2}>
-        {posts.map((post) => (
-          <Grid key={post._id} size={{ xs: 12, md: 4 }} sx={{ display: "flex" }}>
-            <Link
-              href={`/${lng}/post/${post.slug}`}
-              style={{ display: "block", textDecoration: "none", width: "100%" }}
+        {posts.map((post) => {
+          const bannerSrc = getPostBannerImageSrc(post, {
+            width: 640,
+            height: 360,
+          });
+
+          return (
+            <Grid
+              key={post._id}
+              size={{ xs: 12, md: 4 }}
+              sx={{ display: "flex" }}
             >
-              <Card
-                variant="outlined"
-                sx={{ display: "flex", flexDirection: "column", width: "100%", height: "100%" }}
+              <Link
+                href={`/${lng}/post/${post.slug}`}
+                style={{
+                  display: "block",
+                  textDecoration: "none",
+                  width: "100%",
+                }}
               >
-                <CardActionArea
-                  component="div"
+                <Card
+                  variant="outlined"
                   sx={{
                     display: "flex",
                     flexDirection: "column",
-                    alignItems: "stretch",
+                    width: "100%",
                     height: "100%",
                   }}
                 >
-                  <Box
+                  <CardActionArea
+                    component="div"
                     sx={{
-                      aspectRatio: "16 / 9",
-                      position: "relative",
-                      borderBottom: "1px solid",
-                      borderColor: "divider",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "stretch",
+                      height: "100%",
                     }}
                   >
-                    <Image
-                      src={urlFor(post.photo).width(640).height(360).url()}
-                      alt={post.title}
-                      fill
-                      style={{ objectFit: "cover" }}
-                      sizes="(max-width: 900px) 100vw, 33vw"
-                    />
-                  </Box>
-                  <CardContent sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
-                    <Typography
-                      variant="h6"
-                      fontWeight={700}
+                    <Box
                       sx={{
-                        display: "-webkit-box",
-                        overflow: "hidden",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        minHeight: "3.2em",
-                        mt: 2,
+                        aspectRatio: "16 / 9",
+                        position: "relative",
+                        borderBottom: "1px solid",
+                        borderColor: "divider",
                       }}
                     >
-                      {post.title}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      sx={{
-                        mt: 1,
-                        display: "-webkit-box",
-                        overflow: "hidden",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        minHeight: "3em",
-                      }}
-                    >
-                      {post.description}
-                    </Typography>
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      sx={{ mt: 2, flexWrap: "wrap", minHeight: 32, overflow: "hidden" }}
-                    >
-                      {post.categories.slice(0, 2).map((category) => (
-                        <Chip
-                          key={category._id}
-                          label={category.title}
-                          size="small"
-                          variant="outlined"
+                      {bannerSrc ? (
+                        <Image
+                          src={bannerSrc}
+                          alt={getPostBannerAlt(post)}
+                          fill
+                          style={{ objectFit: "cover" }}
+                          sizes="(max-width: 900px) 100vw, 33vw"
                         />
-                      ))}
-                    </Stack>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Link>
-          </Grid>
-        ))}
+                      ) : null}
+                    </Box>
+                    <CardContent
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        flexGrow: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        fontWeight={700}
+                        sx={{
+                          display: "-webkit-box",
+                          overflow: "hidden",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          minHeight: "3.2em",
+                          mt: 2,
+                        }}
+                      >
+                        {post.title}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          mt: 1,
+                          display: "-webkit-box",
+                          overflow: "hidden",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          minHeight: "3em",
+                        }}
+                      >
+                        {post.description}
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        sx={{
+                          mt: 2,
+                          flexWrap: "wrap",
+                          minHeight: 32,
+                          overflow: "hidden",
+                        }}
+                      >
+                        {post.categories.slice(0, 2).map((category) => (
+                          <Chip
+                            key={category._id}
+                            label={category.title}
+                            size="small"
+                            variant="outlined"
+                          />
+                        ))}
+                      </Stack>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Link>
+            </Grid>
+          );
+        })}
       </Grid>
     </Box>
   );

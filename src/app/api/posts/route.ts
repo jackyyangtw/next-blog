@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
 
   // 查詢總筆數（加上分類與關鍵字條件）
   const total = await client.fetch<number>(
-    `count(*[_type == "post" && ${categoriesFilter} && ${keywordFilter}])`
+    `count(*[_type == "post" && ${categoriesFilter} && ${keywordFilter}])`,
   );
 
   // 查詢分頁資料（加上分類與關鍵字條件）
@@ -47,7 +47,18 @@ export async function GET(req: NextRequest) {
       _createdAt,
       title,
       description,
-      photo,
+      bannerSource,
+      presetBanner,
+      photo{
+        asset->{
+          _id,
+          url,
+          metadata{
+            lqip
+          }
+        },
+        alt
+      },
       "slug": slug.current,
       categories[]->{
         _id,
@@ -61,7 +72,7 @@ export async function GET(req: NextRequest) {
         email,
         avatar
       }
-    }`
+    }`,
   );
   const resData = {
     data: posts,

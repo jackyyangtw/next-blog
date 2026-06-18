@@ -12,7 +12,18 @@ export default async function PostsSection() {
       _createdAt,
       title,
       description,
-      photo,
+      bannerSource,
+      presetBanner,
+      photo{
+        asset->{
+          _id,
+          url,
+          metadata{
+            lqip
+          }
+        },
+        alt
+      },
       "slug": slug.current,
       categories[]->{
         _id,
@@ -28,7 +39,7 @@ export default async function PostsSection() {
       }
     }`,
     {},
-    { next: { tags: ["posts"] } }
+    { next: { tags: ["posts"] } },
   );
   return (
     <Grid container spacing={2} columns={12}>
