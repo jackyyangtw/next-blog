@@ -1,3 +1,5 @@
+import { HttpError } from "./http-error";
+
 export const clientFetch = async (url: string, options?: RequestInit) => {
   const defaultHeaders = {
     "Content-Type": "application/json",
@@ -17,7 +19,7 @@ export const clientFetch = async (url: string, options?: RequestInit) => {
       const error = await res.json();
       if (error && error.message) errorMsg = error.message;
     } catch {}
-    throw new Error(errorMsg);
+    throw new HttpError(errorMsg, res.status);
   }
   return res.json();
 };
