@@ -2,13 +2,15 @@
 // https://www.npmjs.com/package/next-sitemap
 import { PostDoc } from "@/schema/type/post";
 import { getServerSideSitemap } from "next-sitemap";
-import { client } from "@/sanity/lib/client";
+import { publicClient } from "@/sanity/lib/client";
 import { NextRequest } from "next/server";
 import { languages } from "@/i18n/config";
 export async function GET(req: NextRequest) {
-  const origin = process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin;
-  const posts = await client.fetch<PostDoc[]>(
-    `*[_type == "post"] | order(_createdAt desc) {
+  const origin = (
+    process.env.NEXT_PUBLIC_BASE_URL || req.nextUrl.origin
+  ).replace(/\/+$/, "");
+  const posts = await publicClient.fetch<PostDoc[]>(
+    `*[_type == "post" && defined(slug.current)] | order(_createdAt desc) {
       "slug": slug.current,
       _createdAt
     }`,
@@ -22,8 +24,6 @@ export async function GET(req: NextRequest) {
       priority: 0.7,
     })),
   );
-
-  console.log(fields);
 
   return getServerSideSitemap(fields);
 }

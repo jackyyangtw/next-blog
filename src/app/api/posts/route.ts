@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { client } from "@/sanity/lib/client";
+import { publicClient } from "@/sanity/lib/client";
 import { PostDoc } from "@/schema/type/post";
 
 export async function GET(req: NextRequest) {
@@ -36,12 +36,12 @@ export async function GET(req: NextRequest) {
     : "true";
 
   // 查詢總筆數（加上分類與關鍵字條件）
-  const total = await client.fetch<number>(
+  const total = await publicClient.fetch<number>(
     `count(*[_type == "post" && ${categoriesFilter} && ${keywordFilter}])`,
   );
 
   // 查詢分頁資料（加上分類與關鍵字條件）
-  const posts = await client.fetch<PostDoc[]>(
+  const posts = await publicClient.fetch<PostDoc[]>(
     `*[_type == "post" && ${categoriesFilter} && ${keywordFilter}] | order(_createdAt desc) [${start}...${end}] {
       _id,
       _createdAt,

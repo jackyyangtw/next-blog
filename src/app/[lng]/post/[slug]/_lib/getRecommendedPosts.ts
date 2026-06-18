@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { publicClient } from "@/sanity/lib/client";
 
 interface CategoryLite {
   _id: string;
@@ -60,7 +60,7 @@ export async function getRecommendedPosts({
   limit = 3,
 }: GetRecommendedPostsInput): Promise<RecommendedPost[]> {
   if (categoryIds.length === 0) {
-    return client.fetch<RecommendedPost[]>(
+    return publicClient.fetch<RecommendedPost[]>(
       `*[_type == "post" && slug.current != $slug] | order(_createdAt desc) [0...$limit] {
         _id,
         _createdAt,
@@ -90,7 +90,7 @@ export async function getRecommendedPosts({
     );
   }
 
-  const candidates = await client.fetch<RecommendedPost[]>(
+  const candidates = await publicClient.fetch<RecommendedPost[]>(
     `*[
       _type == "post" &&
       slug.current != $slug &&
@@ -163,7 +163,7 @@ export async function getRecommendedPosts({
     return selected.slice(0, limit);
   }
 
-  const fallbackPosts = await client.fetch<RecommendedPost[]>(
+  const fallbackPosts = await publicClient.fetch<RecommendedPost[]>(
     `*[_type == "post" && slug.current != $slug] | order(_createdAt desc) [0...$limit] {
       _id,
       _createdAt,

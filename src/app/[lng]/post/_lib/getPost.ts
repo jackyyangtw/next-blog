@@ -1,8 +1,8 @@
-import { client } from "@/sanity/lib/client";
+import { publicClient } from "@/sanity/lib/client";
 import { PostDoc } from "@/schema/type/post";
 
 export async function getPost(slug: string): Promise<PostDoc | null> {
-  return await client.fetch(
+  return await publicClient.fetch(
     `*[_type == "post" && slug.current == $slug][0]{
       title,
       description,
