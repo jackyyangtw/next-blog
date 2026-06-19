@@ -14,21 +14,16 @@ import RelatedPostsSection from "./_components/RelatedPostsSection";
 // ------------- utils -------------
 import { getPost } from "../_lib/getPost";
 import { getPostBannerImageSrc } from "@/utils/postBanner";
+import {
+  absoluteUrl,
+  languageAlternates,
+  localizedUrl,
+  openGraphLocale,
+} from "@/utils/seo";
+import { Locale } from "@/i18n/types";
 
 interface PostPageProps {
-  params: Promise<{ slug: string; lng: string }>;
-}
-
-const siteUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-function getAbsoluteImageUrl(src: string | null, baseUrl?: string) {
-  if (!src) {
-    return "";
-  }
-  if (src.startsWith("http")) {
-    return src;
-  }
-  return baseUrl ? new URL(src, baseUrl).toString() : src;
+  params: Promise<{ slug: string; lng: Locale }>;
 }
 
 export async function generateMetadata({ params }: PostPageProps) {
@@ -38,27 +33,38 @@ export async function generateMetadata({ params }: PostPageProps) {
     return { title: "Post Not Found" };
   }
 
-  // Construct absolute URLs for alternates
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-  const imageUrl = getAbsoluteImageUrl(
-    getPostBannerImageSrc(post, { width: 1200, height: 628 }),
-    baseUrl,
-  );
+  const postPath = `/post/${slug}`;
+  const canonicalUrl = localizedUrl(lng, postPath);
+  const imageSrc = getPostBannerImageSrc(post, { width: 1200, height: 630 });
+  const imageUrl = imageSrc ? absoluteUrl(imageSrc) : "";
 
   return {
     title: post.title,
     description: post.description,
     alternates: {
-      canonical: `${baseUrl}/${lng}/post/${slug}`,
-      languages: {
-        en: `${baseUrl}/en/post/${slug}`,
-        "zh-TW": `${baseUrl}/zh-TW/post/${slug}`,
-      },
+      canonical: canonicalUrl,
+      languages: languageAlternates(postPath),
     },
     openGraph: {
       title: post.title,
       description: post.description,
-      images: imageUrl ? [imageUrl] : [],
+      url: canonicalUrl,
+      type: "article",
+      locale: openGraphLocale(lng),
+      publishedTime: post._createdAt,
+      modifiedTime: post._updatedAt ?? post._createdAt,
+      authors: post.author?.name ? [post.author.name] : undefined,
+      tags: post.categories.map((category) => category.title),
+      images: imageUrl
+        ? [
+            {
+              url: imageUrl,
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ]
+        : [],
     },
     twitter: {
       card: "summary_large_image",
@@ -69,32 +75,62 @@ export async function generateMetadata({ params }: PostPageProps) {
   };
 }
 
-async function PostPageContent({ slug, lng }: { slug: string; lng: string }) {
+async function PostPageContent({ slug, lng }: { slug: string; lng: Locale }) {
   const post = await getPost(slug);
   if (!post) {
     notFound();
   }
-  const imageUrl = getAbsoluteImageUrl(
-    getPostBannerImageSrc(post, { width: 1200, height: 628 }),
-    siteUrl,
-  );
+  const postPath = `/post/${slug}`;
+  const canonicalUrl = localizedUrl(lng, postPath);
+  const imageSrc = getPostBannerImageSrc(post, { width: 1200, height: 630 });
+  const imageUrl = imageSrc ? absoluteUrl(imageSrc) : "";
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post?.title ?? "",
-    description: post?.description ?? "",
-    image: imageUrl,
-    author: {
-      "@type": "Person",
-      name: post?.author?.name ?? "",
-    },
-    datePublished: post?._createdAt ?? "",
-    dateModified: post?._createdAt ?? "",
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${siteUrl}/post/${slug}`,
-    },
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        "@id": `${canonicalUrl}#article`,
+        headline: post.title,
+        description: post.description,
+        image: imageUrl ? [imageUrl] : undefined,
+        author: {
+          "@type": "Person",
+          name: post.author?.name ?? "",
+        },
+        datePublished: post._createdAt,
+        dateModified: post._updatedAt ?? post._createdAt,
+        inLanguage: lng,
+        keywords: post.categories.map((category) => category.title),
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": canonicalUrl,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: localizedUrl(lng),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Posts",
+            item: localizedUrl(lng, "/post"),
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: post.title,
+            item: canonicalUrl,
+          },
+        ],
+      },
+    ],
   };
 
   return (

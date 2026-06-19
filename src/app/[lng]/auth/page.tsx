@@ -17,8 +17,21 @@ import { Locale } from "@/i18n/types";
 
 // --------------------- next/navigation--------------------
 import { redirect } from "next/navigation";
+import { Metadata } from "next";
 
-export default async function SignIn({params}: {params: Promise<{lng: Locale}>}) {
+export const metadata: Metadata = {
+  title: "Sign in",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
+export default async function SignIn({
+  params,
+}: {
+  params: Promise<{ lng: Locale }>;
+}) {
   const { lng } = await params;
   const session = await getServerSession(authOptions);
   const isAuthenticated = session?.user?.email;

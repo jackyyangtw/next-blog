@@ -3,6 +3,15 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
 import { Locale } from "@/i18n/types";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "User",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 export default async function UserPage({
   params,
@@ -12,7 +21,7 @@ export default async function UserPage({
   const { lng } = await params;
   const session = await getServerSession(authOptions);
   const isAuthenticated = session?.user?.email;
-  console.log('session',session);
+  console.log("session", session);
   if (!isAuthenticated) {
     return redirect(`/${lng}/auth`);
   }

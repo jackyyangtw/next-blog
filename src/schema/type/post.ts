@@ -19,6 +19,7 @@ const PhotoSchema = z.object({
 export const PostSchema = z.object({
   _id: z.string(),
   _createdAt: z.string(),
+  _updatedAt: z.string().optional(),
   title: z.string(),
   slug: z.string(),
   bannerSource: z.enum(["upload", "preset"]).optional(),

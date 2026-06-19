@@ -22,6 +22,7 @@ export async function getPost(slug: string): Promise<PostDoc | null> {
       content,
       _id,
       _createdAt,
+      _updatedAt,
       categories[]->{
         _id,
         "slug": slug.current,

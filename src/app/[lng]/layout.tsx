@@ -19,6 +19,7 @@ import AppWrapper from "./_components/AppWrapper";
 import Footer from "./_components/Footer";
 import Box from "@mui/material/Box";
 import { Suspense } from "react";
+import { getSiteUrl } from "@/utils/seo";
 
 export const generateMetadata = async ({
   params,
@@ -29,9 +30,7 @@ export const generateMetadata = async ({
   const tCommon = await getServerTranslation(lng, "common");
   return {
     title: tCommon.t("site_name"),
-    metadataBase: new URL(
-      process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3200",
-    ),
+    metadataBase: new URL(getSiteUrl()),
   };
 };
 
