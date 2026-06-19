@@ -1,9 +1,15 @@
-import { defineType, defineArrayMember } from "sanity";
+import { defineType, defineField, defineArrayMember } from "sanity";
+import type { ComponentType } from "react";
+import { BlockContentInput } from "../components/BlockContentInput";
+import { QuoteStyle } from "../components/QuoteStyle";
 
 export const blockContent = defineType({
   name: "blockContent",
   title: "Content",
   type: "array",
+  components: {
+    input: BlockContentInput as ComponentType<any>,
+  },
   of: [
     // 文字區塊（可選樣式/標題/清單/標註）
     defineArrayMember({
@@ -12,7 +18,7 @@ export const blockContent = defineType({
         { title: "Normal", value: "normal" },
         { title: "H2", value: "h2" },
         { title: "H3", value: "h3" },
-        { title: "Quote", value: "blockquote" },
+        { title: "Quote", value: "blockquote", component: QuoteStyle },
       ],
       lists: [
         { title: "Bullet", value: "bullet" },
@@ -55,6 +61,96 @@ export const blockContent = defineType({
           { title: "TypeScript", value: "tsx" },
           { title: "JavaScript", value: "jsx" },
         ],
+      },
+    }),
+    // 表格區塊
+    defineArrayMember({
+      name: "table",
+      title: "Table",
+      type: "object",
+      fields: [
+        defineField({
+          name: "caption",
+          title: "Caption",
+          type: "string",
+        }),
+        defineField({
+          name: "hasHeaderRow",
+          title: "Use first row as header",
+          type: "boolean",
+          initialValue: true,
+        }),
+        defineField({
+          name: "rows",
+          title: "Rows",
+          type: "array",
+          of: [
+            defineArrayMember({
+              name: "tableRow",
+              title: "Row",
+              type: "object",
+              fields: [
+                defineField({
+                  name: "cells",
+                  title: "Cells",
+                  type: "array",
+                  of: [
+                    defineArrayMember({
+                      name: "tableCell",
+                      title: "Cell",
+                      type: "object",
+                      fields: [
+                        defineField({
+                          name: "text",
+                          title: "Text",
+                          type: "text",
+                          rows: 2,
+                        }),
+                      ],
+                      preview: {
+                        select: {
+                          title: "text",
+                        },
+                        prepare({ title }) {
+                          return {
+                            title: title || "Empty cell",
+                          };
+                        },
+                      },
+                    }),
+                  ],
+                }),
+              ],
+              preview: {
+                select: {
+                  cells: "cells",
+                },
+                prepare({ cells }) {
+                  const cellCount = Array.isArray(cells) ? cells.length : 0;
+
+                  return {
+                    title: `Row (${cellCount} cell${cellCount === 1 ? "" : "s"})`,
+                  };
+                },
+              },
+            }),
+          ],
+          validation: (rule) => rule.min(1),
+        }),
+      ],
+      preview: {
+        select: {
+          caption: "caption",
+          rows: "rows",
+        },
+        prepare({ caption, rows }) {
+          const rowCount = Array.isArray(rows) ? rows.length : 0;
+
+          return {
+            title: caption || "Table",
+            subtitle: `${rowCount} row${rowCount === 1 ? "" : "s"}`,
+          };
+        },
       },
     }),
   ],

@@ -7,9 +7,8 @@
  * https://github.com/sanity-io/next-sanity
  */
 
-import { NextStudio } from "next-sanity/studio";
-import config from "../../../../sanity.config";
 import { Suspense } from "react";
+import { StudioClient } from "./StudioClient";
 
 export { metadata, viewport } from "next-sanity/studio";
 
@@ -27,7 +26,7 @@ async function StudioContent() {
   if (session?.user?.role !== "admin") {
     redirect("/");
   }
-  return <NextStudio config={config} />;
+  return <StudioClient />;
 }
 
 export default function StudioPage() {

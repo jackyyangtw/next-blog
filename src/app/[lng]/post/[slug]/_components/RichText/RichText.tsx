@@ -19,12 +19,30 @@ import { BlockContent } from "@/schema/type/blockContent";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import MuiTable from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
 
 interface RichTextImageValue {
   asset?: { _ref: string; _type: string };
   alt?: string;
   caption?: string;
   [key: string]: unknown;
+}
+
+interface RichTextTableValue {
+  caption?: string;
+  hasHeaderRow?: boolean;
+  rows?: {
+    _key: string;
+    cells?: {
+      _key: string;
+      text?: string;
+    }[];
+  }[];
 }
 
 export default function RichText({ value }: { value: BlockContent }) {
@@ -62,10 +80,102 @@ export default function RichText({ value }: { value: BlockContent }) {
       code: ({ value }) => (
         <RichTextCodeBlock code={value?.code} language={value?.language} />
       ),
+      table: ({ value }) => {
+        const table = value as RichTextTableValue;
+        const rows = table.rows?.filter((row) => row.cells?.length) ?? [];
+
+        if (!rows.length) {
+          return null;
+        }
+
+        const hasHeaderRow = table.hasHeaderRow !== false;
+        const [headerRow, ...bodyRows] = rows;
+        const visibleBodyRows = hasHeaderRow ? bodyRows : rows;
+
+        return (
+          <TableContainer
+            component={Box}
+            sx={(theme) => ({
+              my: 4,
+              overflowX: "auto",
+              border: "1px solid",
+              borderColor: "divider",
+              borderRadius: 1,
+              "& table": {
+                minWidth: 560,
+              },
+              ...theme.applyStyles("dark", {
+                borderColor: "rgba(255,255,255,0.14)",
+              }),
+            })}
+          >
+            <MuiTable
+              size="small"
+              aria-label={table.caption || "Content table"}
+            >
+              {table.caption && (
+                <caption
+                  style={{
+                    captionSide: "bottom",
+                    padding: "12px 16px",
+                    textAlign: "left",
+                  }}
+                >
+                  {table.caption}
+                </caption>
+              )}
+              {hasHeaderRow && (
+                <TableHead>
+                  <TableRow>
+                    {headerRow.cells?.map((cell) => (
+                      <TableCell
+                        key={cell._key}
+                        component="th"
+                        scope="col"
+                        sx={{
+                          fontWeight: 700,
+                          bgcolor: "action.hover",
+                          whiteSpace: "pre-line",
+                        }}
+                      >
+                        {cell.text}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+              )}
+              <TableBody>
+                {visibleBodyRows.map((row) => (
+                  <TableRow key={row._key}>
+                    {row.cells?.map((cell) => (
+                      <TableCell
+                        key={cell._key}
+                        sx={{ whiteSpace: "pre-line" }}
+                      >
+                        {cell.text}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </MuiTable>
+          </TableContainer>
+        );
+      },
     },
     block: {
       h2: ({ children }) => <h2 style={{ marginTop: 24 }}>{children}</h2>,
       h3: ({ children }) => <h3 style={{ marginTop: 16 }}>{children}</h3>,
+      blockquote: ({ children }) => (
+        <blockquote style={{ margin: "24px 0", paddingLeft: 16 }}>
+          {children}
+        </blockquote>
+      ),
+      quote: ({ children }) => (
+        <blockquote style={{ margin: "24px 0", paddingLeft: 16 }}>
+          {children}
+        </blockquote>
+      ),
     },
     marks: {
       link: ({ children, value }) => (

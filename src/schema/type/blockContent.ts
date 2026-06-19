@@ -11,7 +11,7 @@ export const BlockTextSchema = z.object({
       _key: z.string(),
       text: z.string(),
       marks: z.array(z.string()),
-    })
+    }),
   ),
   markDefs: z.array(
     z.object({
@@ -19,10 +19,9 @@ export const BlockTextSchema = z.object({
       _type: z.string(),
       href: z.string().optional(),
       newTab: z.boolean().optional(),
-    })
+    }),
   ),
 });
-
 // 2. 圖片區塊
 export const BlockImageSchema = z.object({
   _type: z.literal("image"),
@@ -43,13 +42,37 @@ export const BlockCodeSchema = z.object({
   language: z.string().optional(),
 });
 
-// 4. 組合
+// 4. 表格區塊
+export const BlockTableSchema = z.object({
+  _type: z.literal("table"),
+  _key: z.string(),
+  caption: z.string().optional(),
+  hasHeaderRow: z.boolean().optional(),
+  rows: z
+    .array(
+      z.object({
+        _key: z.string(),
+        cells: z
+          .array(
+            z.object({
+              _key: z.string(),
+              text: z.string().optional(),
+            }),
+          )
+          .optional(),
+      }),
+    )
+    .optional(),
+});
+
+// 5. 組合
 export const BlockContentSchema = z.array(
   z.discriminatedUnion("_type", [
     BlockTextSchema,
     BlockImageSchema,
     BlockCodeSchema,
-  ])
+    BlockTableSchema,
+  ]),
 );
 
 export type BlockContent = z.infer<typeof BlockContentSchema>;
