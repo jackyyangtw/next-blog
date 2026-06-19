@@ -53,6 +53,7 @@ export default async function RelatedPostsSection({
                   display: "block",
                   textDecoration: "none",
                   width: "100%",
+                  height: "100%",
                 }}
               >
                 <Card
@@ -62,6 +63,8 @@ export default async function RelatedPostsSection({
                     flexDirection: "column",
                     width: "100%",
                     height: "100%",
+                    p: 0,
+                    overflow: "hidden",
                   }}
                 >
                   <CardActionArea
@@ -71,6 +74,8 @@ export default async function RelatedPostsSection({
                       flexDirection: "column",
                       alignItems: "stretch",
                       height: "100%",
+                      p: 2,
+                      boxSizing: "border-box",
                     }}
                   >
                     <Box

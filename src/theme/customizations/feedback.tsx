@@ -5,11 +5,18 @@ export const feedbackCustomizations: Components<Theme> = {
   MuiAlert: {
     styleOverrides: {
       root: ({ theme }) => ({
-        borderRadius: 8,
-        fontWeight: 500,
-        color: theme.palette.primary.contrastText,
-        alignItems: "center", 
-        "& .MuiAlert-icon": { color: theme.palette.primary.contrastText },
+        borderRadius: 12,
+        fontWeight: 600,
+        color: theme.palette.common.white,
+        alignItems: "center",
+        border: "1px solid",
+        boxShadow:
+          "0 18px 40px rgba(0, 0, 0, 0.18), 0 6px 16px rgba(0, 0, 0, 0.12)",
+        "& .MuiAlert-icon": { color: "inherit" },
+        "& .MuiAlert-action": {
+          color: "inherit",
+          opacity: 0.86,
+        },
       }),
     },
     variants: [
@@ -17,9 +24,11 @@ export const feedbackCustomizations: Components<Theme> = {
       {
         props: { variant: "standard", severity: "info" },
         style: ({ theme }) => ({
-          backgroundColor: alpha(theme.palette.info.main, 1),
+          backgroundColor: "hsl(193, 48%, 24%)",
+          borderColor: alpha(theme.palette.info.light, 0.24),
+          "& .MuiAlert-icon": { color: "hsl(187, 82%, 72%)" },
           ...theme.applyStyles("dark", {
-            backgroundColor: alpha(theme.palette.info.main, 0.8),
+            backgroundColor: "hsl(193, 48%, 18%)",
           }),
         }),
       },
@@ -27,9 +36,11 @@ export const feedbackCustomizations: Components<Theme> = {
       {
         props: { variant: "standard", severity: "success" },
         style: ({ theme }) => ({
-          backgroundColor: alpha(theme.palette.success.main, 1),
+          backgroundColor: "hsl(158, 42%, 24%)",
+          borderColor: alpha(theme.palette.success.light, 0.28),
+          "& .MuiAlert-icon": { color: "hsl(147, 72%, 72%)" },
           ...theme.applyStyles("dark", {
-            backgroundColor: alpha(theme.palette.success.main, 0.8),
+            backgroundColor: "hsl(158, 42%, 18%)",
           }),
         }),
       },
@@ -37,9 +48,11 @@ export const feedbackCustomizations: Components<Theme> = {
       {
         props: { variant: "standard", severity: "error" },
         style: ({ theme }) => ({
-          backgroundColor: alpha(theme.palette.error.main, 1),
+          backgroundColor: "hsl(358, 50%, 24%)",
+          borderColor: alpha(theme.palette.error.light, 0.26),
+          "& .MuiAlert-icon": { color: "hsl(0, 88%, 78%)" },
           ...theme.applyStyles("dark", {
-            backgroundColor: alpha(theme.palette.error.main, 0.8),
+            backgroundColor: "hsl(358, 50%, 18%)",
           }),
         }),
       },
@@ -47,9 +60,11 @@ export const feedbackCustomizations: Components<Theme> = {
       {
         props: { variant: "standard", severity: "warning" },
         style: ({ theme }) => ({
-          backgroundColor: alpha(theme.palette.warning.main, 1),
+          backgroundColor: "hsl(38, 56%, 24%)",
+          borderColor: alpha(theme.palette.warning.light, 0.28),
+          "& .MuiAlert-icon": { color: "hsl(43, 94%, 72%)" },
           ...theme.applyStyles("dark", {
-            backgroundColor: alpha(theme.palette.warning.main, 0.8),
+            backgroundColor: "hsl(38, 56%, 18%)",
           }),
         }),
       },
@@ -61,12 +76,7 @@ export const feedbackCustomizations: Components<Theme> = {
         // Snackbar 容器樣式
         "& .MuiPaper-root": {
           borderRadius: "12px",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
-          // border: "1px solid",
-          borderColor: (theme: Theme) => alpha(theme.palette.common.white, 0.1),
           backdropFilter: "blur(8px)",
-          backgroundColor: (theme: Theme) =>
-            alpha(theme.palette.background.paper, 0.95),
         },
       },
     },
