@@ -38,6 +38,8 @@ export async function GET(req: NextRequest) {
   // 查詢總筆數（加上分類與關鍵字條件）
   const total = await publicClient.fetch<number>(
     `count(*[_type == "post" && ${categoriesFilter} && ${keywordFilter}])`,
+    {},
+    { next: { tags: ["posts"] } },
   );
 
   // 查詢分頁資料（加上分類與關鍵字條件）
@@ -73,6 +75,8 @@ export async function GET(req: NextRequest) {
         avatar
       }
     }`,
+    {},
+    { next: { tags: ["posts"] } },
   );
   const resData = {
     data: posts,
