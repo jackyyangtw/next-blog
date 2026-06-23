@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
     // true    — all console output
     // false   — disabled
   },
+  reactCompiler: true,
 };
 
 export default nextConfig;

@@ -6,7 +6,7 @@ on:
       - main
   push:
     branches:
-      - main
+      - "**"
   workflow_dispatch:
 
 permissions:
@@ -51,11 +51,94 @@ jobs:
       - name: Check dependency CVEs
         run: pnpm audit --prod --audit-level high
 
+  deploy-preview:
+    name: Deploy Preview to Vercel
+    runs-on: ubuntu-latest
+    needs: quality-gate
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref_name != 'main')
+    environment: preview
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.29.3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate Vercel secrets
+        run: |
+          test -n "$VERCEL_TOKEN" || (echo "Missing GitHub secret: VERCEL_TOKEN" && exit 1)
+          test -n "$VERCEL_ORG_ID" || (echo "Missing GitHub secret: VERCEL_ORG_ID" && exit 1)
+          test -n "$VERCEL_PROJECT_ID" || (echo "Missing GitHub secret: VERCEL_PROJECT_ID" && exit 1)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Prepare Vercel deployment metadata
+        run: |
+          {
+            echo "VERCEL_GITHUB_COMMIT_MESSAGE=$(git log -1 --pretty=%s)"
+            echo "VERCEL_GITHUB_COMMIT_AUTHOR_NAME=$(git log -1 --pretty=%an)"
+            echo "VERCEL_GITHUB_COMMIT_AUTHOR_EMAIL=$(git log -1 --pretty=%ae)"
+            echo "VERCEL_GITHUB_REPO=${GITHUB_REPOSITORY#*/}"
+          } >> "$GITHUB_ENV"
+
+      - name: Pull Vercel preview environment
+        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Build Vercel preview output
+        run: vercel build --token="$VERCEL_TOKEN"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Deploy preview prebuilt output
+        id: deploy-preview
+        run: |
+          deployment_url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN" \
+            --meta githubDeployment=1 \
+            --meta githubCommitSha="$GITHUB_SHA" \
+            --meta githubCommitRef="$GITHUB_REF_NAME" \
+            --meta githubCommitMessage="$VERCEL_GITHUB_COMMIT_MESSAGE" \
+            --meta githubCommitAuthorName="$VERCEL_GITHUB_COMMIT_AUTHOR_NAME" \
+            --meta githubCommitAuthorEmail="$VERCEL_GITHUB_COMMIT_AUTHOR_EMAIL" \
+            --meta githubCommitAuthorLogin="$GITHUB_ACTOR" \
+            --meta githubCommitOrg="$GITHUB_REPOSITORY_OWNER" \
+            --meta githubCommitRepo="$VERCEL_GITHUB_REPO")
+          echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
+          echo "### Vercel Preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Preview URL: $deployment_url" >> "$GITHUB_STEP_SUMMARY"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
   deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
     needs: quality-gate
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'push' && github.ref_name == 'main'
     environment: production
 
     steps:

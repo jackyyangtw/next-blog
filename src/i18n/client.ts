@@ -1,7 +1,7 @@
 // src/i18n/client.ts
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import i18next from "i18next";
 import {
   initReactI18next,
@@ -23,8 +23,8 @@ i18next
   .use(LanguageDetector)
   .use(
     resourcesToBackend(
-      (lng: string, ns: string) => import(`./locales/${lng}/${ns}.json`)
-    )
+      (lng: string, ns: string) => import(`./locales/${lng}/${ns}.json`),
+    ),
   )
   .init({
     ...getI18nextOptions(),
@@ -38,32 +38,25 @@ i18next
 function useClientTranslationBasic(
   lng: string,
   ns: string,
-  options?: UseTranslationOptions<string>
+  options?: UseTranslationOptions<string>,
 ) {
   const [cookies, setCookie] = useCookies([cookieName]);
   const ret = useTranslationOrg(ns, options);
   const { i18n } = ret;
   if (runsOnServerSide && lng && i18n.resolvedLanguage !== lng) {
     i18n.changeLanguage(lng);
-  } else {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [activeLng, setActiveLng] = useState(i18n.resolvedLanguage);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      if (activeLng === i18n.resolvedLanguage) return;
-      setActiveLng(i18n.resolvedLanguage);
-    }, [activeLng, i18n.resolvedLanguage]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      if (!lng || i18n.resolvedLanguage === lng) return;
-      i18n.changeLanguage(lng);
-    }, [lng, i18n]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      if (cookies.i18next === lng) return;
-      setCookie(cookieName, lng, { path: "/" });
-    }, [lng, cookies.i18next, setCookie]);
   }
+
+  useEffect(() => {
+    if (!lng || i18n.resolvedLanguage === lng) return;
+    i18n.changeLanguage(lng);
+  }, [lng, i18n]);
+
+  useEffect(() => {
+    if (cookies.i18next === lng) return;
+    setCookie(cookieName, lng, { path: "/" });
+  }, [lng, cookies.i18next, setCookie]);
+
   return ret;
 }
 
