@@ -1,6 +1,7 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTypescript from "eslint-config-next/typescript";
+import reactHooks from "eslint-plugin-react-hooks";
 
 const typescriptPlugin = nextTypescript.find(
   (config) => config.plugins?.["@typescript-eslint"],
@@ -9,6 +10,13 @@ const typescriptPlugin = nextTypescript.find(
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTypescript,
+  {
+    files: ["**/*.{js,jsx,ts,tsx}"],
+    rules: {
+      ...reactHooks.configs.flat["recommended-latest"].rules,
+      "react-hooks/no-deriving-state-in-effects": "error",
+    },
+  },
   {
     files: ["**/*.{ts,tsx}"],
     plugins: {
