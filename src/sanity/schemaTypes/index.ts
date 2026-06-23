@@ -6,9 +6,7 @@ import { authorType } from "./authorType";
 import { categoryType } from "./categoryType";
 import { userType } from "./userType";
 import { bookmarkType } from "./bookmarkType";
-
-// ------------- Utils -------------
-import { blockContent } from "./utils/blockContent";
+import { blockContent } from "./blockContent";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [

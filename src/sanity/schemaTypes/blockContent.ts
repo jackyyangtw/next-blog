@@ -1,14 +1,13 @@
 import { defineType, defineField, defineArrayMember } from "sanity";
-import type { ComponentType } from "react";
-import { BlockContentInput } from "../components/BlockContentInput";
-import { QuoteStyle } from "../components/QuoteStyle";
+import { BlockContentInput } from "./components/BlockContentInput";
+import { QuoteStyle } from "./components/QuoteStyle";
 
 export const blockContent = defineType({
   name: "blockContent",
   title: "Content",
   type: "array",
   components: {
-    input: BlockContentInput as ComponentType<any>,
+    input: BlockContentInput,
   },
   of: [
     // 文字區塊（可選樣式/標題/清單/標註）

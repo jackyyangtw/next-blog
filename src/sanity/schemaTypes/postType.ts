@@ -4,6 +4,7 @@ import {
   POST_BANNER_PRESETS,
   POST_BANNER_SOURCE,
 } from "@/constants/postBanners";
+import { PostSlugInput } from "./components/PostSlugInput";
 import { PresetBannerInput } from "./components/PresetBannerInput";
 
 export const postType = defineType({
@@ -99,6 +100,9 @@ export const postType = defineType({
       type: "slug",
       options: {
         source: "title",
+      },
+      components: {
+        input: PostSlugInput,
       },
       validation: (r) => r.required(),
     }),

@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 import { PortableTextInput } from "sanity";
-import type { PortableTextInputProps } from "sanity";
+import type { ArrayOfObjectsInputProps, PortableTextInputProps } from "sanity";
 import {
   hasMarkdownTable,
   markdownToPortableTextBlocks,
@@ -10,8 +10,11 @@ import {
 
 const EMPTY_HOTKEYS = {} as NonNullable<PortableTextInputProps["hotkeys"]>;
 
-export function BlockContentInput(props: PortableTextInputProps) {
-  const [stableHotkeys] = useState(() => props.hotkeys ?? EMPTY_HOTKEYS);
+export function BlockContentInput(props: ArrayOfObjectsInputProps) {
+  const portableTextProps = props as unknown as PortableTextInputProps;
+  const [stableHotkeys] = useState(
+    () => portableTextProps.hotkeys ?? EMPTY_HOTKEYS,
+  );
   const [stablePath] = useState(() => props.path);
   const handlePaste = useCallback<
     NonNullable<PortableTextInputProps["onPaste"]>
@@ -38,7 +41,7 @@ export function BlockContentInput(props: PortableTextInputProps) {
 
   return (
     <PortableTextInput
-      {...props}
+      {...portableTextProps}
       hotkeys={stableHotkeys}
       onPaste={handlePaste}
       path={stablePath}
