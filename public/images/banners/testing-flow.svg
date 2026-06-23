@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="686" viewBox="0 0 1600 686" role="img" aria-labelledby="title desc">
+  <title id="title">Testing Flow Banner</title>
+  <desc id="desc">Abstract testing banner with passing checks and an automated quality pipeline.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="0.52" stop-color="#164e63"/>
+      <stop offset="1" stop-color="#2f6f5e"/>
+    </linearGradient>
+    <linearGradient id="flow" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#67e8f9" stop-opacity="0.14"/>
+      <stop offset="0.48" stop-color="#86efac" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#fbbf24" stop-opacity="0.22"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#ccfbf1" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ccfbf1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="686" fill="url(#bg)"/>
+  <ellipse cx="810" cy="330" rx="548" ry="260" fill="url(#glow)" opacity="0.5"/>
+  <path d="M116 424C278 284 420 500 588 356C744 222 908 238 1058 344C1234 468 1372 306 1500 270" fill="none" stroke="url(#flow)" stroke-linecap="round" stroke-width="16" opacity="0.78"/>
+  <g fill="#f8fafc" opacity="0.86">
+    <rect x="150" y="126" width="338" height="188" rx="20"/>
+    <rect x="1110" y="376" width="338" height="188" rx="20"/>
+  </g>
+  <g fill="#0f172a" opacity="0.62">
+    <rect x="202" y="178" width="184" height="14" rx="7"/>
+    <rect x="202" y="224" width="236" height="10" rx="5"/>
+    <rect x="202" y="260" width="164" height="10" rx="5"/>
+    <rect x="1162" y="428" width="196" height="14" rx="7"/>
+    <rect x="1162" y="474" width="232" height="10" rx="5"/>
+    <rect x="1162" y="510" width="168" height="10" rx="5"/>
+  </g>
+  <g fill="none" stroke="#bae6fd" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" opacity="0.54">
+    <path d="M620 202H790L878 292H1030"/>
+    <path d="M620 292H878"/>
+    <path d="M620 382H790L878 292"/>
+    <path d="M790 202V382"/>
+    <path d="M878 292L976 458"/>
+  </g>
+  <g>
+    <circle cx="620" cy="202" r="30" fill="#67e8f9"/>
+    <circle cx="620" cy="292" r="30" fill="#86efac"/>
+    <circle cx="620" cy="382" r="30" fill="#fbbf24"/>
+    <circle cx="790" cy="202" r="28" fill="#a7f3d0"/>
+    <circle cx="790" cy="382" r="28" fill="#5eead4"/>
+    <circle cx="878" cy="292" r="42" fill="#dcfce7"/>
+    <circle cx="1030" cy="292" r="31" fill="#86efac"/>
+    <circle cx="976" cy="458" r="34" fill="#fde68a"/>
+  </g>
+  <g fill="none" stroke="#0f172a" stroke-linecap="round" stroke-linejoin="round" stroke-width="8" opacity="0.7">
+    <path d="M606 201l10 10l22 -26"/>
+    <path d="M606 291l10 10l22 -26"/>
+    <path d="M1016 291l10 10l22 -26"/>
+    <path d="M858 292l16 16l30 -38"/>
+  </g>
+  <g fill="none" stroke="#7c2d12" stroke-linecap="round" stroke-width="7" opacity="0.62">
+    <path d="M608 370l24 24"/>
+    <path d="M632 370l-24 24"/>
+    <path d="M966 446l22 24"/>
+    <path d="M988 446l-22 24"/>
+  </g>
+  <g fill="#ffffff" opacity="0.18">
+    <circle cx="548" cy="126" r="6"/>
+    <circle cx="716" cy="516" r="7"/>
+    <circle cx="1008" cy="144" r="6"/>
+    <circle cx="1090" cy="226" r="5"/>
+    <circle cx="520" cy="480" r="7"/>
+    <circle cx="1048" cy="548" r="6"/>
+  </g>
+</svg>

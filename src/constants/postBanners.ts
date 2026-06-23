@@ -31,6 +31,12 @@ export const POST_BANNER_PRESETS = [
     path: "/images/banners/ai-topics.svg",
     alt: "Abstract AI topics banner",
   },
+  {
+    title: "Testing Flow",
+    value: "testing-flow",
+    path: "/images/banners/testing-flow.svg",
+    alt: "Abstract testing flow banner",
+  },
 ] as const;
 
 export type PostBannerPresetValue =
