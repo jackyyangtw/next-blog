@@ -1,4 +1,4 @@
-import { Code, Email, GitHub } from "@mui/icons-material";
+import { Email, GitHub } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { HomePageT } from "./types";
 
@@ -56,18 +56,6 @@ export default function HomeFooterSection({ t }: HomeFooterSectionProps) {
         >
           {t("about.github")}
         </Button>
-      </Stack>
-      <Stack
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={1.5}
-        sx={{ color: "text.secondary" }}
-      >
-        <Box component="span" sx={{ display: "flex", color: "primary.main" }}>
-          <Code fontSize="small" />
-        </Box>
-        <Typography variant="body2">{t("footer.quote")}</Typography>
       </Stack>
     </Box>
   );

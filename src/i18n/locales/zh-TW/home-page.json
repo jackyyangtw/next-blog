@@ -6,7 +6,7 @@
   "hero": {
     "title_line_1": "在邏輯與美感之間，",
     "title_line_2": "建構高效能元件。",
-    "description": "我是 Jacky。擅長 React 生態系開發，對程式碼品質有著近乎偏執的堅持。我享受將複雜問題抽象化，建立既優雅又具擴充性的技術架構。",
+    "description": "我是 楊捷超 Jacky，專注 React、Next.js App Router 與 TypeScript 的前端工程師，擅長重整複雜資料流、拆分狀態責任，並用測試與 CI/CD 打造能長期維護的產品。",
     "cta": "查看筆記"
   },
   "principles": {
@@ -62,8 +62,5 @@
     "description": "我喜歡把抽象的前端問題拆成可維護的結構，也樂於把實作過程整理成文章。若你想交流 React、Next.js、工程品質或內容型網站架構，可以從這裡找到我。",
     "email": "Email",
     "github": "GitHub"
-  },
-  "footer": {
-    "quote": "當我不寫程式時，我在琴鍵上尋找邏輯以外的旋律。"
   }
 }

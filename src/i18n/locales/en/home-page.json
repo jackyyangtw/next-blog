@@ -6,7 +6,7 @@
   "hero": {
     "title_line_1": "Between logic and aesthetics,",
     "title_line_2": "I build high-performance components.",
-    "description": "I am Jacky. I specialize in the React ecosystem and hold an almost obsessive standard for code quality. I enjoy abstracting complex problems into elegant and scalable technical architecture.",
+    "description": "I'm Jacky Yang, a frontend engineer focused on React, Next.js App Router, and TypeScript. I simplify complex data flows, clarify state boundaries, and use testing plus CI/CD to build products that can evolve safely.",
     "cta": "View Notes"
   },
   "principles": {
@@ -62,8 +62,5 @@
     "description": "I enjoy turning abstract frontend problems into maintainable structures and writing down the implementation path. If you want to talk about React, Next.js, engineering quality, or content-driven site architecture, you can reach me here.",
     "email": "Email",
     "github": "GitHub"
-  },
-  "footer": {
-    "quote": "When I am not coding, I look for melodies beyond logic on the piano keys."
   }
 }

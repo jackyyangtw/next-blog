@@ -1,5 +1,14 @@
+import type { CSSProperties } from "react";
+import Image from "next/image";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import TransitionFrame from "./TransitionFrame";
+
+const avatarImageStyle: CSSProperties = {
+  display: "block",
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+};
 
 interface HeroSectionProps {
   titleLine1: string;
@@ -81,50 +90,87 @@ export default function HeroSection({
                 boxShadow: 2,
               }}
             >
-              <Stack direction="row" spacing={1} sx={{ mb: 3 }}>
-                <Box
+              <Stack spacing={3}>
+                <Stack direction="row" spacing={1}>
+                  <Box
+                    sx={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      bgcolor: "error.main",
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      bgcolor: "warning.main",
+                    }}
+                  />
+                  <Box
+                    sx={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: "50%",
+                      bgcolor: "success.main",
+                    }}
+                  />
+                </Stack>
+
+                <Stack direction="row" spacing={2.5} alignItems="center">
+                  <Box
+                    sx={{
+                      width: 96,
+                      height: 96,
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      flexShrink: 0,
+                      border: "1px solid",
+                      borderColor: "divider",
+                      boxShadow: 2,
+                    }}
+                  >
+                    <Image
+                      src="/images/avatar.png"
+                      alt="Jacky"
+                      width={96}
+                      height={96}
+                      loading="eager"
+                      fetchPriority="high"
+                      style={avatarImageStyle}
+                    />
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="overline"
+                      sx={{ color: "text.secondary", letterSpacing: 0 }}
+                    >
+                      Frontend Engineer
+                    </Typography>
+                    <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                      Jacky
+                    </Typography>
+                  </Box>
+                </Stack>
+
+                <Typography
+                  variant="body2"
                   sx={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    bgcolor: "error.main",
+                    fontFamily: "monospace",
+                    color: "primary.dark",
+                    lineHeight: 1.8,
+                    ".dark &": {
+                      color: "primary.light",
+                    },
                   }}
-                />
-                <Box
-                  sx={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    bgcolor: "warning.main",
-                  }}
-                />
-                <Box
-                  sx={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    bgcolor: "success.main",
-                  }}
-                />
-              </Stack>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontFamily: "monospace",
-                  color: "primary.dark",
-                  lineHeight: 1.8,
-                  ".dark &": {
-                    color: "primary.light",
-                  },
-                }}
-              >
-                {`const developer = {
-  name: "Jacky",
-  skills: ["Next.js", "Zustand"],
-  quality: "Component < 200 lines",
-  motto: "Logic meets Aesthetics"
+                >
+                  {`const focus = {
+  stack: ["React", "Next.js", "TypeScript"],
+  craft: "Architecture, testing, maintainability"
 };`}
-              </Typography>
+                </Typography>
+              </Stack>
             </Box>
           </TransitionFrame>
         </Grid>
