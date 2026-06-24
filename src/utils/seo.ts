@@ -2,7 +2,27 @@ import { fallbackLng, languages } from "@/i18n/config";
 import { Locale } from "@/i18n/types";
 
 const DEFAULT_LOCAL_URL = "http://localhost:3200";
+const PRODUCTION_HOST = "jacky-dev.com";
+const WWW_PRODUCTION_HOST = `www.${PRODUCTION_HOST}`;
 
+function normalizeSiteUrl(rawUrl: string) {
+  try {
+    const url = new URL(rawUrl);
+    if (url.hostname === WWW_PRODUCTION_HOST) {
+      url.hostname = PRODUCTION_HOST;
+    }
+    if (url.hostname === PRODUCTION_HOST) {
+      url.protocol = "https:";
+      url.port = "";
+    }
+    url.pathname = url.pathname.replace(/\/+$/, "");
+    url.search = "";
+    url.hash = "";
+    return url.toString().replace(/\/+$/, "");
+  } catch {
+    return rawUrl.replace(/\/+$/, "");
+  }
+}
 export function getSiteUrl(fallback = DEFAULT_LOCAL_URL) {
   const rawUrl =
     process.env.NEXT_PUBLIC_BASE_URL ||
@@ -15,7 +35,7 @@ export function getSiteUrl(fallback = DEFAULT_LOCAL_URL) {
       : undefined) ||
     fallback;
 
-  return rawUrl.replace(/\/+$/, "");
+  return normalizeSiteUrl(rawUrl);
 }
 
 export function absoluteUrl(path = "", fallback?: string) {

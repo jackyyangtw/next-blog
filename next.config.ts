@@ -21,6 +21,21 @@ const nextConfig: NextConfig = {
     // false   — disabled
   },
   reactCompiler: true,
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "www.jacky-dev.com",
+          },
+        ],
+        destination: "https://jacky-dev.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
