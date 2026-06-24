@@ -6,9 +6,9 @@ import Typography from "@mui/material/Typography";
 
 // ------------- Components -------------
 import Filter from "./Filter";
-import PostCards from "@/app/[lng]/_shared/PostCards";
+import PostCards from "@/components/features/post/PostCards";
 import CustomPagination from "@/components/custom/CustomPagination";
-import PostSkeleton from "@/app/[lng]/_shared/PostSkeleton";
+import PostSkeleton from "@/components/features/post/PostSkeleton";
 
 // ------------- react query -------------
 import { usePosts } from "@/lib/api/posts/hooks";

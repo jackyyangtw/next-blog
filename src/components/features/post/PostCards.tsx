@@ -1,9 +1,7 @@
-// src/app/[lng]/(home)/_components/PostCards.tsx
 "use client";
 
 // ------------- MUI -------------
 import Grid from "@mui/material/Grid";
-// import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -20,9 +18,10 @@ import NextLink from "next/link";
 import Image from "next/image";
 
 // ------------- Components -------------
-import Author from "../(home)/_components/Author";
+import Author from "../../../app/[lng]/(home)/_components/Author";
 import Box from "@mui/material/Box";
 import { getPostBannerAlt, getPostBannerImageSrc } from "@/utils/postBanner";
+import HighlightText from "./HighlightText";
 
 // ------------- hooks -------------
 import { usePostsQueryParams } from "@/app/[lng]/post/_hooks";
@@ -71,48 +70,6 @@ const DescriptionTypography = styled(Typography)({
   overflow: "hidden",
   textOverflow: "ellipsis",
 });
-
-// 輔助函數：將匹配到的文字高亮處理
-const HighlightText = ({
-  text,
-  highlight,
-}: {
-  text: string;
-  highlight: string;
-}) => {
-  if (!highlight.trim()) return <>{text}</>;
-
-  // 使用正則表達式拆分文字，並忽略大小寫
-  const parts = text.split(new RegExp(`(${highlight})`, "gi"));
-
-  return (
-    <>
-      {parts.map((part, i) =>
-        part.toLowerCase() === highlight.toLowerCase() ? (
-          <Box
-            key={i}
-            component="span"
-            sx={{
-              // 改用更強烈的對比色
-              backgroundColor: "warning.dark", // 使用 MUI 內建的警告深色
-              color: "#fff", // 純白文字確保在深色背景上的閱讀品質
-              fontWeight: "700",
-              borderRadius: "4px", // 稍微加大圓角比較現代
-              px: "4px", // 增加左右間距讓文字不擁擠
-              mx: "1px", // 與前後文字稍微留一點縫隙
-              display: "inline-block", // 確保 padding 生效
-              lineHeight: 1.2,
-            }}
-          >
-            {part}
-          </Box>
-        ) : (
-          part
-        ),
-      )}
-    </>
-  );
-};
 
 export default function PostCards({ posts }: { posts: PostDoc[] }) {
   const { keyword } = usePostsQueryParams(); // 取得目前的關鍵字
