@@ -66,7 +66,14 @@ export default function AppAppBar() {
             <Box
               sx={{ flexGrow: 1, display: "flex", alignItems: "center", px: 0 }}
             >
-              <NextLink href={`/${lng}`}>
+              <NextLink
+                href={`/${lng}`}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  lineHeight: 0,
+                }}
+              >
                 {/* <Sitemark /> */}
                 <Box
                   component="img"
@@ -77,7 +84,7 @@ export default function AppAppBar() {
               </NextLink>
               <NavLinks />
             </Box>
-            
+
             {/* 電腦版 */}
             <Box
               sx={{

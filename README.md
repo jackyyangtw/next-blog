@@ -1,4 +1,4 @@
-# Next Blog
+# Jacky Dev
 
 這是一個以 Next.js App Router 打造的多語系技術部落格與內容平台。專案使用 Sanity 作為 Headless CMS，提供文章列表、分類篩選、關鍵字搜尋、文章詳情、相關文章、會員登入與收藏功能，並整合 SEO metadata、結構化資料、sitemap 與文章快取 revalidate 流程。
 
