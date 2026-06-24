@@ -18,7 +18,6 @@ export async function POST(req: Request) {
         const transaction = client.transaction();
         bookmarkIds.forEach((id: string) => transaction.delete(id));
         await transaction.commit();
-        console.log(`已清理文章 ${_id} 的 ${bookmarkIds.length} 筆書籤`);
       }
     }
 

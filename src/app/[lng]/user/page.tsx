@@ -21,7 +21,6 @@ export default async function UserPage({
   const { lng } = await params;
   const session = await getServerSession(authOptions);
   const isAuthenticated = session?.user?.email;
-  console.log("session", session);
   if (!isAuthenticated) {
     return redirect(`/${lng}/auth`);
   }

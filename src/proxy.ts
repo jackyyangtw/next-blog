@@ -9,7 +9,6 @@ export const config = {
   ],
 };
 export async function proxy(req: NextRequest) {
-  // console.log("🧩 Middleware triggered:", req.nextUrl.pathname);
   // =====================
   // 1. i18n 語系導向邏輯
   // =====================

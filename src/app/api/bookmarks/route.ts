@@ -72,7 +72,6 @@ export async function GET() {
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   const userId = session?.user?._id;
-  console.log("userId", userId);
   if (!userId) {
     return new Response(JSON.stringify({ message: "Unauthorized" }), {
       status: 401,
