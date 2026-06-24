@@ -11,6 +11,7 @@ import {
   SiTailwindcss,
   SiGitlab,
   SiShadcnui,
+  SiVitest,
 } from "react-icons/si";
 
 export default function TechMarquee() {
@@ -35,6 +36,8 @@ export default function TechMarquee() {
         <SiShadcnui color={currentMode === "dark" ? "#FFFFFF" : "#000000"} />
       ),
     },
+    { name: "Testing", icon: <SiVitest color="#6E9F18" /> },
+    { name: "Security", icon: null },
     { name: "GitLab", icon: <SiGitlab color="#FC6D26" /> },
   ];
 
@@ -55,7 +58,7 @@ export default function TechMarquee() {
                   fontWeight: 800,
                   letterSpacing: "0.1rem",
                   fontFamily: "monospace",
-                  color: "inherit", // 繼承 TechItem 的 Opacity 變化
+                  color: "inherit",
                 }}
               >
                 {tech.name}

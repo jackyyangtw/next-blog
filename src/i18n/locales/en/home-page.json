@@ -22,9 +22,46 @@
       },
       "automation": {
         "title": "Automated Quality",
-        "description": "A robust CI/CD pipeline ensures every line merged into master meets quality standards."
+        "description": "A robust CI/CD pipeline ensures every line merged into the main branch meets quality standards."
       }
     }
+  },
+  "case_studies": {
+    "section_title": "Case Studies",
+    "description": "I do more than write articles. In real projects, I have handled complex state, technical debt, frontend quality, and security boundaries. These are a few engineering situations I often work through.",
+    "items": {
+      "state": {
+        "title": "Complex State Refactoring",
+        "description": "I have worked through large legacy codebases with unclear state sources, confusing data flow, and tightly coupled components. By separating responsibilities with Custom Hooks, TanStack Query, and Zustand, data fetching, caching, and UI state became easier to trace."
+      },
+      "quality": {
+        "title": "Frontend Quality Gates",
+        "description": "I have introduced ESLint, TypeScript checks, Vitest unit tests, and Playwright E2E tests to turn error-prone manual review steps into repeatable verification."
+      },
+      "performance": {
+        "title": "Performance and SEO",
+        "description": "I have handled metadata, sitemap, revalidation, and image optimization for content-heavy sites, balancing search visibility, loading speed, and cache freshness."
+      },
+      "security": {
+        "title": "Security and Permission Boundaries",
+        "description": "I have implemented CSP nonces, authenticated state checks, Route Handler authorization, and DAL layering to keep sensitive logic out of Client Components."
+      }
+    }
+  },
+  "featured_posts": {
+    "section_title": "Featured Posts",
+    "description": "Notes from my work on frontend architecture, state management, Next.js, and engineering quality. I keep the original problem context, trade-offs, and fixes after real implementation work.",
+    "cta": "Visit Blog"
+  },
+  "tech_stack": {
+    "section_title": "Tech Stack",
+    "description": "My daily work centers on Next.js, React, TypeScript, Testing, and Security, with state management, UI systems, and CI/CD added according to the problem."
+  },
+  "about": {
+    "section_title": "About / Contact",
+    "description": "I enjoy turning abstract frontend problems into maintainable structures and writing down the implementation path. If you want to talk about React, Next.js, engineering quality, or content-driven site architecture, you can reach me here.",
+    "email": "Email",
+    "github": "GitHub"
   },
   "footer": {
     "quote": "When I am not coding, I look for melodies beyond logic on the piano keys."

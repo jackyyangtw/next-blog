@@ -14,17 +14,54 @@
     "items": {
       "component": {
         "title": "元件精簡化",
-        "description": "堅信元件不應超過 200 行，透過精準拆分職責確保程式碼的可讀性與可維護性。"
+        "description": "相信元件不應超過 200 行，透過精準拆分職責確保程式碼的可讀性與可維護性。"
       },
       "state": {
         "title": "狀態純粹度",
-        "description": "嚴格遵守單向資料流，禁止將 Hook 當作 Prop 傳遞，以維護架構的純粹性。"
+        "description": "嚴格遵守單向資料流，避免將 Hook 當作 Prop 傳遞，以維護架構的純粹性。"
       },
       "automation": {
         "title": "自動化品質",
-        "description": "配置完善的 GitLab CI/CD 流程，確保每一行進入 Master 的程式碼都符合品質標準。"
+        "description": "配置完善的 CI/CD 流程，確保每一行進入主分支的程式碼都符合品質標準。"
       }
     }
+  },
+  "case_studies": {
+    "section_title": "實戰經驗",
+    "description": "我不只撰寫文章，也在實際專案中處理過複雜狀態、技術債、前端品質與安全邊界問題。以下整理幾個我常處理的工程情境。",
+    "items": {
+      "state": {
+        "title": "複雜狀態重構",
+        "description": "曾在大型既有專案中處理狀態來源混亂、資料流不清楚與元件耦合問題，透過 Custom Hooks、TanStack Query 與 Zustand 職責切分，讓資料取得、快取與 UI 狀態更容易追蹤。"
+      },
+      "quality": {
+        "title": "前端品質防線",
+        "description": "在專案中導入 ESLint、TypeScript 檢查、Vitest 單元測試與 Playwright E2E，把容易靠人工遺漏的流程轉成可重複驗證的檢查。"
+      },
+      "performance": {
+        "title": "效能與 SEO",
+        "description": "處理過 metadata、sitemap、revalidate 與圖片最佳化等議題，讓內容型網站在搜尋可見度、載入速度與快取更新之間取得平衡。"
+      },
+      "security": {
+        "title": "安全與權限邊界",
+        "description": "實作過 CSP nonce、登入狀態檢查、Route Handler 權限驗證與 DAL 分層，避免敏感邏輯直接暴露在 Client Component。"
+      }
+    }
+  },
+  "featured_posts": {
+    "section_title": "精選文章",
+    "description": "整理我在前端架構、狀態管理、Next.js 與工程品質上的實作筆記。文章保留問題脈絡，也記錄取捨與踩坑後的修正。",
+    "cta": "前往部落格"
+  },
+  "tech_stack": {
+    "section_title": "技術棧",
+    "description": "日常主要圍繞 Next.js、React、TypeScript、Testing 與 Security，並依照需求搭配狀態管理、UI 系統與 CI/CD。"
+  },
+  "about": {
+    "section_title": "關於我 / 聯絡方式",
+    "description": "我喜歡把抽象的前端問題拆成可維護的結構，也樂於把實作過程整理成文章。若你想交流 React、Next.js、工程品質或內容型網站架構，可以從這裡找到我。",
+    "email": "Email",
+    "github": "GitHub"
   },
   "footer": {
     "quote": "當我不寫程式時，我在琴鍵上尋找邏輯以外的旋律。"

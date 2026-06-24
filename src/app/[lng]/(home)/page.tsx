@@ -1,4 +1,3 @@
-// src/app/[lng]/(home)/page.tsx
 import Intro from "./_components/Intro";
 
 // ------------- i18n -------------
@@ -30,10 +29,8 @@ export const generateMetadata = async ({ params }: HomeProps) => {
   };
 };
 
-export default async function Home() {
-  return (
-    <>
-      <Intro />
-    </>
-  );
+export default async function Home({ params }: HomeProps) {
+  const { lng } = await params;
+
+  return <Intro lng={lng} />;
 }
