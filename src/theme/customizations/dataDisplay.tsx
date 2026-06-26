@@ -4,7 +4,7 @@ import { typographyClasses } from "@mui/material/Typography";
 import { buttonBaseClasses } from "@mui/material/ButtonBase";
 import { chipClasses } from "@mui/material/Chip";
 import { iconButtonClasses } from "@mui/material/IconButton";
-import { gray, red, green,brand } from "../themePrimitives";
+import { gray, red, green, brand } from "../themePrimitives";
 
 export const dataDisplayCustomizations: Components<Theme> = {
   MuiList: {
@@ -104,7 +104,7 @@ export const dataDisplayCustomizations: Components<Theme> = {
             },
             style: {
               borderColor: gray[200],
-              backgroundColor: gray[100],
+              backgroundColor: gray[50],
               [`& .${chipClasses.label}`]: {
                 color: gray[500],
               },
@@ -129,17 +129,17 @@ export const dataDisplayCustomizations: Components<Theme> = {
               color: "primary",
             },
             style: {
-              borderColor: brand[200],
+              borderColor: brand[700],
               backgroundColor: brand[50],
               [`& .${chipClasses.label}`]: {
-                color: brand[500],
+                color: brand[700],
               },
               [`& .${chipClasses.icon}`]: {
                 color: brand[500],
               },
               "&:hover": {
-                backgroundColor: brand[100],
-                borderColor: brand[400],
+                borderColor: brand[700],
+                backgroundColor: brand[50],
               },
               "&:active": {
                 backgroundColor: alpha(brand[200], 0.7),
