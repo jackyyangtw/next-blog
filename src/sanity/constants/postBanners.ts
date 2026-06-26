@@ -43,6 +43,12 @@ export const POST_BANNER_PRESETS = [
     path: "/images/banners/state-management.svg",
     alt: "Abstract state management banner",
   },
+  {
+    title: "App Router Boundary",
+    value: "app-router-boundary",
+    path: "/images/banners/app-router-boundary.svg",
+    alt: "Abstract Next.js App Router server and client boundary banner",
+  },
 ] as const;
 
 export type PostBannerPresetValue =
