@@ -7,6 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
 import { renderInlineCodeFallback } from "./RichTextInlineCode";
+import { richTextTableContainerSx } from "./RichTextTable.styles";
 import { RichTextTableValue } from "./types";
 
 interface RichTextTableProps {
@@ -25,22 +26,7 @@ export function RichTextTable({ value }: RichTextTableProps) {
   const visibleBodyRows = hasHeaderRow ? bodyRows : rows;
 
   return (
-    <TableContainer
-      component={Box}
-      sx={(theme) => ({
-        my: 4,
-        overflowX: "auto",
-        border: "1px solid",
-        borderColor: "divider",
-        borderRadius: 1,
-        "& table": {
-          minWidth: 560,
-        },
-        ...theme.applyStyles("dark", {
-          borderColor: "rgba(255,255,255,0.14)",
-        }),
-      })}
-    >
+    <TableContainer component={Box} sx={richTextTableContainerSx}>
       <MuiTable size="small" aria-label={value.caption || "Content table"}>
         {value.caption && (
           <caption
@@ -58,16 +44,7 @@ export function RichTextTable({ value }: RichTextTableProps) {
           <TableHead>
             <TableRow>
               {headerRow.cells?.map((cell) => (
-                <TableCell
-                  key={cell._key}
-                  component="th"
-                  scope="col"
-                  sx={{
-                    fontWeight: 700,
-                    bgcolor: "action.hover",
-                    whiteSpace: "pre-line",
-                  }}
-                >
+                <TableCell key={cell._key} component="th" scope="col">
                   {renderInlineCodeFallback(cell.text)}
                 </TableCell>
               ))}
@@ -79,7 +56,7 @@ export function RichTextTable({ value }: RichTextTableProps) {
           {visibleBodyRows.map((row) => (
             <TableRow key={row._key}>
               {row.cells?.map((cell) => (
-                <TableCell key={cell._key} sx={{ whiteSpace: "pre-line" }}>
+                <TableCell key={cell._key}>
                   {renderInlineCodeFallback(cell.text)}
                 </TableCell>
               ))}
