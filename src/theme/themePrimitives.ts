@@ -28,15 +28,15 @@ declare module "@mui/material/styles" {
 
 const defaultTheme = createTheme();
 export const brand = {
-  50: "hsl(185, 100%, 95%)",   
+  50: "hsl(185, 100%, 95%)",
   100: "hsl(185, 100%, 92%)",
   200: "hsl(185, 100%, 80%)",
   300: "hsl(185, 100%, 65%)",
-  400: "hsl(185, 98%, 48%)",  
+  400: "hsl(185, 98%, 48%)",
   500: "hsl(185, 98%, 42%)",
   600: "hsl(186, 98%, 55%)",
   700: "hsl(185, 100%, 35%)",
-  800: "hsl(185, 100%, 16%)",  
+  800: "hsl(185, 100%, 16%)",
   900: "hsl(185, 100%, 10%)",
 };
 export const gray = {
@@ -126,7 +126,7 @@ export const colorSchemes = {
       },
       divider: alpha(gray[300], 0.4),
       background: {
-        default: "hsl(0, 0%, 99%)",
+        default: gray[100],
         paper: "hsl(220, 35%, 97%)",
       },
       text: {

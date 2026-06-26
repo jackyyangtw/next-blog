@@ -3,7 +3,7 @@ import { Box, alpha, useTheme } from "@mui/material";
 import { useRef, useEffect, useMemo } from "react";
 import { useColorScheme } from "@mui/material/styles";
 
-const baseOpacity = 0.15; // 稍微提高一點以應對雙層稀釋
+const baseOpacity = 0.11;
 
 export default function TrackingLight() {
   const boxRef = useRef<HTMLDivElement>(null);
