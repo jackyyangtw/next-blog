@@ -6,6 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
+import { renderInlineCodeFallback } from "./RichTextInlineCode";
 import { RichTextTableValue } from "./types";
 
 interface RichTextTableProps {
@@ -52,6 +53,7 @@ export function RichTextTable({ value }: RichTextTableProps) {
             {value.caption}
           </caption>
         )}
+
         {hasHeaderRow && (
           <TableHead>
             <TableRow>
@@ -66,18 +68,19 @@ export function RichTextTable({ value }: RichTextTableProps) {
                     whiteSpace: "pre-line",
                   }}
                 >
-                  {cell.text}
+                  {renderInlineCodeFallback(cell.text)}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
         )}
+
         <TableBody>
           {visibleBodyRows.map((row) => (
             <TableRow key={row._key}>
               {row.cells?.map((cell) => (
                 <TableCell key={cell._key} sx={{ whiteSpace: "pre-line" }}>
-                  {cell.text}
+                  {renderInlineCodeFallback(cell.text)}
                 </TableCell>
               ))}
             </TableRow>

@@ -1,3 +1,10 @@
+type PortableTextSpan = {
+  _key: string;
+  _type: "span";
+  text: string;
+  marks: string[];
+};
+
 type PortableTextBlock = {
   _key: string;
   _type: "block";
@@ -5,12 +12,7 @@ type PortableTextBlock = {
   listItem?: "bullet" | "number";
   level?: number;
   markDefs: { _key: string; _type: string }[];
-  children: {
-    _key: string;
-    _type: "span";
-    text: string;
-    marks: string[];
-  }[];
+  children: PortableTextSpan[];
 };
 
 type DividerBlock = {
@@ -50,6 +52,37 @@ function createKey() {
   );
 }
 
+function createSpan(text: string, marks: string[] = []): PortableTextSpan {
+  return {
+    _type: "span",
+    _key: createKey(),
+    text,
+    marks,
+  };
+}
+
+function createInlineTextSpans(text: string): PortableTextSpan[] {
+  const spans: PortableTextSpan[] = [];
+  const inlineCodePattern = /`([^`\n]+)`/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = inlineCodePattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      spans.push(createSpan(text.slice(lastIndex, match.index)));
+    }
+
+    spans.push(createSpan(match[1], ["code"]));
+    lastIndex = inlineCodePattern.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    spans.push(createSpan(text.slice(lastIndex)));
+  }
+
+  return spans.length ? spans : [createSpan(text)];
+}
+
 function createTextBlock(
   text: string,
   style: "normal" | "h2" | "h3" | "blockquote" = "normal",
@@ -61,14 +94,7 @@ function createTextBlock(
     style,
     ...(listItem ? { listItem, level: 1 } : {}),
     markDefs: [],
-    children: [
-      {
-        _type: "span",
-        _key: createKey(),
-        text,
-        marks: [],
-      },
-    ],
+    children: createInlineTextSpans(text),
   };
 }
 
@@ -136,6 +162,10 @@ export function hasMarkdownTable(lines: string[]) {
 
 export function hasMarkdownDivider(lines: string[]) {
   return lines.some((line) => isHorizontalRule(line.trim()));
+}
+
+export function hasMarkdownInlineCode(lines: string[]) {
+  return lines.some((line) => /`[^`\n]+`/.test(line));
 }
 
 export function markdownToPortableTextBlocks(markdown: string): ContentBlock[] {

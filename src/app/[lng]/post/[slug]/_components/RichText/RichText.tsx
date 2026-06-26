@@ -11,6 +11,10 @@ import { ImagePreviewDialog } from "./ImagePreviewDialog";
 import { RichTextCodeBlock } from "./CodeBlock";
 import { RichTextDivider } from "./RichTextDivider";
 import { RichTextImage } from "./RichTextImage";
+import {
+  renderInlineCodeFallback,
+  RichTextInlineCode,
+} from "./RichTextInlineCode";
 import { RichTextTable } from "./RichTextTable";
 
 // ------------- Types -------------
@@ -51,7 +55,7 @@ function RichTextNormalBlock({ children, value }: RichTextBlockProps) {
     return <RichTextDivider />;
   }
 
-  return <p>{children}</p>;
+  return <p>{renderInlineCodeFallback(children)}</p>;
 }
 
 export default function RichText({ value }: { value: BlockContent }) {
@@ -87,20 +91,35 @@ export default function RichText({ value }: { value: BlockContent }) {
       },
       block: {
         normal: RichTextNormalBlock,
-        h2: ({ children }) => <h2 style={{ marginTop: 24 }}>{children}</h2>,
-        h3: ({ children }) => <h3 style={{ marginTop: 16 }}>{children}</h3>,
+        h2: ({ children }) => (
+          <h2 style={{ marginTop: 24 }}>
+            {renderInlineCodeFallback(children)}
+          </h2>
+        ),
+        h3: ({ children }) => (
+          <h3 style={{ marginTop: 16 }}>
+            {renderInlineCodeFallback(children)}
+          </h3>
+        ),
         blockquote: ({ children }) => (
           <blockquote style={{ margin: "24px 0", paddingLeft: 16 }}>
-            {children}
+            {renderInlineCodeFallback(children)}
           </blockquote>
         ),
         quote: ({ children }) => (
           <blockquote style={{ margin: "24px 0", paddingLeft: 16 }}>
-            {children}
+            {renderInlineCodeFallback(children)}
           </blockquote>
         ),
       },
+      listItem: {
+        bullet: ({ children }) => <li>{renderInlineCodeFallback(children)}</li>,
+        number: ({ children }) => <li>{renderInlineCodeFallback(children)}</li>,
+      },
       marks: {
+        code: ({ children }) => (
+          <RichTextInlineCode>{children}</RichTextInlineCode>
+        ),
         link: ({ children, value }) => (
           <a
             href={value?.href}
