@@ -46,7 +46,15 @@ export const blockContent = defineType({
       name: "divider",
       title: "Divider",
       type: "object",
-      fields: [],
+      fields: [
+        defineField({
+          name: "variant",
+          title: "Variant",
+          type: "string",
+          initialValue: "default",
+          hidden: true,
+        }),
+      ],
       preview: {
         prepare() {
           return {
