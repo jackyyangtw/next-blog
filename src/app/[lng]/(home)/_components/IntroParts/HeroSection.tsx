@@ -33,7 +33,10 @@ export default function HeroSection({
               sx={{
                 mb: 3,
                 fontWeight: 800,
-                color: "primary.dark",
+                background:
+                  "linear-gradient(135deg, #0f5f6d 0%, #0b9aad 48%, #1d4f72 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
                 ".dark &": {
                   background: "linear-gradient(135deg, #fff 0%, #60a5fa 100%)",
                   WebkitBackgroundClip: "text",
