@@ -386,7 +386,7 @@ export const inputsCustomizations: Components<Theme> = {
         color: (theme.vars || theme).palette.text.primary,
         borderRadius: (theme.vars || theme).shape.borderRadius,
         border: `1px solid ${(theme.vars || theme).palette.divider}`,
-        backgroundColor: (theme.vars || theme).palette.background.default,
+        backgroundColor: gray[50],
         transition: "border 120ms ease-in",
         "&:hover": {
           borderColor: gray[400],
@@ -396,6 +396,7 @@ export const inputsCustomizations: Components<Theme> = {
           borderColor: brand[400],
         },
         ...theme.applyStyles("dark", {
+          backgroundColor: "transparent",
           "&:hover": {
             borderColor: gray[500],
           },
