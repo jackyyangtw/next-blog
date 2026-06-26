@@ -20,7 +20,7 @@ import Image from "next/image";
 // ------------- Components -------------
 import Author from "../../../app/[lng]/(home)/_components/Author";
 import Box from "@mui/material/Box";
-import { getPostBannerAlt, getPostBannerImageSrc } from "@/utils/postBanner";
+import { getPostBannerAlt, getPostBannerImageSrc } from "@/sanity/postBanner";
 import HighlightText from "./HighlightText";
 
 // ------------- hooks -------------

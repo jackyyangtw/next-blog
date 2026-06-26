@@ -8,7 +8,7 @@ import {
   getPostBannerAlt,
   getPostBannerBlurDataURL,
   getPostBannerImageSrc,
-} from "@/utils/postBanner";
+} from "@/sanity/postBanner";
 
 export default function Banner({ post }: { post: PostDoc }) {
   const imageSrc = getPostBannerImageSrc(post, { width: 1600, height: 686 });

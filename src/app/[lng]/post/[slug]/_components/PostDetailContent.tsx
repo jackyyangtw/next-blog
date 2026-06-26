@@ -12,7 +12,7 @@ import FavoriteButton from "@/app/[lng]/post/[slug]/_components/FavoriteButton";
 import Banner from "@/app/[lng]/post/[slug]/_components/Banner";
 import { PostDoc } from "@/schema/type/post";
 import { formatDate } from "@/utils/date/formate";
-import { hasPostBannerImage } from "@/utils/postBanner";
+import { hasPostBannerImage } from "@/sanity/postBanner";
 
 interface PostDetailContentProps {
   post: PostDoc;

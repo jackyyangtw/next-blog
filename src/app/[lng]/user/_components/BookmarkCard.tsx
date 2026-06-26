@@ -13,7 +13,7 @@ import Image from "next/image";
 
 import { urlFor } from "@/sanity/lib/image";
 import { BookmarkDoc } from "@/schema/type/bookmark";
-import { getPostBannerAlt, getPostBannerImageSrc } from "@/utils/postBanner";
+import { getPostBannerAlt, getPostBannerImageSrc } from "@/sanity/postBanner";
 
 export default function BookmarkCard({ bookmark }: { bookmark: BookmarkDoc }) {
   // 解構賦值，方便後續使用，並給予 post 一個空物件作為緩衝

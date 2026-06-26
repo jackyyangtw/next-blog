@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import Image from "next/image";
 import { getRecommendedPosts } from "../_lib/getRecommendedPosts";
-import { getPostBannerAlt, getPostBannerImageSrc } from "@/utils/postBanner";
+import { getPostBannerAlt, getPostBannerImageSrc } from "@/sanity/postBanner";
 
 interface RelatedPostsSectionProps {
   slug: string;

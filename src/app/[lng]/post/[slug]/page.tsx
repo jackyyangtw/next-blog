@@ -13,7 +13,7 @@ import RelatedPostsSection from "./_components/RelatedPostsSection";
 
 // ------------- utils -------------
 import { getPost } from "../_lib/getPost";
-import { getPostBannerImageSrc } from "@/utils/postBanner";
+import { getPostBannerImageSrc } from "@/sanity/postBanner";
 import {
   absoluteUrl,
   languageAlternates,

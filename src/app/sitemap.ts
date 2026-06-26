@@ -8,7 +8,7 @@ import {
   languageAlternates,
   localizedUrl,
 } from "@/utils/seo";
-import { getPostBannerImageSrc } from "@/utils/postBanner";
+import { getPostBannerImageSrc } from "@/sanity/postBanner";
 
 type SitemapPost = {
   slug: string;

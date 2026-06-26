@@ -1,7 +1,7 @@
 import {
   POST_BANNER_SOURCE,
   getPostBannerPreset,
-} from "@/constants/postBanners";
+} from "@/sanity/constants/postBanners";
 import { urlFor } from "@/sanity/lib/image";
 
 type SanityPhoto = {

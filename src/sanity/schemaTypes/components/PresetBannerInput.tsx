@@ -3,7 +3,7 @@ import type { StringInputProps } from "sanity";
 import {
   POST_BANNER_PRESETS,
   getPostBannerPreset,
-} from "@/constants/postBanners";
+} from "@/sanity/constants/postBanners";
 
 export function PresetBannerInput(props: StringInputProps) {
   const selectedPreset = getPostBannerPreset(props.value);

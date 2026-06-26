@@ -3,7 +3,7 @@ import { defineField, defineType } from "sanity";
 import {
   POST_BANNER_PRESETS,
   POST_BANNER_SOURCE,
-} from "@/constants/postBanners";
+} from "@/sanity/constants/postBanners";
 import { PostSlugInput } from "./components/PostSlugInput";
 import { PresetBannerInput } from "./components/PresetBannerInput";
 
