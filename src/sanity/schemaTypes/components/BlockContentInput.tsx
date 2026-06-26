@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { PortableTextInput } from "sanity";
 import type { ArrayOfObjectsInputProps, PortableTextInputProps } from "sanity";
 import {
+  hasMarkdownDivider,
   hasMarkdownTable,
   markdownToPortableTextBlocks,
 } from "./markdownToPortableTextBlocks";
@@ -25,7 +26,7 @@ export function BlockContentInput(props: ArrayOfObjectsInputProps) {
     }
 
     const lines = markdown.replace(/\r\n?/g, "\n").split("\n");
-    if (!hasMarkdownTable(lines)) {
+    if (!hasMarkdownTable(lines) && !hasMarkdownDivider(lines)) {
       return undefined;
     }
 

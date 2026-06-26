@@ -13,6 +13,11 @@ type PortableTextBlock = {
   }[];
 };
 
+type DividerBlock = {
+  _key: string;
+  _type: "divider";
+};
+
 type TableCell = {
   _key: string;
   _type: "tableCell";
@@ -34,6 +39,7 @@ type TableBlock = {
 
 export type ContentBlock =
   | PortableTextBlock
+  | DividerBlock
   | TableBlock
   | { [key: string]: unknown };
 
@@ -68,6 +74,17 @@ function createTextBlock(
 
 function joinMarkdownLines(lines: string[]) {
   return lines.map((line) => line.trim()).join(" ");
+}
+
+function createDividerBlock(): DividerBlock {
+  return {
+    _type: "divider",
+    _key: createKey(),
+  };
+}
+
+function isHorizontalRule(line: string) {
+  return /^ {0,3}([-*_])(?:\s*\1){2,}\s*$/.test(line);
 }
 
 function isTableSeparator(line: string) {
@@ -117,6 +134,10 @@ export function hasMarkdownTable(lines: string[]) {
   );
 }
 
+export function hasMarkdownDivider(lines: string[]) {
+  return lines.some((line) => isHorizontalRule(line.trim()));
+}
+
 export function markdownToPortableTextBlocks(markdown: string): ContentBlock[] {
   const lines = markdown.replace(/\r\n?/g, "\n").split("\n");
   const blocks: ContentBlock[] = [];
@@ -127,6 +148,12 @@ export function markdownToPortableTextBlocks(markdown: string): ContentBlock[] {
     const trimmed = line.trim();
 
     if (!trimmed) {
+      index += 1;
+      continue;
+    }
+
+    if (isHorizontalRule(trimmed)) {
+      blocks.push(createDividerBlock());
       index += 1;
       continue;
     }
@@ -212,6 +239,7 @@ export function markdownToPortableTextBlocks(markdown: string): ContentBlock[] {
     while (
       index < lines.length &&
       lines[index].trim() &&
+      !isHorizontalRule(lines[index].trim()) &&
       !lines[index].trim().startsWith("#") &&
       !lines[index].trim().startsWith(">") &&
       !lines[index].trim().startsWith("```") &&

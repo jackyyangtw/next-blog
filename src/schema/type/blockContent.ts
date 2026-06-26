@@ -23,6 +23,10 @@ export const BlockTextSchema = z.object({
   ),
 });
 // 2. 圖片區塊
+export const BlockDividerSchema = z.object({
+  _type: z.literal("divider"),
+  _key: z.string(),
+});
 export const BlockImageSchema = z.object({
   _type: z.literal("image"),
   _key: z.string(),
@@ -69,6 +73,7 @@ export const BlockTableSchema = z.object({
 export const BlockContentSchema = z.array(
   z.discriminatedUnion("_type", [
     BlockTextSchema,
+    BlockDividerSchema,
     BlockImageSchema,
     BlockCodeSchema,
     BlockTableSchema,

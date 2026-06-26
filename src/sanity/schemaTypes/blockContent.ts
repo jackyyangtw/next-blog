@@ -42,6 +42,19 @@ export const blockContent = defineType({
         ],
       },
     }),
+    defineArrayMember({
+      name: "divider",
+      title: "Divider",
+      type: "object",
+      fields: [],
+      preview: {
+        prepare() {
+          return {
+            title: "Divider",
+          };
+        },
+      },
+    }),
     // 圖片區塊
     defineArrayMember({
       type: "image",
