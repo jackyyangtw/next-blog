@@ -78,14 +78,11 @@ export default function HeroSection({
           </TransitionFrame>
         </Grid>
 
-        <Grid
-          size={{ xs: 12, md: 5 }}
-          sx={{ display: { xs: "none", md: "block" } }}
-        >
+        <Grid size={{ xs: 12, md: 5 }}>
           <TransitionFrame kind="grow" delay={140} timeout={620}>
             <Box
               sx={{
-                p: 3,
+                p: { xs: 2, sm: 3 },
                 bgcolor: "background.paper",
                 borderRadius: 2,
                 border: "1px solid",
@@ -93,7 +90,7 @@ export default function HeroSection({
                 boxShadow: 2,
               }}
             >
-              <Stack spacing={3}>
+              <Stack spacing={{ xs: 2, sm: 3 }}>
                 <Stack direction="row" spacing={1}>
                   <Box
                     sx={{
@@ -124,8 +121,8 @@ export default function HeroSection({
                 <Stack direction="row" spacing={2.5} alignItems="center">
                   <Box
                     sx={{
-                      width: 96,
-                      height: 96,
+                      width: { xs: 72, sm: 96 },
+                      height: { xs: 72, sm: 96 },
                       borderRadius: "50%",
                       overflow: "hidden",
                       flexShrink: 0,
@@ -147,11 +144,21 @@ export default function HeroSection({
                   <Box>
                     <Typography
                       variant="overline"
-                      sx={{ color: "text.secondary", letterSpacing: 0 }}
+                      sx={{
+                        color: "text.secondary",
+                        fontSize: { xs: "0.7rem", sm: "0.75rem" },
+                        letterSpacing: 0,
+                      }}
                     >
                       Frontend Engineer
                     </Typography>
-                    <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                    <Typography
+                      variant="h5"
+                      sx={{
+                        fontSize: { xs: "1.25rem", sm: "1.5rem" },
+                        fontWeight: 700,
+                      }}
+                    >
                       Jacky
                     </Typography>
                   </Box>
@@ -161,8 +168,10 @@ export default function HeroSection({
                   variant="body2"
                   sx={{
                     fontFamily: "monospace",
+                    fontSize: { xs: "0.75rem", sm: "0.875rem" },
                     color: "primary.dark",
                     lineHeight: 1.8,
+                    overflowWrap: "anywhere",
                     ".dark &": {
                       color: "primary.light",
                     },
