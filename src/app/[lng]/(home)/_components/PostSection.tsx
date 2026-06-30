@@ -2,8 +2,9 @@ import Grid from "@mui/material/Grid";
 import PostCards from "@/components/features/post/PostCards";
 import { publicClient } from "@/sanity/lib/client";
 import { PostDoc } from "@/schema/type/post";
+import type { Locale } from "@/i18n/types";
 
-export default async function PostsSection() {
+export default async function PostsSection({ lng }: { lng: Locale }) {
   const posts = await publicClient.fetch<PostDoc[]>(
     `*[_type == "post"] | order(_createdAt desc)[0...4] {
       _id,
@@ -41,7 +42,7 @@ export default async function PostsSection() {
   );
   return (
     <Grid container spacing={2} columns={12}>
-      <PostCards posts={posts} />
+      <PostCards lng={lng} posts={posts} />
     </Grid>
   );
 }

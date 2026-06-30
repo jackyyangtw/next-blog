@@ -1,6 +1,4 @@
 // src/app/[lng]/_components/Footer.tsx
-"use client";
-
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -12,12 +10,10 @@ import Divider from "@mui/material/Divider";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
 
-// ------------- hooks -------------
-import { useClientTranslation } from "@/i18n/client";
+export default async function Footer({ siteName }: { siteName: string }) {
+  "use cache";
 
-export default function Footer() {
   const currentYear = new Date().getFullYear();
-  const { t } = useClientTranslation("common");
   return (
     <Box
       component="footer"
@@ -46,7 +42,7 @@ export default function Footer() {
               color="text.primary"
               gutterBottom
             >
-              {t("site_name")}
+              {siteName}
             </Typography>
           </Box>
 

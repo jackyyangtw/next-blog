@@ -18,8 +18,9 @@ import type { FetchPostsParams } from "@/lib/api/posts/types";
 
 // ------------- hooks -------------
 import { usePostsQueryParams, useSetPostsQueryParams } from "../_hooks";
+import type { Locale } from "@/i18n/types";
 
-export default function ClientPage() {
+export default function ClientPage({ lng }: { lng: Locale }) {
   const { page, limit, categories, keyword } = usePostsQueryParams();
   const setParams = useSetPostsQueryParams();
 
@@ -51,7 +52,7 @@ export default function ClientPage() {
       {isPostsLoading ? (
         <PostSkeleton count={2} />
       ) : (
-        <PostCards posts={posts.data} />
+        <PostCards lng={lng} posts={posts.data} />
       )}
       {posts?.data.length === 0 && (
         <Typography variant="h3" sx={{ mb: 2 }}>

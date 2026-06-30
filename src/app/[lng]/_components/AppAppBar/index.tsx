@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import dynamic from "next/dynamic";
 
 // ------------- mui -------------
 import { alpha, styled } from "@mui/material/styles";
@@ -19,11 +20,13 @@ import NextLink from "next/link";
 // ------------- components -------------
 import NavLinks from "./NavLinks";
 import LangSwitcher from "@/components/lang/LangSwitcher";
-import MobileDrawer from "./MobileDrawer";
 import LoginButton from "./LoginButton";
 
-// ------------- i18n -------------
-import { useClientTranslation } from "@/i18n/client";
+import type { Locale } from "@/i18n/types";
+import { getNavLinks } from "./links";
+import type { AppBarLabels } from "./types";
+
+const MobileDrawer = dynamic(() => import("./MobileDrawer"));
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: "flex",
@@ -41,9 +44,18 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   padding: "8px 12px",
 }));
 
-export default function AppAppBar() {
+export default function AppAppBar({
+  labels,
+  lng,
+}: {
+  labels: AppBarLabels;
+  lng: Locale;
+}) {
   const [open, setOpen] = React.useState(false);
-  const { lng } = useClientTranslation();
+  const links = React.useMemo(
+    () => getNavLinks(lng, labels.navigation),
+    [lng, labels.navigation],
+  );
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
@@ -82,7 +94,7 @@ export default function AppAppBar() {
                   sx={{ width: 100 }}
                 ></Box>
               </NextLink>
-              <NavLinks />
+              <NavLinks links={links} />
             </Box>
 
             {/* 電腦版 */}
@@ -93,16 +105,16 @@ export default function AppAppBar() {
                 alignItems: "center",
               }}
             >
-              <LoginButton />
-              <ColorModeIconDropdown />
-              <LangSwitcher />
+              <LoginButton lng={lng} loginLabel={labels.login} />
+              <ColorModeIconDropdown labels={labels.colorMode} />
+              <LangSwitcher lng={lng} label={labels.language} />
             </Box>
 
             {/* 手機版 */}
             <Box sx={{ display: { xs: "flex", md: "none" }, gap: 1 }}>
-              <LoginButton />
-              <ColorModeIconDropdown />
-              <LangSwitcher />
+              <LoginButton lng={lng} loginLabel={labels.login} />
+              <ColorModeIconDropdown labels={labels.colorMode} />
+              <LangSwitcher lng={lng} label={labels.language} />
               <IconButton
                 size="small"
                 aria-label="Menu button"
@@ -110,7 +122,9 @@ export default function AppAppBar() {
               >
                 <MenuIcon />
               </IconButton>
-              <MobileDrawer open={open} setOpen={setOpen} />
+              {open ? (
+                <MobileDrawer open setOpen={setOpen} links={links} />
+              ) : null}
             </Box>
           </StyledToolbar>
         </Container>

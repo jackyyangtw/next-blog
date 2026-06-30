@@ -1,13 +1,17 @@
 import { Avatar, Button } from "@mui/material";
 import NextLink from "next/link";
 import { useSession } from "next-auth/react";
-import { useClientTranslation } from "@/i18n/client";
+import type { Locale } from "@/i18n/types";
 
-export default function LoginButton() {
-  const { lng } = useClientTranslation();
+export default function LoginButton({
+  lng,
+  loginLabel,
+}: {
+  lng: Locale;
+  loginLabel: string;
+}) {
   const { status, data: session } = useSession();
   const isAuthenticated = status === "authenticated";
-  const { t } = useClientTranslation("auth");
   return (
     <>
       {!isAuthenticated && (
@@ -18,7 +22,7 @@ export default function LoginButton() {
             size="small"
             data-tour="auth-entry"
           >
-            {t("login")}
+            {loginLabel}
           </Button>
         </NextLink>
       )}

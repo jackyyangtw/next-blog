@@ -30,10 +30,16 @@ export async function generateMetadata({
   };
 }
 
-export default function PostPage() {
+export default async function PostPage({
+  params,
+}: {
+  params: Promise<{ lng: Locale }>;
+}) {
+  const { lng } = await params;
+
   return (
     <Suspense fallback={<CircularProgress />}>
-      <ClientPage />
+      <ClientPage lng={lng} />
     </Suspense>
   );
 }

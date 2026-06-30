@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   MutationCache,
   QueryCache,
@@ -73,23 +73,12 @@ const makeQueryClient = () =>
     }),
   });
 
-let browserQueryClient: QueryClient | undefined;
-
-const getQueryClient = () => {
-  if (typeof window === "undefined") {
-    return makeQueryClient();
-  }
-
-  browserQueryClient ??= makeQueryClient();
-  return browserQueryClient;
-};
-
 export default function ReactQueryProvider({
   children,
 }: {
   children: ReactNode;
 }) {
-  const queryClient = getQueryClient();
+  const [queryClient] = useState(makeQueryClient);
 
   return (
     <QueryClientProvider client={queryClient}>

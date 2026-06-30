@@ -7,15 +7,20 @@ import LanguageIcon from "@mui/icons-material/Language";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useClientTranslation } from "@/i18n/client";
 import { usePathname, useSearchParams } from "next/navigation";
 import { Locale } from "@/i18n/types";
 import { LOCALES, languages } from "@/i18n/config";
+import { persistLocaleCookie } from "@/i18n/cookie";
 
-export default function LangSwitcher() {
+export default function LangSwitcher({
+  lng,
+  label,
+}: {
+  lng: Locale;
+  label: string;
+}) {
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const { lng, t } = useClientTranslation("component");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
   const currentLocale =
@@ -37,6 +42,7 @@ export default function LangSwitcher() {
       ? `${newPathName}?${queryString}`
       : newPathName;
 
+    persistLocaleCookie(newValue);
     window.location.assign(targetUrl);
     setAnchorEl(null);
   };
@@ -53,7 +59,7 @@ export default function LangSwitcher() {
     <>
       <IconButton
         id="language-switcher-button"
-        aria-label={t("LangSwitcher.label")}
+        aria-label={label}
         aria-controls={isMenuOpen ? "language-switcher-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={isMenuOpen ? "true" : undefined}

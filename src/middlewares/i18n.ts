@@ -39,17 +39,20 @@ export function handleI18nMiddleware(req: NextRequest): I18nMiddlewareResult {
     return { lng, response };
   }
 
-  // 處理 referer 中的語系資訊
-  if (req.headers.has("referer")) {
-    const refererUrl = new URL(req.headers.get("referer")!);
-    const lngInReferer = languages.find((l) =>
-      refererUrl.pathname.startsWith(`/${l}`),
-    );
-    const response = NextResponse.next();
-    if (lngInReferer) {
-      response.cookies.set(cookieName, lngInReferer);
+  if (hasValidLanguage) {
+    const routeLocale = pathnameFirstSegment as Locale;
+    const currentCookie = req.cookies.get(cookieName)?.value;
+
+    if (currentCookie === routeLocale) {
+      return { lng: routeLocale };
     }
-    return { lng: lngInReferer || lng, response };
+
+    const response = NextResponse.next();
+    response.cookies.set(cookieName, routeLocale, {
+      path: "/",
+      sameSite: "lax",
+    });
+    return { lng: routeLocale, response };
   }
 
   return { lng };

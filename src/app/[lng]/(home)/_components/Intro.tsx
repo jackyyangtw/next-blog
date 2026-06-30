@@ -40,7 +40,7 @@ export default async function Intro({ lng }: IntroProps) {
         />
         <PrinciplesSection t={t} />
         <CaseStudiesSection t={t} />
-        <FeaturedPostsSection t={t} />
+        <FeaturedPostsSection lng={lng} t={t} />
         <TechStackSection t={t} />
         <HomeFooterSection t={t} />
       </Container>

@@ -7,10 +7,19 @@ import IconButton, { IconButtonOwnProps } from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useColorScheme } from "@mui/material/styles";
-import { useClientTranslation } from "@/i18n/client";
 
-export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
-  const { t } = useClientTranslation("component");
+interface ColorModeIconDropdownProps extends IconButtonOwnProps {
+  labels: {
+    dark: string;
+    light: string;
+    system: string;
+  };
+}
+
+export default function ColorModeIconDropdown({
+  labels,
+  ...props
+}: ColorModeIconDropdownProps) {
   const { mode, systemMode, setMode } = useColorScheme();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -82,21 +91,21 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
           onClick={handleMode("system")}
           sx={{ minWidth: "100px" }}
         >
-          {t("ColorModeIconDropdown.system")}
+          {labels.system}
         </MenuItem>
         <MenuItem
           selected={mode === "light"}
           onClick={handleMode("light")}
           sx={{ minWidth: "100px" }}
         >
-          {t("ColorModeIconDropdown.light")}
+          {labels.light}
         </MenuItem>
         <MenuItem
           selected={mode === "dark"}
           onClick={handleMode("dark")}
           sx={{ minWidth: "100px" }}
         >
-          {t("ColorModeIconDropdown.dark")}
+          {labels.dark}
         </MenuItem>
       </Menu>
     </React.Fragment>

@@ -2,12 +2,17 @@ import { ArrowForward } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import PostsSection from "../PostSection";
 import { HomePageT } from "./types";
+import type { Locale } from "@/i18n/types";
 
 interface FeaturedPostsSectionProps {
+  lng: Locale;
   t: HomePageT;
 }
 
-export default function FeaturedPostsSection({ t }: FeaturedPostsSectionProps) {
+export default function FeaturedPostsSection({
+  lng,
+  t,
+}: FeaturedPostsSectionProps) {
   return (
     <Box sx={{ py: 10 }}>
       <Stack
@@ -37,7 +42,7 @@ export default function FeaturedPostsSection({ t }: FeaturedPostsSectionProps) {
           {t("featured_posts.cta")}
         </Button>
       </Stack>
-      <PostsSection />
+      <PostsSection lng={lng} />
     </Box>
   );
 }

@@ -20,6 +20,8 @@ import Footer from "./_components/Footer";
 import Box from "@mui/material/Box";
 import { Suspense } from "react";
 import { getSiteUrl } from "@/utils/seo";
+import type { AppBarLabels } from "./_components/AppAppBar/types";
+import { getChromeTranslations } from "@/i18n/chrome";
 
 export const generateMetadata = async ({
   params,
@@ -41,7 +43,22 @@ export async function generateStaticParams() {
 
 export default async function RootLayout(props: LayoutProps<"/[lng]">) {
   const { children, params } = props;
-  const { lng } = await params;
+  const { lng: routeLocale } = await params;
+  const lng = routeLocale as Locale;
+  const chrome = getChromeTranslations(lng);
+  const appBarLabels: AppBarLabels = {
+    colorMode: {
+      dark: chrome.component.ColorModeIconDropdown.dark,
+      light: chrome.component.ColorModeIconDropdown.light,
+      system: chrome.component.ColorModeIconDropdown.system,
+    },
+    language: chrome.component.LangSwitcher.label,
+    login: chrome.auth.login,
+    navigation: {
+      posts: chrome.navigation["/post"],
+      studio: chrome.navigation["/studio"],
+    },
+  };
 
   return (
     <html lang={lng} dir={dir(lng)} suppressHydrationWarning>
@@ -72,13 +89,15 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
                   }}
                 >
                   <Suspense fallback={null}>
-                    <AppWrapper>{children}</AppWrapper>
+                    <AppWrapper appBarLabels={appBarLabels} lng={lng}>
+                      {children}
+                    </AppWrapper>
                   </Suspense>
                 </Container>
 
                 {/* Footer 移出 Container，但在 Providers 內 */}
                 <Suspense fallback={null}>
-                  <Footer />
+                  <Footer siteName={chrome.common.site_name} />
                 </Suspense>
               </Box>
             </Providers>

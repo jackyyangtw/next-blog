@@ -26,8 +26,7 @@ import HighlightText from "./HighlightText";
 // ------------- hooks -------------
 import { usePostsQueryParams } from "@/app/[lng]/post/_hooks";
 
-// ------------- i18n -------------
-import { useClientTranslation } from "@/i18n/client";
+import type { Locale } from "@/i18n/types";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -71,9 +70,14 @@ const DescriptionTypography = styled(Typography)({
   textOverflow: "ellipsis",
 });
 
-export default function PostCards({ posts }: { posts: PostDoc[] }) {
+export default function PostCards({
+  lng,
+  posts,
+}: {
+  lng: Locale;
+  posts: PostDoc[];
+}) {
   const { keyword } = usePostsQueryParams(); // 取得目前的關鍵字
-  const { lng } = useClientTranslation();
   return (
     <Grid container spacing={3}>
       {posts.map((post) => {

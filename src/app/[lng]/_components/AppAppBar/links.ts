@@ -1,6 +1,6 @@
-import { useClientTranslation } from "@/i18n/client";
+import type { Locale } from "@/i18n/types";
 
-interface NavLink {
+export interface NavLink {
   label: string;
   href: string;
   target?: string;
@@ -9,38 +9,36 @@ interface NavLink {
   role?: string;
 }
 
-export const useNavLinks = () => {
-  const { t ,lng} = useClientTranslation("nav-links");
-  const links: NavLink[] = [
+export function getNavLinks(
+  lng: Locale,
+  labels: { posts: string; studio: string },
+) {
+  return [
     {
-      label: t("/post"),
+      label: labels.posts,
       href: `/${lng}/post`,
     },
     {
-      label: t("/studio"),
+      label: labels.studio,
       href: `/studio`,
       target: "_blank",
       rel: "noopener noreferrer",
       role: "admin",
     },
-  ];
-  const getVisibleLinks = (isAdmin: boolean, isAuthenticated: boolean) => {
-    return links.filter((link) => {
-      if (link.role === "admin") {
-        return isAdmin;
-      }
-      return !link.auth || isAuthenticated;
-    });
-  };
-  return {
-    links,
-    getVisibleLinks,
-  };
-};
+  ] satisfies NavLink[];
+}
 
-
+export function getVisibleLinks(
+  links: NavLink[],
+  isAdmin: boolean,
+  isAuthenticated: boolean,
+) {
+  return links.filter((link) => {
+    if (link.role === "admin") return isAdmin;
+    return !link.auth || isAuthenticated;
+  });
+}
 
 export const getIsActive = (pathname: string, link: NavLink) => {
   return link.href === "/" ? pathname === "/" : pathname.includes(link.href);
 };
-

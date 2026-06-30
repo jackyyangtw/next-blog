@@ -8,31 +8,24 @@ import {
   useTranslation as useTranslationOrg,
   UseTranslationOptions,
 } from "react-i18next";
-import { useCookies } from "react-cookie";
 import resourcesToBackend from "i18next-resources-to-backend";
-import LanguageDetector from "i18next-browser-languagedetector";
-import { getI18nextOptions, languages, cookieName, defaultNS } from "./config";
+import {
+  getI18nextOptions,
+  cookieName,
+  defaultNS,
+  fallbackLng,
+} from "./config";
 import { Locale } from "@/i18n/types";
 import { Namespace } from "@/i18n/types";
 import { useParams } from "next/navigation";
-
-const runsOnServerSide = typeof window === "undefined";
+import { loadTranslationResource } from "./resources";
 
 i18next
   .use(initReactI18next)
-  .use(LanguageDetector)
-  .use(
-    resourcesToBackend(
-      (lng: string, ns: string) => import(`./locales/${lng}/${ns}.json`),
-    ),
-  )
+  .use(resourcesToBackend(loadTranslationResource))
   .init({
-    ...getI18nextOptions(),
-    lng: undefined, // let detect the language on client side
-    detection: {
-      order: ["path", "htmlTag", "cookie", "navigator"],
-    },
-    preload: runsOnServerSide ? languages : [],
+    ...getI18nextOptions(fallbackLng),
+    preload: [],
   });
 
 function useClientTranslationBasic(
@@ -40,22 +33,11 @@ function useClientTranslationBasic(
   ns: string,
   options?: UseTranslationOptions<string>,
 ) {
-  const [cookies, setCookie] = useCookies([cookieName]);
-  const ret = useTranslationOrg(ns, options);
-  const { i18n } = ret;
-  if (runsOnServerSide && lng && i18n.resolvedLanguage !== lng) {
-    i18n.changeLanguage(lng);
-  }
+  const ret = useTranslationOrg(ns, { ...options, lng });
 
   useEffect(() => {
-    if (!lng || i18n.resolvedLanguage === lng) return;
-    i18n.changeLanguage(lng);
-  }, [lng, i18n]);
-
-  useEffect(() => {
-    if (cookies.i18next === lng) return;
-    setCookie(cookieName, lng, { path: "/" });
-  }, [lng, cookies.i18next, setCookie]);
+    document.cookie = `${cookieName}=${encodeURIComponent(lng)}; Path=/; SameSite=Lax`;
+  }, [lng]);
 
   return ret;
 }

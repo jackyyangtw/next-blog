@@ -1,14 +1,11 @@
 "use client";
-import ReactQueryProvider from "./react-query";
-import ReactCookieProvider from "./react-cookie";
 import NextAuthProvider from "./next-auth";
+import ReactQueryProvider from "./react-query";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <NextAuthProvider>
-      <ReactCookieProvider>
-        <ReactQueryProvider>{children}</ReactQueryProvider>
-      </ReactCookieProvider>
+      <ReactQueryProvider>{children}</ReactQueryProvider>
     </NextAuthProvider>
   );
 }

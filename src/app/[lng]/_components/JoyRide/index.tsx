@@ -25,8 +25,11 @@ import Animations, {
 } from "./Animations";
 
 export default function JoyRide() {
-  const { isRunning, completeTour, stopTour, hasCompleted, startTour } =
-    useFeatureTourStore();
+  const isRunning = useFeatureTourStore((state) => state.isRunning);
+  const completeTour = useFeatureTourStore((state) => state.completeTour);
+  const stopTour = useFeatureTourStore((state) => state.stopTour);
+  const hasCompleted = useFeatureTourStore((state) => state.hasCompleted);
+  const startTour = useFeatureTourStore((state) => state.startTour);
   const { status } = useSession();
   const isAuthenticated = status === "authenticated";
   const pathname = usePathname();
