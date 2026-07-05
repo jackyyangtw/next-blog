@@ -72,6 +72,7 @@
     "@mui/icons-material": "^7.3.1",
     "@mui/material": "^7.3.1",
     "@mui/material-nextjs": "^7.3.0",
+    "@next/third-parties": "^16.2.10",
     "@redux-devtools/extension": "^3.3.0",
     "@sanity/client": "^7.8.2",
     "@sanity/code-input": "^6.0.1",

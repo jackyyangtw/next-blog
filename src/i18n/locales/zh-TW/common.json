@@ -1,4 +1,11 @@
 {
   "site_name": "Jacky Dev",
-  "site_description": "做中學，學中做。前端開發筆記。"
+  "site_description": "做中學，學中做。前端開發筆記。",
+  "analytics_consent": {
+    "title": "分析 Cookie",
+    "description": "我們使用 Google Analytics 了解網站使用情況，以改善內容與瀏覽體驗。你可以接受或拒絕非必要的分析 Cookie。",
+    "accept": "接受",
+    "reject": "拒絕",
+    "settings": "Cookie 設定"
+  }
 }

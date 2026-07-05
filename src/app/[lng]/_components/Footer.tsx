@@ -5,12 +5,23 @@ import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
+import ConsentSettingsButton from "./AnalyticsConsent/ConsentSettingsButton";
 
 // ------------- Icons -------------
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
 
-export default async function Footer({ siteName }: { siteName: string }) {
+interface FooterProps {
+  consentSettingsLabel: string;
+  showConsentSettings: boolean;
+  siteName: string;
+}
+
+export default async function Footer({
+  consentSettingsLabel,
+  showConsentSettings,
+  siteName,
+}: FooterProps) {
   "use cache";
 
   const currentYear = new Date().getFullYear();
@@ -78,9 +89,14 @@ export default async function Footer({ siteName }: { siteName: string }) {
           alignItems="center"
           spacing={2}
         >
-          <Typography variant="caption" color="text.secondary">
-            © {currentYear} Jacky. All rights reserved.
-          </Typography>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography variant="caption" color="text.secondary">
+              © {currentYear} Jacky. All rights reserved.
+            </Typography>
+            {showConsentSettings ? (
+              <ConsentSettingsButton label={consentSettingsLabel} />
+            ) : null}
+          </Stack>
           <Typography
             variant="caption"
             color="text.secondary"

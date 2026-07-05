@@ -1,4 +1,11 @@
 {
   "site_name": "Frontend Journal",
-  "site_description": "Learn by doing, do by learning. Frontend development notes."
+  "site_description": "Learn by doing, do by learning. Frontend development notes.",
+  "analytics_consent": {
+    "title": "Analytics cookies",
+    "description": "We use Google Analytics to understand site usage and improve the content and browsing experience. You can accept or reject non-essential analytics cookies.",
+    "accept": "Accept",
+    "reject": "Reject",
+    "settings": "Cookie settings"
+  }
 }

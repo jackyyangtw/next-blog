@@ -71,6 +71,9 @@ importers:
       "@mui/material-nextjs":
         specifier: ^7.3.0
         version: 7.3.7(@emotion/cache@11.14.0)(@emotion/react@11.14.0(@types/react@19.2.14)(react@19.2.4))(@types/react@19.2.14)(next@16.2.9(@babel/core@8.0.1)(@playwright/test@1.61.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+      "@next/third-parties":
+        specifier: ^16.2.10
+        version: 16.2.10(next@16.2.9(@babel/core@8.0.1)(@playwright/test@1.61.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       "@redux-devtools/extension":
         specifier: ^3.3.0
         version: 3.3.0(redux@5.0.1)
@@ -3017,6 +3020,15 @@ packages:
     engines: { node: ">= 10" }
     cpu: [x64]
     os: [win32]
+
+  "@next/third-parties@16.2.10":
+    resolution:
+      {
+        integrity: sha512-H3yxCMLziM1JKXnjQv83WBH2cp1fB1vMxpC1/bBTpvvaesBEuRuprpzq5RI32atis0VhUZflgdpJdGNZIGpQaQ==,
+      }
+    peerDependencies:
+      next: ">=16.1.7"
+      react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
 
   "@noble/ed25519@3.0.0":
     resolution:
@@ -10313,6 +10325,12 @@ packages:
         integrity: sha512-3/o9z3X0X0fTupwsYvR03pJ/DjWuqqrfwBgTQzdWDiQSm9KitAyz/9WqsT2JQW7KV2m+bC2ol/zqpW37NHxLaA==,
       }
 
+  third-party-capital@1.0.20:
+    resolution:
+      {
+        integrity: sha512-oB7yIimd8SuGptespDAZnNkzIz+NWaJCu2RMsbs4Wmp9zSDUM8Nhi3s2OOcqYuv3mN4hitXc8DVx+LyUmbUDiA==,
+      }
+
   through2@2.0.5:
     resolution:
       {
@@ -13242,6 +13260,12 @@ snapshots:
 
   "@next/swc-win32-x64-msvc@16.2.9":
     optional: true
+
+  "@next/third-parties@16.2.10(next@16.2.9(@babel/core@8.0.1)(@playwright/test@1.61.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)":
+    dependencies:
+      next: 16.2.9(@babel/core@8.0.1)(@playwright/test@1.61.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      react: 19.2.4
+      third-party-capital: 1.0.20
 
   "@noble/ed25519@3.0.0": {}
 
@@ -18255,6 +18279,8 @@ snapshots:
       b4a: 1.7.3
     transitivePeerDependencies:
       - react-native-b4a
+
+  third-party-capital@1.0.20: {}
 
   through2@2.0.5:
     dependencies:

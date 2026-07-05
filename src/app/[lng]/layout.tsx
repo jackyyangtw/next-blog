@@ -22,6 +22,30 @@ import { Suspense } from "react";
 import { getSiteUrl } from "@/utils/seo";
 import type { AppBarLabels } from "./_components/AppAppBar/types";
 import { getChromeTranslations } from "@/i18n/chrome";
+import Script from "next/script";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import ConsentBanner from "./_components/AnalyticsConsent/ConsentBanner";
+import { ANALYTICS_CONSENT_STORAGE_KEY } from "@/lib/analytics/consent";
+
+const GOOGLE_CONSENT_DEFAULT_SCRIPT = `
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+
+  var analyticsConsent = 'denied';
+  try {
+    if (window.localStorage.getItem('${ANALYTICS_CONSENT_STORAGE_KEY}') === 'granted') {
+      analyticsConsent = 'granted';
+    }
+  } catch {}
+
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: analyticsConsent,
+    wait_for_update: 500
+  });
+`;
 
 export const generateMetadata = async ({
   params,
@@ -46,6 +70,10 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
   const { lng: routeLocale } = await params;
   const lng = routeLocale as Locale;
   const chrome = getChromeTranslations(lng);
+  const googleAnalyticsId =
+    process.env.NODE_ENV === "production"
+      ? process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
+      : undefined;
   const appBarLabels: AppBarLabels = {
     colorMode: {
       dark: chrome.component.ColorModeIconDropdown.dark,
@@ -62,6 +90,11 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
 
   return (
     <html lang={lng} dir={dir(lng)} suppressHydrationWarning>
+      {googleAnalyticsId ? (
+        <Script id="google-consent-default" strategy="beforeInteractive">
+          {GOOGLE_CONSENT_DEFAULT_SCRIPT}
+        </Script>
+      ) : null}
       <body>
         <InitColorSchemeScript attribute="class" defaultMode="dark" />
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
@@ -97,13 +130,28 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
 
                 {/* Footer 移出 Container，但在 Providers 內 */}
                 <Suspense fallback={null}>
-                  <Footer siteName={chrome.common.site_name} />
+                  <Footer
+                    consentSettingsLabel={
+                      chrome.common.analytics_consent.settings
+                    }
+                    showConsentSettings={Boolean(googleAnalyticsId)}
+                    siteName={chrome.common.site_name}
+                  />
                 </Suspense>
               </Box>
             </Providers>
           </AppTheme>
         </AppRouterCacheProvider>
+        {googleAnalyticsId ? (
+          <ConsentBanner
+            acceptLabel={chrome.common.analytics_consent.accept}
+            description={chrome.common.analytics_consent.description}
+            rejectLabel={chrome.common.analytics_consent.reject}
+            title={chrome.common.analytics_consent.title}
+          />
+        ) : null}
       </body>
+      {googleAnalyticsId ? <GoogleAnalytics gaId={googleAnalyticsId} /> : null}
     </html>
   );
 }
