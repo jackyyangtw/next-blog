@@ -4,17 +4,17 @@
     "description": "做中學，學中做。前端開發筆記。"
   },
   "hero": {
-    "title_line_1": "在邏輯與美感之間，",
-    "title_line_2": "建構高效能元件。",
-    "description": "我是 楊捷超 Jacky，專注 React、Next.js App Router 與 TypeScript 的前端工程師，擅長重整複雜資料流、拆分狀態責任，並用測試與 CI/CD 打造能長期維護的產品。",
-    "cta": "查看筆記"
+    "title_line_1": "把複雜的前端系統，",
+    "title_line_2": "整理成可維護的產品。",
+    "description": "我是 Jacky 楊捷超，專注 React、Next.js App Router 與 TypeScript。習慣用清楚的資料流、測試、CI/CD 與權限邊界，降低專案長期維護成本。",
+    "cta": "閱讀工程筆記"
   },
   "principles": {
     "section_title": "技術堅持與原則",
     "items": {
       "component": {
         "title": "元件精簡化",
-        "description": "相信元件不應超過 200 行，透過精準拆分職責確保程式碼的可讀性與可維護性。"
+        "description": "我不喜歡讓單一 Component 承擔太多責任。當邏輯、UI、資料取得與副作用混在一起，後續每次修改都會變成賭運氣。"
       },
       "state": {
         "title": "狀態純粹度",
@@ -28,7 +28,7 @@
   },
   "case_studies": {
     "section_title": "實戰經驗",
-    "description": "我不只撰寫文章，也在實際專案中處理過複雜狀態、技術債、前端品質與安全邊界問題。以下整理幾個我常處理的工程情境。",
+    "description": "我寫文章不是為了整理名詞，而是把實務上遇過的混亂場景拆開：資料流不清、狀態責任混在一起、測試缺口、安全邊界模糊、SEO 與效能取捨。這些問題通常不會第一天爆炸，但會在產品長期維護時慢慢變成成本。",
     "items": {
       "state": {
         "title": "複雜狀態重構",

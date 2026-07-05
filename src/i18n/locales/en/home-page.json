@@ -4,17 +4,17 @@
     "description": "Learn by building. Frontend development notes."
   },
   "hero": {
-    "title_line_1": "Between logic and aesthetics,",
-    "title_line_2": "I build high-performance components.",
-    "description": "I'm Jacky Yang, a frontend engineer focused on React, Next.js App Router, and TypeScript. I simplify complex data flows, clarify state boundaries, and use testing plus CI/CD to build products that can evolve safely.",
-    "cta": "View Notes"
+    "title_line_1": "Turning complex frontend systems,",
+    "title_line_2": "into maintainable products.",
+    "description": "I'm Jacky Yang, focused on React, Next.js App Router, and TypeScript. I use clear data flows, testing, CI/CD, and well-defined permission boundaries to reduce long-term maintenance costs.",
+    "cta": "Read Engineering Notes"
   },
   "principles": {
     "section_title": "Technical Principles",
     "items": {
       "component": {
         "title": "Lean Components",
-        "description": "I believe a component should not exceed 200 lines. Clear responsibility boundaries keep code readable and maintainable."
+        "description": "I don't like letting a single component carry too many responsibilities. When logic, UI, data fetching, and side effects are mixed together, every later change becomes a gamble."
       },
       "state": {
         "title": "State Purity",
@@ -28,7 +28,7 @@
   },
   "case_studies": {
     "section_title": "Case Studies",
-    "description": "I do more than write articles. In real projects, I have handled complex state, technical debt, frontend quality, and security boundaries. These are a few engineering situations I often work through.",
+    "description": "I don't write articles just to catalog terminology. I break down the messy scenarios I've encountered in practice: unclear data flows, tangled state ownership, testing gaps, ambiguous security boundaries, and trade-offs between SEO and performance. These problems rarely explode on day one, but they steadily add to the cost of long-term maintenance.",
     "items": {
       "state": {
         "title": "Complex State Refactoring",

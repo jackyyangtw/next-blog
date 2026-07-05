@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { PRINCIPLE_CODE } from "./HeroSection.constants";
 import TransitionFrame from "./TransitionFrame";
 
 const avatarImageStyle: CSSProperties = {
@@ -172,15 +173,13 @@ export default function HeroSection({
                     color: "primary.dark",
                     lineHeight: 1.8,
                     overflowWrap: "anywhere",
+                    whiteSpace: "pre-wrap",
                     ".dark &": {
                       color: "primary.light",
                     },
                   }}
                 >
-                  {`const focus = {
-  stack: ["React", "Next.js", "TypeScript"],
-  craft: "Architecture, testing, maintainability"
-};`}
+                  {PRINCIPLE_CODE}
                 </Typography>
               </Stack>
             </Box>

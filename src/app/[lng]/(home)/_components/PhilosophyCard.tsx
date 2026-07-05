@@ -18,6 +18,8 @@ export default function PhilosophyCard({
     <Card
       sx={{
         height: "100%",
+        minWidth: 0,
+        width: "100%",
         bgcolor: "background.paper",
         backgroundImage: "none",
         border: "1px solid",
@@ -58,9 +60,11 @@ export default function PhilosophyCard({
         <Box
           sx={{
             p: 2,
+            mb: 2,
             borderRadius: 1,
             fontFamily: "monospace",
             fontSize: "0.75rem",
+            overflowWrap: "anywhere",
             color: "primary.dark",
             ".dark &": {
               color: "primary.light",
