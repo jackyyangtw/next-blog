@@ -4,8 +4,10 @@ import { useCallback, useState } from "react";
 import { PortableTextInput } from "sanity";
 import type { ArrayOfObjectsInputProps, PortableTextInputProps } from "sanity";
 import {
+  hasMarkdownBlockquote,
   hasMarkdownDivider,
   hasMarkdownInlineCode,
+  hasMarkdownLink,
   hasMarkdownTable,
   markdownToPortableTextBlocks,
 } from "./markdownToPortableTextBlocks";
@@ -30,7 +32,9 @@ export function BlockContentInput(props: ArrayOfObjectsInputProps) {
     if (
       !hasMarkdownTable(lines) &&
       !hasMarkdownDivider(lines) &&
-      !hasMarkdownInlineCode(lines)
+      !hasMarkdownBlockquote(lines) &&
+      !hasMarkdownInlineCode(lines) &&
+      !hasMarkdownLink(lines)
     ) {
       return undefined;
     }

@@ -5,13 +5,20 @@ type PortableTextSpan = {
   marks: string[];
 };
 
+type PortableTextMarkDef = {
+  _key: string;
+  _type: "link";
+  href: string;
+  newTab?: boolean;
+};
+
 type PortableTextBlock = {
   _key: string;
   _type: "block";
   style: "normal" | "h2" | "h3" | "blockquote";
   listItem?: "bullet" | "number";
   level?: number;
-  markDefs: { _key: string; _type: string }[];
+  markDefs: PortableTextMarkDef[];
   children: PortableTextSpan[];
 };
 
@@ -61,26 +68,56 @@ function createSpan(text: string, marks: string[] = []): PortableTextSpan {
   };
 }
 
-function createInlineTextSpans(text: string): PortableTextSpan[] {
-  const spans: PortableTextSpan[] = [];
-  const inlineCodePattern = /`([^`\n]+)`/g;
+function isExternalLink(href: string) {
+  return /^(?:https?:)?\/\//.test(href) || href.startsWith("mailto:");
+}
+
+function createInlineTextContent(
+  text: string,
+): Pick<PortableTextBlock, "children" | "markDefs"> {
+  const children: PortableTextSpan[] = [];
+  const markDefs: PortableTextMarkDef[] = [];
+  const inlinePattern = /`([^`\n]+)`|(!?)\[([^\]\n]+)\]\(([^)\s]+)\)/g;
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
-  while ((match = inlineCodePattern.exec(text)) !== null) {
+  while ((match = inlinePattern.exec(text)) !== null) {
     if (match.index > lastIndex) {
-      spans.push(createSpan(text.slice(lastIndex, match.index)));
+      children.push(createSpan(text.slice(lastIndex, match.index)));
     }
 
-    spans.push(createSpan(match[1], ["code"]));
-    lastIndex = inlineCodePattern.lastIndex;
+    if (match[1] !== undefined) {
+      children.push(createSpan(match[1], ["code"]));
+      lastIndex = inlinePattern.lastIndex;
+      continue;
+    }
+
+    if (match[2]) {
+      children.push(createSpan(match[0]));
+      lastIndex = inlinePattern.lastIndex;
+      continue;
+    }
+
+    const markKey = createKey();
+    const href = match[4];
+    markDefs.push({
+      _key: markKey,
+      _type: "link",
+      href,
+      ...(isExternalLink(href) ? { newTab: true } : {}),
+    });
+    children.push(createSpan(match[3], [markKey]));
+    lastIndex = inlinePattern.lastIndex;
   }
 
   if (lastIndex < text.length) {
-    spans.push(createSpan(text.slice(lastIndex)));
+    children.push(createSpan(text.slice(lastIndex)));
   }
 
-  return spans.length ? spans : [createSpan(text)];
+  return {
+    children: children.length ? children : [createSpan(text)],
+    markDefs,
+  };
 }
 
 function createTextBlock(
@@ -88,13 +125,14 @@ function createTextBlock(
   style: "normal" | "h2" | "h3" | "blockquote" = "normal",
   listItem?: "bullet" | "number",
 ): PortableTextBlock {
+  const inlineContent = createInlineTextContent(text);
+
   return {
     _type: "block",
     _key: createKey(),
     style,
     ...(listItem ? { listItem, level: 1 } : {}),
-    markDefs: [],
-    children: createInlineTextSpans(text),
+    ...inlineContent,
   };
 }
 
@@ -166,6 +204,14 @@ export function hasMarkdownDivider(lines: string[]) {
 
 export function hasMarkdownInlineCode(lines: string[]) {
   return lines.some((line) => /`[^`\n]+`/.test(line));
+}
+
+export function hasMarkdownLink(lines: string[]) {
+  return lines.some((line) => /(^|[^!])\[[^\]\n]+\]\([^)\s]+\)/.test(line));
+}
+
+export function hasMarkdownBlockquote(lines: string[]) {
+  return lines.some((line) => /^\s*>\s*\S/.test(line));
 }
 
 export function markdownToPortableTextBlocks(markdown: string): ContentBlock[] {
