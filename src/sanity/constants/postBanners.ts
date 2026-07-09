@@ -49,6 +49,12 @@ export const POST_BANNER_PRESETS = [
     path: "/images/banners/app-router-boundary.svg",
     alt: "Abstract Next.js App Router server and client boundary banner",
   },
+  {
+    title: "DevTools Inspector",
+    value: "devtools-inspector",
+    path: "/images/banners/devtools-inspector.png",
+    alt: "Abstract browser DevTools inspector banner",
+  },
 ] as const;
 
 export type PostBannerPresetValue =
