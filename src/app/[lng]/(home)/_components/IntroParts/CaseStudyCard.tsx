@@ -22,10 +22,18 @@ export default function CaseStudyCard({
         bgcolor: "background.paper",
         backgroundImage: "none",
         borderColor: "divider",
-        transition: "border-color 0.25s ease, transform 0.25s ease",
+        transition:
+          "border-color 260ms ease, box-shadow 260ms ease, transform 260ms ease",
         "&:hover": {
           borderColor: "primary.main",
           transform: "translateY(-3px)",
+          boxShadow: 2,
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          transition: "border-color 160ms ease, box-shadow 160ms ease",
+          "&:hover": {
+            transform: "none",
+          },
         },
       }}
     >

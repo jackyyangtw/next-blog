@@ -24,11 +24,18 @@ export default function PhilosophyCard({
         backgroundImage: "none",
         border: "1px solid",
         borderColor: "divider",
-        transition: "all 0.3s ease-in-out",
+        transition:
+          "border-color 260ms ease, box-shadow 260ms ease, transform 260ms ease",
         "&:hover": {
           borderColor: "primary.main",
           transform: "translateY(-4px)",
           boxShadow: 2,
+        },
+        "@media (prefers-reduced-motion: reduce)": {
+          transition: "border-color 160ms ease, box-shadow 160ms ease",
+          "&:hover": {
+            transform: "none",
+          },
         },
       }}
     >

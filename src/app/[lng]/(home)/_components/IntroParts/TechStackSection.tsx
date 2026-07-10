@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import TechMarquee from "../TechMarquee";
+import TransitionFrame from "./TransitionFrame";
 import { HomePageT } from "./types";
 
 interface TechStackSectionProps {
@@ -9,17 +10,19 @@ interface TechStackSectionProps {
 export default function TechStackSection({ t }: TechStackSectionProps) {
   return (
     <Box sx={{ py: 10 }}>
-      <Box sx={{ maxWidth: 680, mx: "auto", mb: 4, textAlign: "center" }}>
-        <Typography variant="h2" sx={{ mb: 2 }}>
-          {t("tech_stack.section_title")}
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ color: "text.secondary", lineHeight: 1.8 }}
-        >
-          {t("tech_stack.description")}
-        </Typography>
-      </Box>
+      <TransitionFrame kind="fade" timeout={520}>
+        <Box sx={{ maxWidth: 680, mx: "auto", mb: 4, textAlign: "center" }}>
+          <Typography variant="h2" sx={{ mb: 2 }}>
+            {t("tech_stack.section_title")}
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{ color: "text.secondary", lineHeight: 1.8 }}
+          >
+            {t("tech_stack.description")}
+          </Typography>
+        </Box>
+      </TransitionFrame>
       <TechMarquee />
     </Box>
   );
