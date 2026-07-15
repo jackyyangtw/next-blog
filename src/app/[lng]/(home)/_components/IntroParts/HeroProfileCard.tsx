@@ -14,12 +14,12 @@ export default function HeroProfileCard() {
   return (
     <Box
       sx={{
-        p: { xs: 2, sm: 3 },
+        p: { xs: 2.25, sm: 3 },
         bgcolor: "background.paper",
         borderRadius: 2,
         border: "1px solid",
         borderColor: "divider",
-        boxShadow: 2,
+        boxShadow: 1,
         position: "relative",
         overflow: "hidden",
         transition:
@@ -28,18 +28,17 @@ export default function HeroProfileCard() {
           content: '""',
           position: "absolute",
           top: 0,
-          left: 24,
-          right: 24,
+          left: 0,
+          right: 0,
           height: 1,
-          background:
-            "linear-gradient(90deg, transparent, rgba(45, 212, 191, 0.58), transparent)",
-          opacity: 0.56,
+          bgcolor: "divider",
+          opacity: 0.7,
           pointerEvents: "none",
         },
         "&:hover": {
-          borderColor: "primary.main",
-          boxShadow: 4,
-          transform: "translateY(-3px)",
+          borderColor: "text.secondary",
+          boxShadow: 2,
+          transform: "translateY(-2px)",
         },
         "@media (prefers-reduced-motion: reduce)": {
           transition: "border-color 160ms ease, box-shadow 160ms ease",
@@ -49,58 +48,31 @@ export default function HeroProfileCard() {
         },
       }}
     >
-      <Stack spacing={{ xs: 2, sm: 3 }} sx={{ position: "relative" }}>
-        <Stack direction="row" spacing={1}>
+      <Stack spacing={{ xs: 2, sm: 2.5 }} sx={{ position: "relative" }}>
+        <Stack direction="row" spacing={2.25} alignItems="center">
           <Box
             sx={{
-              width: 10,
-              height: 10,
-              borderRadius: "50%",
-              bgcolor: "error.main",
-            }}
-          />
-          <Box
-            sx={{
-              width: 10,
-              height: 10,
-              borderRadius: "50%",
-              bgcolor: "warning.main",
-            }}
-          />
-          <Box
-            sx={{
-              width: 10,
-              height: 10,
-              borderRadius: "50%",
-              bgcolor: "success.main",
-            }}
-          />
-        </Stack>
-
-        <Stack direction="row" spacing={2.5} alignItems="center">
-          <Box
-            sx={{
-              width: { xs: 72, sm: 96 },
-              height: { xs: 72, sm: 96 },
+              width: { xs: 68, sm: 82 },
+              height: { xs: 68, sm: 82 },
               borderRadius: "50%",
               overflow: "hidden",
               flexShrink: 0,
               border: "1px solid",
               borderColor: "divider",
-              boxShadow: 2,
+              boxShadow: 1,
             }}
           >
             <Image
               src="/images/avatar.png"
               alt="Jacky"
-              width={96}
-              height={96}
+              width={82}
+              height={82}
               loading="eager"
               fetchPriority="high"
               style={avatarImageStyle}
             />
           </Box>
-          <Box>
+          <Box sx={{ minWidth: 0 }}>
             <Typography
               variant="overline"
               sx={{
@@ -114,7 +86,8 @@ export default function HeroProfileCard() {
             <Typography
               variant="h5"
               sx={{
-                fontSize: { xs: "1.25rem", sm: "1.5rem" },
+                mt: 0.25,
+                fontSize: { xs: "1.25rem", sm: "1.45rem" },
                 fontWeight: 700,
               }}
             >
@@ -123,22 +96,26 @@ export default function HeroProfileCard() {
           </Box>
         </Stack>
 
-        <Typography
-          variant="body2"
+        <Box
           sx={{
-            fontFamily: "monospace",
-            fontSize: { xs: "0.75rem", sm: "0.875rem" },
-            color: "primary.dark",
-            lineHeight: 1.8,
-            overflowWrap: "anywhere",
-            whiteSpace: "pre-wrap",
-            ".dark &": {
-              color: "primary.light",
-            },
+            pt: 2,
+            borderTop: "1px solid",
+            borderColor: "divider",
           }}
         >
-          {PRINCIPLE_CODE}
-        </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              fontFamily: "monospace",
+              fontSize: { xs: "0.72rem", sm: "0.8rem" },
+              color: "text.secondary",
+              lineHeight: 1.7,
+              overflowWrap: "anywhere",
+            }}
+          >
+            {PRINCIPLE_CODE}
+          </Typography>
+        </Box>
       </Stack>
     </Box>
   );
