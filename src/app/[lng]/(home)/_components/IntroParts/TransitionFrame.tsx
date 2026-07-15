@@ -27,19 +27,15 @@ export default function TransitionFrame({
   const [isVisible, setIsVisible] = useState(false);
   const reduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const activeTimeout = reduceMotion ? 0 : timeout;
+  const isTransitionVisible = reduceMotion || isVisible;
   const transitionStyle = useMemo(
     () => ({ transitionDelay: reduceMotion ? "0ms" : `${delay}ms` }),
     [delay, reduceMotion],
   );
 
   useEffect(() => {
-    if (reduceMotion) {
-      setIsVisible(true);
-      return;
-    }
-
     const element = rootRef.current;
-    if (!element || isVisible) return;
+    if (reduceMotion || !element || isVisible) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -62,7 +58,7 @@ export default function TransitionFrame({
 
   if (kind === "grow") {
     return (
-      <Grow in={isVisible} timeout={activeTimeout} appear>
+      <Grow in={isTransitionVisible} timeout={activeTimeout} appear>
         {content}
       </Grow>
     );
@@ -71,7 +67,7 @@ export default function TransitionFrame({
   if (kind === "slide") {
     return (
       <Slide
-        in={isVisible}
+        in={isTransitionVisible}
         direction={direction}
         timeout={activeTimeout}
         appear
@@ -82,7 +78,7 @@ export default function TransitionFrame({
   }
 
   return (
-    <Fade in={isVisible} timeout={activeTimeout} appear>
+    <Fade in={isTransitionVisible} timeout={activeTimeout} appear>
       {content}
     </Fade>
   );

@@ -2,7 +2,7 @@
   "name": "jacky-dev",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@10.29.3",
+  "packageManager": "pnpm@11.13.0+sha512.88d94724d8f2e6c186744a5584c6e59ecac869ec7ba15e9cb4cd628e8dc7066820b2481d8ee3b51ea8da323a7378068aa58c556a3720d32b7c20a051d088363a",
   "scripts": {
     "dev": "next dev --turbopack -p 3200",
     "build": "next build",

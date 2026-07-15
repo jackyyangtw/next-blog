@@ -11,20 +11,19 @@ import ConsentSettingsButton from "./AnalyticsConsent/ConsentSettingsButton";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 interface FooterProps {
   consentSettingsLabel: string;
   showConsentSettings: boolean;
   siteName: string;
 }
 
-export default async function Footer({
+export default function Footer({
   consentSettingsLabel,
   showConsentSettings,
   siteName,
 }: FooterProps) {
-  "use cache";
-
-  const currentYear = new Date().getFullYear();
   return (
     <Box
       component="footer"
@@ -91,7 +90,7 @@ export default async function Footer({
         >
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography variant="caption" color="text.secondary">
-              © {currentYear} Jacky. All rights reserved.
+              © {CURRENT_YEAR} Jacky. All rights reserved.
             </Typography>
             {showConsentSettings ? (
               <ConsentSettingsButton label={consentSettingsLabel} />

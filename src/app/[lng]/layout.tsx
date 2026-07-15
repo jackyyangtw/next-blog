@@ -23,9 +23,14 @@ import { getSiteUrl } from "@/utils/seo";
 import type { AppBarLabels } from "./_components/AppAppBar/types";
 import { getChromeTranslations } from "@/i18n/chrome";
 import Script from "next/script";
+import { notFound } from "next/navigation";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import ConsentBanner from "./_components/AnalyticsConsent/ConsentBanner";
 import { ANALYTICS_CONSENT_STORAGE_KEY } from "@/lib/analytics/consent";
+
+function isSupportedLocale(lng: string): lng is Locale {
+  return languages.includes(lng as Locale);
+}
 
 const GOOGLE_CONSENT_DEFAULT_SCRIPT = `
   window.dataLayer = window.dataLayer || [];
@@ -50,9 +55,13 @@ const GOOGLE_CONSENT_DEFAULT_SCRIPT = `
 export const generateMetadata = async ({
   params,
 }: {
-  params: Promise<{ lng: Locale }>;
+  params: Promise<{ lng: string }>;
 }) => {
   const { lng } = await params;
+  if (!isSupportedLocale(lng)) {
+    notFound();
+  }
+
   const tCommon = await getServerTranslation(lng, "common");
   return {
     title: tCommon.t("site_name"),
@@ -68,7 +77,11 @@ export async function generateStaticParams() {
 export default async function RootLayout(props: LayoutProps<"/[lng]">) {
   const { children, params } = props;
   const { lng: routeLocale } = await params;
-  const lng = routeLocale as Locale;
+  if (!isSupportedLocale(routeLocale)) {
+    notFound();
+  }
+
+  const lng = routeLocale;
   const chrome = getChromeTranslations(lng);
   const googleAnalyticsId =
     process.env.NODE_ENV === "production"
