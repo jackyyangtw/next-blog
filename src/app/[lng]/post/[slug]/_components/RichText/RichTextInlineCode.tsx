@@ -12,22 +12,22 @@ export function RichTextInlineCode({ children }: RichTextInlineCodeProps) {
     <Box
       component="code"
       sx={(theme) => ({
-        px: 0.65,
-        py: 0.08,
+        px: 0.55,
+        py: 0.06,
         borderRadius: 0.75,
         border: "1px solid",
-        borderColor: "rgba(8, 145, 178, 0.22)",
-        bgcolor: "rgba(8, 145, 178, 0.1)",
-        color: "primary.dark",
+        borderColor: "divider",
+        bgcolor: "action.hover",
+        color: "text.primary",
         fontFamily:
           "var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
-        fontSize: "0.92em",
-        fontWeight: 700,
+        fontSize: "0.9em",
+        fontWeight: 600,
         whiteSpace: "break-spaces",
         ...theme.applyStyles("dark", {
-          borderColor: "rgba(103, 232, 249, 0.24)",
-          bgcolor: "rgba(34, 211, 238, 0.14)",
-          color: "#7dd3fc",
+          borderColor: "divider",
+          bgcolor: "action.selected",
+          color: "text.primary",
         }),
       })}
     >

@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Box from "@mui/material/Box";
 import { useCallback, useMemo, useState } from "react";
 
 // ------------- Next sanity -------------
@@ -58,6 +59,26 @@ function RichTextNormalBlock({ children, value }: RichTextBlockProps) {
   return <p>{renderInlineCodeFallback(children)}</p>;
 }
 
+function RichTextBlockquote({ children }: RichTextBlockProps) {
+  return (
+    <Box
+      component="blockquote"
+      sx={{
+        my: 3,
+        mx: 0,
+        py: 0.5,
+        pl: 2,
+        borderLeft: "4px solid",
+        borderColor: "primary.main",
+        color: "text.secondary",
+        fontStyle: "normal",
+      }}
+    >
+      {renderInlineCodeFallback(children)}
+    </Box>
+  );
+}
+
 export default function RichText({ value }: { value: BlockContent }) {
   const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
   const [image, setImage] = useState<RichTextImageValue | null>(null);
@@ -101,16 +122,8 @@ export default function RichText({ value }: { value: BlockContent }) {
             {renderInlineCodeFallback(children)}
           </h3>
         ),
-        blockquote: ({ children }) => (
-          <blockquote style={{ margin: "24px 0", paddingLeft: 16 }}>
-            {renderInlineCodeFallback(children)}
-          </blockquote>
-        ),
-        quote: ({ children }) => (
-          <blockquote style={{ margin: "24px 0", paddingLeft: 16 }}>
-            {renderInlineCodeFallback(children)}
-          </blockquote>
-        ),
+        blockquote: RichTextBlockquote,
+        quote: RichTextBlockquote,
       },
       listItem: {
         bullet: ({ children }) => <li>{renderInlineCodeFallback(children)}</li>,
