@@ -4,6 +4,7 @@ import {
   POST_BANNER_PRESETS,
   POST_BANNER_SOURCE,
 } from "@/sanity/constants/postBanners";
+import { AiSeoAssistantInput } from "@/features/ai-seo/components/AiSeoAssistantInput";
 import { PostSlugInput } from "./components/PostSlugInput";
 import { PresetBannerInput } from "./components/PresetBannerInput";
 
@@ -111,6 +112,15 @@ export const postType = defineType({
       type: "blockContent",
       validation: (r) => r.required(),
     }), // ← 富文本
+    defineField({
+      name: "aiSeoAssistant",
+      title: "AI SEO Assistant",
+      type: "string",
+      readOnly: true,
+      components: {
+        input: AiSeoAssistantInput,
+      },
+    }),
     defineField({
       name: "author",
       type: "reference",
