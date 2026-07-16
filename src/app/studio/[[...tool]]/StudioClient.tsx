@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 
+import ReactQueryProvider from "@/Providers/react-query";
 import config from "../../../../sanity.config";
 
 const NextStudio = dynamic(
@@ -10,5 +11,9 @@ const NextStudio = dynamic(
 );
 
 export function StudioClient() {
-  return <NextStudio config={config} />;
+  return (
+    <ReactQueryProvider>
+      <NextStudio config={config} />
+    </ReactQueryProvider>
+  );
 }

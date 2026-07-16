@@ -1,9 +1,11 @@
-// src/sanity/schemaTypes/postType.ts
+﻿// src/sanity/schemaTypes/postType.ts
 import { defineField, defineType } from "sanity";
 import {
   POST_BANNER_PRESETS,
   POST_BANNER_SOURCE,
 } from "@/sanity/constants/postBanners";
+import { ArticleReviewAssistantInput } from "@/features/article-review/components/ArticleReviewAssistantInput";
+import { AiSeoAssistantInput } from "@/features/ai-seo/components/AiSeoAssistantInput";
 import { PostSlugInput } from "./components/PostSlugInput";
 import { PresetBannerInput } from "./components/PresetBannerInput";
 
@@ -26,7 +28,7 @@ export const postType = defineType({
       name: "categories",
       type: "array",
       of: [{ type: "reference", to: [{ type: "category" }] }],
-      validation: (r) => r.required().min(1), // 至少要選一個
+      validation: (r) => r.required().min(1), // è‡³å°‘è¦é¸ä¸€å€‹
     }),
     defineField({
       name: "bannerSource",
@@ -110,7 +112,25 @@ export const postType = defineType({
       name: "content",
       type: "blockContent",
       validation: (r) => r.required(),
-    }), // ← 富文本
+    }), // â† å¯Œæ–‡æœ¬
+    defineField({
+      name: "aiSeoAssistant",
+      title: "AI SEO Assistant",
+      type: "string",
+      readOnly: true,
+      components: {
+        input: AiSeoAssistantInput,
+      },
+    }),
+    defineField({
+      name: "articleReviewAssistant",
+      title: "Technical Article Reviewer",
+      type: "string",
+      readOnly: true,
+      components: {
+        input: ArticleReviewAssistantInput,
+      },
+    }),
     defineField({
       name: "author",
       type: "reference",

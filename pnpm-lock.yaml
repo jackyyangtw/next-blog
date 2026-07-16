@@ -7,6 +7,9 @@ settings:
 importers:
   .:
     dependencies:
+      "@ai-sdk/openai":
+        specifier: ^4.0.14
+        version: 4.0.14(zod@4.3.6)
       "@emotion/cache":
         specifier: ^11.14.0
         version: 11.14.0
@@ -52,6 +55,9 @@ importers:
       accept-language:
         specifier: ^3.0.20
         version: 3.0.20
+      ai:
+        specifier: ^7.0.28
+        version: 7.0.28(zod@4.3.6)
       dayjs:
         specifier: ^1.11.13
         version: 1.11.19
@@ -189,6 +195,40 @@ packages:
       {
         integrity: sha512-nRBchcMM+QK1pdjO7/idu86rbJI5YHUKCvKs0KxnSYbVe3F51UfGxuZX4Qy/fWlp6l7gWFwIkrOzN+oUK03kfw==,
       }
+
+  "@ai-sdk/gateway@4.0.20":
+    resolution:
+      {
+        integrity: sha512-m3PdYs0yqSxswsrEhVj64wDLgFs35Zxl8liLNuWGzE7bwBLF6Mhu0E5rPpDNJbIjyQpA4aMKOOWBfjERw2zvPw==,
+      }
+    engines: { node: ">=22" }
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  "@ai-sdk/openai@4.0.14":
+    resolution:
+      {
+        integrity: sha512-MnwhHrPOyFYvnOV5p0Iwxwuxnn0/hQbG3rXAyRAsYqfFTrzHJRU2p7BQtKX2PZWH+59iBYBFA2n4GFYC3KEK+g==,
+      }
+    engines: { node: ">=22" }
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  "@ai-sdk/provider-utils@5.0.10":
+    resolution:
+      {
+        integrity: sha512-uPyec0+85dwxZYXtb8qe8gCjhjDfxP4LCDo/uRQS/iG+FIgYbHPRhr/ys281udG90bTaE18+5cxWraYaf8oHCw==,
+      }
+    engines: { node: ">=22" }
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
+
+  "@ai-sdk/provider@4.0.3":
+    resolution:
+      {
+        integrity: sha512-e0CpNWJUY7OxAFAnCZkw+ri9QOHWwTs1tXP42782KFGCU07qt8NiXCrCVowyCB5dP2r5/Uls+g2oPd8kOJn9dw==,
+      }
+    engines: { node: ">=22" }
 
   "@architect/asap@7.0.10":
     resolution:
@@ -4251,6 +4291,12 @@ packages:
     peerDependencies:
       react: ^16.14.0 || 17.x || 18.x || 19.x
 
+  "@standard-schema/spec@1.1.0":
+    resolution:
+      {
+        integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==,
+      }
+
   "@swc/helpers@0.5.15":
     resolution:
       {
@@ -4813,6 +4859,13 @@ packages:
         integrity: sha512-1+y+f6rk0Yc9ss9bRDgz/gdpLimwoRteKHhrcgHvEpjbP1nyT3ByqEMWm2BTcpIO5UtDmIFXc8zdq4LR190PDA==,
       }
 
+  "@vercel/oidc@3.2.0":
+    resolution:
+      {
+        integrity: sha512-UycprH3T6n3jH0k44NHMa7pnFHGu/N05MjojYr+Mc6I7obkoLIJujSWwin1pCvdy/eOxrI/l3uDLQsmcrOb4ug==,
+      }
+    engines: { node: ">= 20" }
+
   "@vercel/stega@0.1.2":
     resolution:
       {
@@ -4827,6 +4880,12 @@ packages:
     engines: { node: ^20.19.0 || >=22.12.0 }
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+
+  "@workflow/serde@4.1.0":
+    resolution:
+      {
+        integrity: sha512-pav4F2BoirECWR7Nf1TKt+2eETcBj7jj4cBefQ8VXQCA6NPkaKeLfj/zMgi+3zYV5ZIBT4GuUiphsj0/b9hPQQ==,
+      }
 
   "@xstate/react@6.0.0":
     resolution:
@@ -4889,6 +4948,15 @@ packages:
         integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==,
       }
     engines: { node: ">= 14" }
+
+  ai@7.0.28:
+    resolution:
+      {
+        integrity: sha512-RtynA4e6rWH2YiMX0OJz2h2i+sdJgiItuwqmstYZAiTZ0ZkZzQ8s4KVh7tQfZuDCfzIhRTg+q1h1xirT8AClkw==,
+      }
+    engines: { node: ">=22" }
+    peerDependencies:
+      zod: ^3.25.76 || ^4.1.8
 
   ajv@6.14.0:
     resolution:
@@ -6510,6 +6578,13 @@ packages:
       }
     engines: { node: ">=18.0.0" }
 
+  eventsource-parser@3.1.0:
+    resolution:
+      {
+        integrity: sha512-kJezFj9YFAMLeORyi7aCLxLbD5/qWMQnoMVlVPyHIll7lgRJCc3JVln9Vgl9nwQi0YkMnhdGTMNn7CkRRAptMg==,
+      }
+    engines: { node: ">=18.0.0" }
+
   eventsource@2.0.2:
     resolution:
       {
@@ -7923,6 +7998,12 @@ packages:
     resolution:
       {
         integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==,
+      }
+
+  json-schema@0.4.0:
+    resolution:
+      {
+        integrity: sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==,
       }
 
   json-stable-stringify-without-jsonify@1.0.1:
@@ -11526,6 +11607,31 @@ snapshots:
 
   "@actions/io@3.0.2": {}
 
+  "@ai-sdk/gateway@4.0.20(zod@4.3.6)":
+    dependencies:
+      "@ai-sdk/provider": 4.0.3
+      "@ai-sdk/provider-utils": 5.0.10(zod@4.3.6)
+      "@vercel/oidc": 3.2.0
+      zod: 4.3.6
+
+  "@ai-sdk/openai@4.0.14(zod@4.3.6)":
+    dependencies:
+      "@ai-sdk/provider": 4.0.3
+      "@ai-sdk/provider-utils": 5.0.10(zod@4.3.6)
+      zod: 4.3.6
+
+  "@ai-sdk/provider-utils@5.0.10(zod@4.3.6)":
+    dependencies:
+      "@ai-sdk/provider": 4.0.3
+      "@standard-schema/spec": 1.1.0
+      "@workflow/serde": 4.1.0
+      eventsource-parser: 3.1.0
+      zod: 4.3.6
+
+  "@ai-sdk/provider@4.0.3":
+    dependencies:
+      json-schema: 0.4.0
+
   "@architect/asap@7.0.10":
     dependencies:
       "@aws-lite/client": 0.21.10
@@ -14507,6 +14613,8 @@ snapshots:
       hoist-non-react-statics: 3.3.2
       react: 19.2.4
 
+  "@standard-schema/spec@1.1.0": {}
+
   "@swc/helpers@0.5.15":
     dependencies:
       tslib: 2.8.1
@@ -14826,6 +14934,8 @@ snapshots:
 
   "@vercel/edge@1.2.2": {}
 
+  "@vercel/oidc@3.2.0": {}
+
   "@vercel/stega@0.1.2": {}
 
   "@vitejs/plugin-react@5.1.4(vite@7.3.6(@types/node@20.19.33)(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3))":
@@ -14839,6 +14949,8 @@ snapshots:
       vite: 7.3.6(@types/node@20.19.33)(jiti@2.6.1)(lightningcss@1.32.0)(yaml@2.8.3)
     transitivePeerDependencies:
       - supports-color
+
+  "@workflow/serde@4.1.0": {}
 
   "@xstate/react@6.0.0(@types/react@19.2.14)(react@19.2.4)(xstate@5.26.0)":
     dependencies:
@@ -14871,6 +14983,13 @@ snapshots:
   adm-zip@0.5.16: {}
 
   agent-base@7.1.4: {}
+
+  ai@7.0.28(zod@4.3.6):
+    dependencies:
+      "@ai-sdk/gateway": 4.0.20(zod@4.3.6)
+      "@ai-sdk/provider": 4.0.3
+      "@ai-sdk/provider-utils": 5.0.10(zod@4.3.6)
+      zod: 4.3.6
 
   ajv@6.14.0:
     dependencies:
@@ -16005,6 +16124,8 @@ snapshots:
 
   eventsource-parser@3.0.6: {}
 
+  eventsource-parser@3.1.0: {}
+
   eventsource@2.0.2: {}
 
   eventsource@4.1.0:
@@ -16806,6 +16927,8 @@ snapshots:
   json-reduce@3.0.0: {}
 
   json-schema-traverse@0.4.1: {}
+
+  json-schema@0.4.0: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 
