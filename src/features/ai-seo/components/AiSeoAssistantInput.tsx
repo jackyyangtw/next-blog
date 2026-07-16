@@ -6,7 +6,7 @@ import { useDocumentOperation, useFormValue } from "sanity";
 import type { SeoSuggestion } from "../types";
 import { useGenerateSeo } from "../hooks/useGenerateSeo";
 import { AiSeoPreview } from "./AiSeoPreview";
-import { portableTextToPlainText } from "./portableTextToPlainText";
+import { portableTextToPlainText } from "@/sanity/portableTextToPlainText";
 
 type PostStudioDocument = {
   _id?: string;

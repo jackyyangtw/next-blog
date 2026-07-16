@@ -8,18 +8,13 @@ import {
   generateText,
 } from "ai";
 
+import type { AiProviderErrorCode } from "@/features/ai/errors/providerErrorMessage";
 import type { GenerateSeoRequest, SeoSuggestion } from "../types";
 import { seoSuggestionSchema } from "../schemas/seoSuggestionSchema";
 import { getAiSeoMode, getAiSeoModel, AiSeoConfigurationError } from "./model";
 import { mockSeo } from "./mockSeo";
 
-export type AiSeoErrorCode =
-  | "MISSING_API_KEY"
-  | "PROVIDER_QUOTA_EXCEEDED"
-  | "PROVIDER_RATE_LIMIT"
-  | "PROVIDER_TIMEOUT"
-  | "INVALID_STRUCTURED_OUTPUT"
-  | "PROVIDER_FAILURE";
+export type AiSeoErrorCode = AiProviderErrorCode;
 
 export class AiSeoError extends Error {
   constructor(

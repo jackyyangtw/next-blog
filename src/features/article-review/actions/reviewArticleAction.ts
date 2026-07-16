@@ -6,27 +6,27 @@ import { ZodError } from "zod";
 import { providerErrorMessage } from "@/features/ai/errors/providerErrorMessage";
 import { authOptions } from "@/lib/auth/auth";
 import {
-  AI_SEO_CONTENT_MAX_LENGTH,
-  generateSeoRequestSchema,
-} from "../schemas/generateSeoRequestSchema";
-import { generateSeo, AiSeoError } from "../server/generateSeo";
-import type { GenerateSeoActionResult } from "../types";
+  ARTICLE_REVIEW_CONTENT_MAX_LENGTH,
+  reviewArticleRequestSchema,
+} from "../schemas/reviewArticleRequestSchema";
+import { reviewArticle, ArticleReviewError } from "../server/reviewArticle";
+import type { ReviewArticleActionResult } from "../types";
 
 function inputErrorMessage(error: ZodError) {
-  return error.issues[0]?.message || "SEO request input is invalid.";
+  return error.issues[0]?.message || "Article review input is invalid.";
 }
 
-function generationErrorMessage(error: AiSeoError) {
+function reviewErrorMessage(error: ArticleReviewError) {
   return providerErrorMessage(error.code, {
-    featureName: "AI SEO",
-    invalidOutputMessage: "AI 回傳格式不符合 SEO 建議規格，請重新產生一次。",
-    failureMessage: "目前無法產生 SEO 建議，請稍後再試。",
+    featureName: "AI Reviewer",
+    invalidOutputMessage: "AI 回傳格式不符合文章審查規格，請重新審查一次。",
+    failureMessage: "目前無法審查文章，請稍後再試。",
   });
 }
 
-export async function generateSeoAction(
+export async function reviewArticleAction(
   input: unknown,
-): Promise<GenerateSeoActionResult> {
+): Promise<ReviewArticleActionResult> {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
@@ -34,7 +34,7 @@ export async function generateSeoAction(
       success: false,
       error: {
         code: "UNAUTHORIZED",
-        message: "請先登入後再產生 SEO 建議。",
+        message: "Please sign in before reviewing an article.",
       },
     };
   }
@@ -44,19 +44,19 @@ export async function generateSeoAction(
       success: false,
       error: {
         code: "UNAUTHORIZED",
-        message: "你沒有產生 SEO 建議的權限。",
+        message: "You do not have permission to review articles.",
       },
     };
   }
 
-  const parsed = generateSeoRequestSchema.safeParse(input);
+  const parsed = reviewArticleRequestSchema.safeParse(input);
 
   if (!parsed.success) {
     const isContentTooLarge = parsed.error.issues.some(
       (issue) =>
         issue.path[0] === "content" &&
         issue.code === "too_big" &&
-        issue.maximum === AI_SEO_CONTENT_MAX_LENGTH,
+        issue.maximum === ARTICLE_REVIEW_CONTENT_MAX_LENGTH,
     );
 
     return {
@@ -71,17 +71,19 @@ export async function generateSeoAction(
   try {
     return {
       success: true,
-      data: await generateSeo(parsed.data),
+      data: await reviewArticle(parsed.data),
     };
   } catch (error) {
     const mappedError =
-      error instanceof AiSeoError ? error : new AiSeoError("PROVIDER_FAILURE");
+      error instanceof ArticleReviewError
+        ? error
+        : new ArticleReviewError("PROVIDER_FAILURE");
 
     return {
       success: false,
       error: {
-        code: "AI_SEO_GENERATION_FAILED",
-        message: generationErrorMessage(mappedError),
+        code: "ARTICLE_REVIEW_FAILED",
+        message: reviewErrorMessage(mappedError),
       },
     };
   }

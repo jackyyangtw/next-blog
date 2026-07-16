@@ -1,10 +1,10 @@
-import "server-only";
+﻿import "server-only";
 
-import { createOpenAI } from "@ai-sdk/openai";
+import { getOpenAiModel, AiModelConfigurationError } from "@/features/ai/model";
 
 export type AiSeoMode = "mock" | "remote";
 
-export class AiSeoConfigurationError extends Error {
+export class AiSeoConfigurationError extends AiModelConfigurationError {
   constructor(message: string) {
     super(message);
     this.name = "AiSeoConfigurationError";
@@ -16,11 +16,13 @@ export function getAiSeoMode(): AiSeoMode {
 }
 
 export function getAiSeoModel() {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    throw new AiSeoConfigurationError("Missing OPENAI_API_KEY.");
-  }
+  try {
+    return getOpenAiModel();
+  } catch (error) {
+    if (error instanceof AiModelConfigurationError) {
+      throw new AiSeoConfigurationError(error.message);
+    }
 
-  const openai = createOpenAI({ apiKey });
-  return openai(process.env.AI_SEO_MODEL || "gpt-5-mini");
+    throw error;
+  }
 }
