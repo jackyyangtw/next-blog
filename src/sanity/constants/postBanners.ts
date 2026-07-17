@@ -50,6 +50,18 @@ export const POST_BANNER_PRESETS = [
     alt: "Abstract Next.js App Router server and client boundary banner",
   },
   {
+    title: "Middleware Server Next.js",
+    value: "middleware-server-nextjs",
+    path: "/images/banners/middleware-server-nextjs.svg",
+    alt: "Abstract Next.js middleware and server request flow banner",
+  },
+  {
+    title: "React Hooks",
+    value: "react-hooks",
+    path: "/images/banners/react-hooks.svg",
+    alt: "Abstract React Hooks state and dependency flow banner",
+  },
+  {
     title: "DevTools Inspector",
     value: "devtools-inspector",
     path: "/images/banners/devtools-inspector.png",
