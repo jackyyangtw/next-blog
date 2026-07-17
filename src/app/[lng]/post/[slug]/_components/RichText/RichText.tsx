@@ -21,8 +21,12 @@ import { RichTextTable } from "./RichTextTable";
 // ------------- Types -------------
 import { BlockContent } from "@/schema/type/blockContent";
 import { RichTextImageValue, RichTextTableValue } from "./types";
+import { getPostHeadingId } from "../postTableOfContents";
+
+const POST_HEADING_SCROLL_MARGIN_TOP = 128;
 
 interface RichTextBlockValue {
+  _key?: string;
   children?: unknown[];
 }
 
@@ -79,6 +83,28 @@ function RichTextBlockquote({ children }: RichTextBlockProps) {
   );
 }
 
+function RichTextHeading2({ children, value }: RichTextBlockProps) {
+  return (
+    <h2
+      id={value?._key ? getPostHeadingId(value._key) : undefined}
+      style={{ marginTop: 24, scrollMarginTop: POST_HEADING_SCROLL_MARGIN_TOP }}
+    >
+      {renderInlineCodeFallback(children)}
+    </h2>
+  );
+}
+
+function RichTextHeading3({ children, value }: RichTextBlockProps) {
+  return (
+    <h3
+      id={value?._key ? getPostHeadingId(value._key) : undefined}
+      style={{ marginTop: 16, scrollMarginTop: POST_HEADING_SCROLL_MARGIN_TOP }}
+    >
+      {renderInlineCodeFallback(children)}
+    </h3>
+  );
+}
+
 export default function RichText({ value }: { value: BlockContent }) {
   const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
   const [image, setImage] = useState<RichTextImageValue | null>(null);
@@ -112,16 +138,8 @@ export default function RichText({ value }: { value: BlockContent }) {
       },
       block: {
         normal: RichTextNormalBlock,
-        h2: ({ children }) => (
-          <h2 style={{ marginTop: 24 }}>
-            {renderInlineCodeFallback(children)}
-          </h2>
-        ),
-        h3: ({ children }) => (
-          <h3 style={{ marginTop: 16 }}>
-            {renderInlineCodeFallback(children)}
-          </h3>
-        ),
+        h2: RichTextHeading2,
+        h3: RichTextHeading3,
         blockquote: RichTextBlockquote,
         quote: RichTextBlockquote,
       },

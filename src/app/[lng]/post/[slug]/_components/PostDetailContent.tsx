@@ -1,4 +1,5 @@
 "use client";
+import { useMemo } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
@@ -10,9 +11,11 @@ import Link from "next/link";
 import RichText from "@/app/[lng]/post/[slug]/_components/RichText/RichText";
 import FavoriteButton from "@/app/[lng]/post/[slug]/_components/FavoriteButton";
 import Banner from "@/app/[lng]/post/[slug]/_components/Banner";
+import PostScrollSpy from "./PostScrollSpy";
 import { PostDoc } from "@/schema/type/post";
 import { formatDate } from "@/utils/date/formate";
 import { hasPostBannerImage } from "@/sanity/postBanner";
+import { getPostTableOfContents } from "./postTableOfContents";
 
 interface PostDetailContentProps {
   post: PostDoc;
@@ -20,6 +23,7 @@ interface PostDetailContentProps {
   showBackLink?: boolean;
 
   showCategories?: boolean;
+  showScrollSpy?: boolean;
   closeModal?: () => void;
 }
 
@@ -28,7 +32,13 @@ export default function PostDetailContent({
   lng,
   showBackLink = true,
   showCategories = true,
+  showScrollSpy = true,
 }: PostDetailContentProps) {
+  const tableOfContents = useMemo(
+    () => (showScrollSpy ? getPostTableOfContents(post.content) : []),
+    [post.content, showScrollSpy],
+  );
+
   return (
     <>
       <Box mb={4}>
@@ -84,8 +94,18 @@ export default function PostDetailContent({
         </Box>
       )}
 
-      <Box sx={{ position: "relative" }}>
-        <RichText value={post.content} />
+      <Box
+        sx={{
+          display: { xs: "block", lg: "flex" },
+          alignItems: "flex-start",
+          gap: { lg: 4, xl: 5 },
+          position: "relative",
+        }}
+      >
+        <Box sx={{ minWidth: 0, flex: 1 }}>
+          <RichText value={post.content} />
+        </Box>
+        {showScrollSpy && <PostScrollSpy sections={tableOfContents} />}
       </Box>
 
       <Divider sx={{ my: 6 }} />

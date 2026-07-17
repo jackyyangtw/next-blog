@@ -24,6 +24,7 @@ export default async function InterceptedPostPage({
         lng={lng}
         showBackLink={false}
         showCategories={false}
+        showScrollSpy={false}
       />
     </PostModal>
   );
