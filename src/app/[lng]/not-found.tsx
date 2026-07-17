@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
-import SearchOffIcon from "@mui/icons-material/SearchOff";
+import { SearchOff as SearchOffIcon } from "@mui/icons-material";
 
 export default function NotFound() {
   return (

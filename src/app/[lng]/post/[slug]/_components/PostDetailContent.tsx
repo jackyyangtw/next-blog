@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
-import EventIcon from "@mui/icons-material/Event";
+import { Event as EventIcon } from "@mui/icons-material";
 import Link from "next/link";
 
 import RichText from "@/app/[lng]/post/[slug]/_components/RichText/RichText";

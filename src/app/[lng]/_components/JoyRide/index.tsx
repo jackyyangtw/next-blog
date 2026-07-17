@@ -5,8 +5,7 @@ import { useEffect, useCallback, useMemo } from "react";
 import { useFeatureTourStore } from "@/store/useFeatureTourStore";
 
 // ------------------ react-joyride ----------------
-import { CallBackProps, EVENTS, STATUS, Step } from "react-joyride";
-import Joyride from "react-joyride";
+import { EventData, EVENTS, Joyride, STATUS, Step } from "react-joyride";
 
 // ------------------ next-auth ----------------
 import { useSession } from "next-auth/react";
@@ -37,7 +36,7 @@ export default function JoyRide() {
   const theme = useTheme();
 
   const handleTourCallback = useCallback(
-    (data: CallBackProps) => {
+    (data: EventData) => {
       const isTargetMissing = data.type === EVENTS.TARGET_NOT_FOUND;
       const isFinished = data.status === STATUS.FINISHED;
       const isSkipped = data.status === STATUS.SKIPPED;
@@ -60,7 +59,7 @@ export default function JoyRide() {
       content: isAuthenticated
         ? "你已登入，可以從這裡前往個人頁查看收藏清單。"
         : "先從這裡登入，登入後才能使用收藏功能。",
-      disableBeacon: true,
+      skipBeacon: true,
     };
     const guideStep: Step = {
       target: "body",
@@ -89,24 +88,20 @@ export default function JoyRide() {
       <Joyride
         run={isRunning}
         continuous
-        showSkipButton
-        showProgress
-        disableScrolling
-        callback={handleTourCallback}
+        onEvent={handleTourCallback}
         steps={tutorialSteps}
         tooltipComponent={Tooltip}
+        options={{
+          zIndex: 1500,
+          overlayColor: "rgba(0, 0, 0, 0.75)",
+          primaryColor: theme.palette.primary.main,
+          showProgress: true,
+          skipScroll: true,
+          buttons: ["back", "skip", "primary", "close"],
+        }}
         styles={{
-          options: {
-            zIndex: 1500,
-            overlayColor: "rgba(0, 0, 0, 0.75)",
-            spotlightShadow: "0 0 15px rgba(0, 0, 0, 0.5)",
-            primaryColor: theme.palette.primary.main,
-          },
           overlay: {
             animation: `${FADE_IN_ANIMATION} ${FADE_IN_ANIMATION_DURATION}ms ease-out forwards`,
-          },
-          spotlight: {
-            borderRadius: 8,
           },
         }}
       />

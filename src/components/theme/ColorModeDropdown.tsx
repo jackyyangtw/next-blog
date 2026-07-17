@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
-import DarkModeIcon from "@mui/icons-material/DarkModeRounded";
-import LightModeIcon from "@mui/icons-material/LightModeRounded";
+import { DarkModeRounded as DarkModeIcon } from "@mui/icons-material";
+import { LightModeRounded as LightModeIcon } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import IconButton, { IconButtonOwnProps } from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";

@@ -2,8 +2,8 @@
 import { Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { useClientTranslation } from "@/i18n/client";
-import GoogleIcon from "@mui/icons-material/Google";
-import {useSession} from "next-auth/react";
+import { Google as GoogleIcon } from "@mui/icons-material";
+import { useSession } from "next-auth/react";
 
 export default function LoginButton() {
   const { t, lng } = useClientTranslation("auth-page");

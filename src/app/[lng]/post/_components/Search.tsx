@@ -5,9 +5,9 @@ import { useState, useCallback } from "react";
 import FormControl from "@mui/material/FormControl";
 import InputAdornment from "@mui/material/InputAdornment";
 import OutlinedInput from "@mui/material/OutlinedInput";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import { SearchRounded as SearchRoundedIcon } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { CloseRounded as CloseRoundedIcon } from "@mui/icons-material";
 
 import { useSetPostsQueryParams, usePostsQueryParams } from "../_hooks";
 

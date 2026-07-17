@@ -6,13 +6,13 @@ import { dividerClasses } from "@mui/material/Divider";
 import { menuItemClasses } from "@mui/material/MenuItem";
 import { selectClasses } from "@mui/material/Select";
 import { tabClasses } from "@mui/material/Tab";
-import UnfoldMoreRoundedIcon from "@mui/icons-material/UnfoldMoreRounded";
+import { UnfoldMoreRounded as UnfoldMoreRoundedIcon } from "@mui/icons-material";
 import { gray, brand } from "../themePrimitives";
 
 const SelectIcon = React.forwardRef<SVGSVGElement, SvgIconProps>(
   (props, ref) => (
     <UnfoldMoreRoundedIcon fontSize="small" {...props} ref={ref} />
-  )
+  ),
 );
 SelectIcon.displayName = "SelectIcon";
 

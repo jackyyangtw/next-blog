@@ -2,7 +2,7 @@
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import { CloseRounded as CloseRoundedIcon } from "@mui/icons-material";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
 

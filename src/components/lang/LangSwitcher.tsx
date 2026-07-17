@@ -3,7 +3,7 @@
 
 "use client";
 import * as React from "react";
-import LanguageIcon from "@mui/icons-material/Language";
+import { Language as LanguageIcon } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";

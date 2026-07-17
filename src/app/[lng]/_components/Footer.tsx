@@ -8,8 +8,8 @@ import Divider from "@mui/material/Divider";
 import ConsentSettingsButton from "./AnalyticsConsent/ConsentSettingsButton";
 
 // ------------- Icons -------------
-import GitHubIcon from "@mui/icons-material/GitHub";
-import EmailIcon from "@mui/icons-material/Email";
+import { GitHub as GitHubIcon } from "@mui/icons-material";
+import { Email as EmailIcon } from "@mui/icons-material";
 
 const CURRENT_YEAR = new Date().getFullYear();
 

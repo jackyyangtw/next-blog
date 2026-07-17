@@ -6,8 +6,8 @@ import React from "react";
 // ------------- MUI -------------
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { BookmarkBorder as BookmarkBorderIcon } from "@mui/icons-material";
+import { Bookmark as BookmarkIcon } from "@mui/icons-material";
 
 // ------------- React Query -------------
 import {

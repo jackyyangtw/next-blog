@@ -5,8 +5,8 @@ import { useRouter, useParams } from "next/navigation";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-import CloseIcon from "@mui/icons-material/Close";
+import { OpenInNew as OpenInNewIcon } from "@mui/icons-material";
+import { Close as CloseIcon } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import { alpha } from "@mui/material/styles";
 

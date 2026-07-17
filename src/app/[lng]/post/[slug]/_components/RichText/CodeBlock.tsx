@@ -4,7 +4,7 @@
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { ContentCopy as ContentCopyIcon } from "@mui/icons-material";
 import Tooltip from "@mui/material/Tooltip";
 import { alpha } from "@mui/material/styles";
 
