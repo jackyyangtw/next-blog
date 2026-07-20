@@ -2,82 +2,92 @@ import { NextRequest, NextResponse } from "next/server";
 import { publicClient } from "@/sanity/lib/client";
 import { PostDoc } from "@/schema/type/post";
 
+const POSTS_QUERY = `*[
+  _type == "post" &&
+  (!defined($categories) || count(categories[@->slug.current in $categories]) > 0) &&
+  (!defined($keyword) || title match $keyword || description match $keyword)
+] | order(_createdAt desc) [$start...$end] {
+  _id,
+  _createdAt,
+  title,
+  description,
+  bannerSource,
+  presetBanner,
+  photo{
+    asset->{
+      _id,
+      url,
+      metadata{
+        lqip
+      }
+    },
+    alt
+  },
+  "slug": slug.current,
+  categories[]->{
+    _id,
+    title,
+    "slug": slug.current
+  },
+  author->{
+    _id,
+    name,
+    "slug": slug.current,
+    avatar
+  }
+}`;
+
+const POSTS_COUNT_QUERY = `count(*[
+  _type == "post" &&
+  (!defined($categories) || count(categories[@->slug.current in $categories]) > 0) &&
+  (!defined($keyword) || title match $keyword || description match $keyword)
+])`;
+
+function getBoundedInteger(
+  value: string | null,
+  fallback: number,
+  min: number,
+  max: number,
+) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    return fallback;
+  }
+  return Math.min(Math.max(Math.trunc(parsed), min), max);
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const page = Math.max(Number(searchParams.get("page")) || 1, 1);
-  const limit = Math.min(Number(searchParams.get("limit")) || 10, 50); // 上限 50 筆
+  const page = getBoundedInteger(searchParams.get("page"), 1, 1, 10000);
+  const limit = getBoundedInteger(searchParams.get("limit"), 10, 1, 50);
   const start = (page - 1) * limit;
   const end = start + limit;
 
-  // 解析 categories filter
   const categoriesParam = searchParams.get("categories");
-  const categoriesArr = categoriesParam
+  const categories = categoriesParam
     ? categoriesParam
         .split(",")
-        .map((id) => id.trim())
+        .map((category) => category.trim())
         .filter(Boolean)
+        .slice(0, 20)
     : [];
-  const hasCategoryFilter = categoriesArr.length > 0;
-  // const categoriesFilter = hasCategoryFilter
-  //   ? `count(categories[@._ref in [${categoriesArr.map((id) => `"${id}"`).join(",")}]] ) > 0`
-  //   : "true";
-  //  slug filter
-  const categoriesFilter = hasCategoryFilter
-    ? `count(categories[@->slug.current in [${categoriesArr.map((s) => `"${s}"`).join(",")}]] ) > 0`
-    : "true";
 
-  // 解析關鍵字搜尋條件
-  const keyword = searchParams.get("keyword")?.trim() || "";
-  const hasKeyword = keyword.length > 0;
-  // Sanity match 支援萬用字元，需 escape 雙引號
-  const escapedKeyword = keyword.replace(/"/g, '\\"');
-  const keywordFilter = hasKeyword
-    ? `(title match "*${escapedKeyword}*" || description match "*${escapedKeyword}*")`
-    : "true";
+  const keyword = searchParams.get("keyword")?.trim().slice(0, 100);
+  const params = {
+    start,
+    end,
+    categories: categories.length ? categories : null,
+    keyword: keyword ? `*${keyword}*` : null,
+  };
 
-  // 查詢總筆數（加上分類與關鍵字條件）
-  const total = await publicClient.fetch<number>(
-    `count(*[_type == "post" && ${categoriesFilter} && ${keywordFilter}])`,
-    {},
-    { next: { tags: ["posts"] } },
-  );
+  const total = await publicClient.fetch<number>(POSTS_COUNT_QUERY, params, {
+    next: { tags: ["posts"] },
+  });
 
-  // 查詢分頁資料（加上分類與關鍵字條件）
-  const posts = await publicClient.fetch<PostDoc[]>(
-    `*[_type == "post" && ${categoriesFilter} && ${keywordFilter}] | order(_createdAt desc) [${start}...${end}] {
-      _id,
-      _createdAt,
-      title,
-      description,
-      bannerSource,
-      presetBanner,
-      photo{
-        asset->{
-          _id,
-          url,
-          metadata{
-            lqip
-          }
-        },
-        alt
-      },
-      "slug": slug.current,
-      categories[]->{
-        _id,
-        title,
-        "slug": slug.current
-      },
-      author->{
-        _id,
-        name,
-        "slug": slug.current,
-        email,
-        avatar
-      }
-    }`,
-    {},
-    { next: { tags: ["posts"] } },
-  );
+  const posts = await publicClient.fetch<PostDoc[]>(POSTS_QUERY, params, {
+    next: { tags: ["posts"] },
+  });
+
   const resData = {
     data: posts,
     total,

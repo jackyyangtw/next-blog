@@ -1,11 +1,8 @@
-// import { NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth";
 import { client } from "@/sanity/lib/client";
 
-// 取得所有書籤
 export async function GET() {
-  // 1) 驗證登入
   const session = await getServerSession(authOptions);
   const userId = session?.user?._id;
   if (!userId) {
@@ -15,7 +12,6 @@ export async function GET() {
     });
   }
 
-  // 2) 查詢所有書籤
   const query = /* groq */ `
     *[_type == "bookmark" && user._ref == $userId]{
       _id,
@@ -35,7 +31,6 @@ export async function GET() {
           _id,
           name,
           "slug": slug.current,
-          email,
           avatar
         },
         "slug": slug.current,
@@ -68,7 +63,6 @@ export async function GET() {
   }
 }
 
-// 建立書籤
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
   const userId = session?.user?._id;
@@ -86,7 +80,6 @@ export async function POST(req: Request) {
         headers: { "content-type": "application/json" },
       });
     }
-    // 檢查是否已存在
     const exist = await client.fetch(
       '*[_type=="bookmark" && user._ref==$userId && post._ref==$postId][0]._id',
       { userId, postId },
@@ -97,7 +90,6 @@ export async function POST(req: Request) {
         headers: { "content-type": "application/json" },
       });
     }
-    // 建立書籤
     const doc = {
       _type: "bookmark",
       user: { _type: "reference", _ref: userId },
@@ -117,7 +109,6 @@ export async function POST(req: Request) {
   }
 }
 
-// 刪除書籤
 export async function DELETE(req: Request) {
   const session = await getServerSession(authOptions);
   const userId = session?.user?._id;
@@ -136,7 +127,6 @@ export async function DELETE(req: Request) {
         headers: { "content-type": "application/json" },
       });
     }
-    // 找到 bookmark id
     const bookmarkId = await client.fetch(
       '*[_type=="bookmark" && user._ref==$userId && post._ref==$postId][0]._id',
       { userId, postId },

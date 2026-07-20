@@ -16,5 +16,5 @@ export function getOpenAiModel() {
   }
 
   const openai = createOpenAI({ apiKey });
-  return openai(process.env.AI_MODEL || "gpt-5-mini");
+  return openai(process.env.AI_MODEL || "gpt-5.6-luna");
 }

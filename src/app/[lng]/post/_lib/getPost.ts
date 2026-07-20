@@ -32,7 +32,6 @@ export async function getPost(slug: string): Promise<PostDoc | null> {
         _id,
         name,
         "slug": slug.current,
-        email,
         avatar
       }
     }`,

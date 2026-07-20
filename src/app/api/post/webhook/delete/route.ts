@@ -1,24 +1,53 @@
 // src/app/api/webhooks/sanity-delete/route.ts
 import { client } from "@/sanity/lib/client";
-import { NextResponse } from "next/server";
+import { parseBody } from "next-sanity/webhook";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+type DeleteWebhookPayload = {
+  _id?: string;
+  _type?: string;
+};
+
+export async function POST(req: NextRequest) {
+  const secret = process.env.REVALIDATE_SECRET;
+  if (!secret) {
+    return NextResponse.json(
+      { message: "Webhook secret is not configured" },
+      { status: 500 },
+    );
+  }
+
   try {
-    const body = await req.json();
+    const { body, isValidSignature } = await parseBody<DeleteWebhookPayload>(
+      req,
+      secret,
+    );
+
+    if (!isValidSignature) {
+      return NextResponse.json(
+        { message: "Invalid signature" },
+        { status: 401 },
+      );
+    }
+
+    if (!body) {
+      return NextResponse.json({ message: "Missing payload" }, { status: 400 });
+    }
+
     const { _id, _type } = body;
+    if (_type !== "post" || !_id) {
+      return NextResponse.json({ message: "Ignored" });
+    }
 
-    // 只處理 post 類型的刪除事件
-    if (_type === "post" && _id) {
-      // 搜尋所有關聯到此 post 的書籤並執行刪除
-      // 使用 GROQ 找出 post._ref 等於該 ID 的書籤
-      const query = `*[_type == "bookmark" && post._ref == $id]._id`;
-      const bookmarkIds = await client.fetch(query, { id: _id });
+    const bookmarkIds = await client.fetch<string[]>(
+      `*[_type == "bookmark" && post._ref == $id]._id`,
+      { id: _id },
+    );
 
-      if (bookmarkIds.length > 0) {
-        const transaction = client.transaction();
-        bookmarkIds.forEach((id: string) => transaction.delete(id));
-        await transaction.commit();
-      }
+    if (bookmarkIds.length > 0) {
+      const transaction = client.transaction();
+      bookmarkIds.forEach((id) => transaction.delete(id));
+      await transaction.commit();
     }
 
     return NextResponse.json({ message: "OK" });

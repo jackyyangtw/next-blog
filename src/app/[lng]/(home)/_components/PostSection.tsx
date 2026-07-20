@@ -33,7 +33,6 @@ export default async function PostsSection({ lng }: { lng: Locale }) {
         _id,
         name,
         "slug": slug.current,
-        email,
         avatar
       }
     }`,

@@ -1,3 +1,4 @@
+import "server-only";
 // src/sanity/lib/client.ts
 import { createClient } from "next-sanity";
 
@@ -20,7 +21,7 @@ export const client = createClient({
   useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
 });
 
-// 用於前端圖片，走 CDN，不帶 token
+// Public read client. No token.
 export const publicClient = createClient({
   projectId,
   dataset,
