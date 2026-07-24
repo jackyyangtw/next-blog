@@ -43,7 +43,8 @@ export default function HeroSection({
           </HeroMotionFrame>
           <HeroMotionFrame delay={120}>
             <Typography
-              variant="subtitle1"
+              component="h2"
+              variant="h6"
               sx={{
                 color: "text.secondary",
                 mb: 5,
