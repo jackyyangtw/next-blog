@@ -1,25 +1,42 @@
 // src/lib/auth/sanity-user.ts
 import { client } from "@/sanity/lib/client";
 
+interface SanityAuthUser {
+  _id: string;
+  name?: string;
+  email: string;
+  image?: string;
+  role?: string;
+}
+
 export async function getOrCreateSanityUser(user: {
   email: string;
   name?: string;
   image?: string;
 }) {
-  // 查詢
   const query = `*[_type == "user" && email == $email][0]`;
-  let sanityUser = await client.fetch(query, { email: user.email });
+  const sanityUser = await client.fetch<SanityAuthUser | null>(query, {
+    email: user.email,
+  });
 
-  // 若不存在則建立
   if (!sanityUser) {
     const newUser = {
       _type: "user",
       name: user.name,
       email: user.email,
       image: user.image,
-      role: "user", // 預設角色
+      role: "user",
     };
-    sanityUser = await client.create(newUser);
+    const createdUser = await client.create(newUser);
+    return createdUser as SanityAuthUser;
   }
+
+  if (!sanityUser.image && user.image) {
+    return client
+      .patch(sanityUser._id)
+      .set({ image: user.image })
+      .commit<SanityAuthUser>();
+  }
+
   return sanityUser;
 }

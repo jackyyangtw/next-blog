@@ -1,8 +1,11 @@
 // src/lib/auth/auth.ts
-import { NextAuthOptions } from "next-auth";
+import type { NextAuthOptions, User } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { getOrCreateSanityUser } from "./sanity-user";
 
+type AuthSessionUser = User & {
+  image?: string | null;
+};
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,9 +16,8 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user, trigger }) {
-      // 只在登入時處理
-      if (trigger === "signIn" && user && user.email) {
+    async jwt({ token, user }) {
+      if (user?.email) {
         const { email, name, image } = user;
         const sanityUser = await getOrCreateSanityUser({
           email,
@@ -23,19 +25,23 @@ export const authOptions: NextAuthOptions = {
           image: image ?? undefined,
         });
         token.user = {
+          id: sanityUser._id,
           _id: sanityUser._id,
           name: sanityUser.name,
           email: sanityUser.email,
-          image: sanityUser.image || image, // 這裡做 fallback
+          image: sanityUser.image || image,
           role: sanityUser.role,
-        };
+        } satisfies AuthSessionUser;
       }
       return token;
     },
     async session({ session, token }) {
-      // 將 token.user 暴露到 session
       if (token.user) {
-        session.user = token.user as typeof session.user;
+        const tokenUser = token.user as AuthSessionUser;
+        session.user = {
+          ...tokenUser,
+          image: tokenUser.image || session.user?.image,
+        };
       }
       return session;
     },
