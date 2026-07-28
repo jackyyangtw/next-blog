@@ -16,6 +16,8 @@
 - 文章 SEO metadata、Open Graph、Twitter Card 與 JSON-LD 結構化資料
 - 靜態與動態 sitemap，並排除會員/登入頁
 - 文章 revalidate API 與 Sanity 刪除 webhook 清理收藏資料
+- AI SEO Assistant：根據文章內容產生 SEO 標題與描述，支援預覽、編輯、套用與重新產生
+- AI Reviewer：在發布前檢查技術文章的正確性、可讀性、程式碼範例、缺漏脈絡與 SEO
 - Vercel 部署導向的設定
 
 ## 技術棧
@@ -29,6 +31,7 @@
 - **State Management**: Zustand
 - **i18n**: i18next、react-i18next、語系 cookie 與 Next proxy 導向
 - **SEO**: Next metadata API、next-sitemap、JSON-LD
+- **AI**: Vercel AI SDK、`@ai-sdk/openai`、OpenAI structured output、Zod schema validation
 - **Validation/Utils**: Zod、Day.js、query-string、use-debounce
 - **Tooling**: pnpm、ESLint、Prettier、Husky、lint-staged
 
@@ -84,6 +87,54 @@ pnpm sitemap   # 手動產生 sitemap
 登入使用 NextAuth Google Provider。使用者首次登入時會建立或取得對應的 Sanity user 文件，收藏功能會以 Sanity reference 關聯 user 與 post。
 
 文章詳情頁會從 Sanity 取得文章內容，輸出 canonical、hreflang、Open Graph、Twitter Card 與 BlogPosting JSON-LD。`/server-sitemap.xml` 會依照 Sanity 文章與支援語系動態產生 sitemap。
+
+## ✨ AI 功能
+
+AI 功能整合在 Sanity Studio 的 `post` 編輯器中，只有已登入且角色為 `admin` 的使用者可以使用。兩項功能都會將目前文章的標題、描述、分類與 Portable Text 內容轉成純文字後送出，並以 Zod schema 驗證 AI 回傳的結構化結果。
+
+### AI SEO Assistant
+
+在文章編輯器中使用 **AI SEO Assistant** 可以：
+
+- 產生符合目前文章內容的 SEO title 與 description
+- 預覽並手動調整建議內容
+- 將確認後的結果套用回文章欄位，或重新產生另一份建議
+- 支援繁體中文與英文
+
+文章內容至少需要 40 個字元，最多 20,000 個字元。AI 只提供可編輯的建議，不會自動儲存或發布文章。
+
+### AI Reviewer
+
+在文章編輯器中使用 **Technical Article Reviewer** 可以產生發布前的技術文章審查報告，重點包含：
+
+- 技術正確性與事實性
+- 容易誤導的說明與缺少的上下文
+- 程式碼範例與可讀性
+- SEO 與其他可選的改善建議
+- 整體分數與高信心、可執行的問題清單
+
+文章內容至少需要 80 個字元，最多 30,000 個字元。Reviewer 只提供審查建議，不會直接改寫文章或產生 patch。
+
+### AI 設定
+
+複製 `env.example` 並設定以下環境變數：
+
+```env
+OPENAI_API_KEY=your-openai-api-key
+AI_MODEL=your-model-id
+AI_SEO_MODE=remote
+AI_REVIEW_MODE=remote
+```
+
+`AI_SEO_MODE` 與 `AI_REVIEW_MODE` 預設為 `mock`；設定為 `remote` 才會呼叫 OpenAI。未設定 `OPENAI_API_KEY`、API 額度不足、流量限制、逾時或 AI 回傳格式不符合 schema 時，系統會轉換成使用者可理解的錯誤訊息。AI 呼叫在 server side 執行，API key 不會暴露給瀏覽器。
+
+AI 功能的主要程式碼位於：
+
+```txt
+src/features/ai/                 # 共用 OpenAI model 設定與錯誤處理
+src/features/ai-seo/             # SEO 建議、schema、Server Action 與 Studio 元件
+src/features/article-review/     # 文章審查、schema、Server Action 與 Studio 元件
+```
 
 ## 參考資源
 
