@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import HeroMotionFrame from "./HeroMotionFrame";
-import HeroProfileCard from "./HeroProfileCard";
+import HeroSystemGraph from "./HeroSystemGraph";
 
 interface HeroSectionProps {
   titleLine1: string;
@@ -83,7 +83,7 @@ export default function HeroSection({
 
         <Grid size={{ xs: 12, md: 5 }}>
           <HeroMotionFrame delay={220}>
-            <HeroProfileCard />
+            <HeroSystemGraph />
           </HeroMotionFrame>
         </Grid>
       </Grid>
