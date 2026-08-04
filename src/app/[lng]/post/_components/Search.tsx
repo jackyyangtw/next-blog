@@ -8,6 +8,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import { SearchRounded as SearchRoundedIcon } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { CloseRounded as CloseRoundedIcon } from "@mui/icons-material";
+import Typography from "@mui/material/Typography";
 
 import { useSetPostsQueryParams, usePostsQueryParams } from "../_hooks";
 
@@ -20,7 +21,6 @@ export default function Search() {
   const [inputValue, setInputValue] = useState(keyword ?? "");
   const { t } = useClientTranslation("posts-page");
 
-  // 點擊搜尋 icon 時才觸發搜尋
   const handleSearch = useCallback(() => {
     setParams({ page: 1, keyword: inputValue, categories: [] });
   }, [inputValue, setParams]);
@@ -30,56 +30,95 @@ export default function Search() {
     setParams({ page: 1, keyword: "", categories: [] });
   }, [setParams]);
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter") {
-        handleSearch();
-      }
-    },
-    [handleSearch],
-  );
-
   return (
-    <FormControl sx={{ width: { xs: "100%", md: "30ch" } }} variant="outlined">
+    <FormControl
+      component="form"
+      onSubmit={(event) => {
+        event.preventDefault();
+        handleSearch();
+      }}
+      sx={{ width: { xs: "100%", md: "22rem" } }}
+      variant="outlined"
+    >
       <OutlinedInput
         key={keyword}
-        size="small"
         id="search"
+        size="small"
         placeholder={t("search_placeholder")}
         sx={{
-          flexGrow: 1,
+          backgroundColor: "action.hover",
+          borderRadius: 2,
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "divider",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "text.secondary",
+          },
+          "&.Mui-focused": {
+            backgroundColor: "background.paper",
+            boxShadow: (theme) => `0 0 0 3px ${theme.palette.primary.main}24`,
+          },
         }}
+        startAdornment={
+          <InputAdornment position="start" sx={{ color: "text.secondary" }}>
+            <SearchRoundedIcon fontSize="small" />
+          </InputAdornment>
+        }
         endAdornment={
           <InputAdornment
             position="end"
-            sx={{ color: "text.primary", mr: "-10px" }}
+            sx={{ color: "text.secondary", gap: 0.75, mr: 0.5 }}
           >
-            {inputValue && (
+            {inputValue ? (
               <IconButton
                 aria-label="清除搜尋"
-                edge="end"
                 onClick={handleClear}
                 size="small"
-                tabIndex={0}
-                sx={{ mr: "4px" }}
+                type="button"
+                sx={{
+                  color: "text.secondary",
+                  height: 24,
+                  width: 24,
+                  p: 0.5,
+                  "&:hover": {
+                    backgroundColor: "action.selected",
+                    color: "text.primary",
+                  },
+                }}
               >
-                <CloseRoundedIcon fontSize="small" />
+                <CloseRoundedIcon sx={{ fontSize: 16 }} />
               </IconButton>
-            )}
-            <IconButton
-              aria-label="搜尋文章"
-              edge="end"
-              onClick={handleSearch}
-              size="small"
+            ) : null}
+            <Typography
+              aria-hidden="true"
+              component="kbd"
+              variant="caption"
+              sx={{
+                display: { xs: "none", sm: "block" },
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: 0.75,
+                bgcolor: "background.paper",
+                color: "text.secondary",
+                fontFamily: "inherit",
+                fontSize: "0.625rem",
+                fontWeight: 600,
+                letterSpacing: "0.02em",
+                lineHeight: 1,
+                px: 0.5,
+                py: 0.375,
+              }}
             >
-              <SearchRoundedIcon fontSize="small" />
-            </IconButton>
+              Enter
+            </Typography>
           </InputAdornment>
         }
-        inputProps={{ "aria-label": "搜尋文章標題、內容…" }}
+        inputProps={{
+          "aria-label": "搜尋文章標題、內容…",
+          enterKeyHint: "search",
+        }}
         value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        onKeyDown={handleKeyDown}
+        onChange={(event) => setInputValue(event.target.value)}
       />
     </FormControl>
   );
