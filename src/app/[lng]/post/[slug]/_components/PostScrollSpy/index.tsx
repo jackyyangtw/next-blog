@@ -8,6 +8,8 @@ import type { PostTableOfContentsSection } from "../postTableOfContents";
 import PostScrollSpyLink from "./PostScrollSpyLink";
 
 const SCROLL_SPY_TOP = 128;
+const ACTIVE_HEADING_OFFSET = SCROLL_SPY_TOP + 24;
+const ACTIVE_HEADING_SNAP_OFFSET = ACTIVE_HEADING_OFFSET - 8;
 
 interface PostScrollSpyProps {
   sections: PostTableOfContentsSection[];
@@ -39,7 +41,15 @@ export default function PostScrollSpy({ sections }: PostScrollSpyProps) {
 
       setActiveId(id);
       window.history.pushState(null, "", `#${id}`);
-      heading.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.scrollTo({
+        top: Math.max(
+          0,
+          window.scrollY +
+            heading.getBoundingClientRect().top -
+            ACTIVE_HEADING_SNAP_OFFSET,
+        ),
+        behavior: "smooth",
+      });
     },
     [],
   );
@@ -49,40 +59,48 @@ export default function PostScrollSpy({ sections }: PostScrollSpyProps) {
       return;
     }
 
-    const visibleHeadings = new Set<string>();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            visibleHeadings.add(entry.target.id);
-          } else {
-            visibleHeadings.delete(entry.target.id);
-          }
-        }
+    let animationFrameId: number | null = null;
 
-        const nextActiveId = headingIds.find((id) => visibleHeadings.has(id));
-        if (nextActiveId) {
-          setActiveId(nextActiveId);
-        }
-      },
-      {
-        rootMargin: "-20% 0px -65% 0px",
-        threshold: 0,
-      },
-    );
+    const updateActiveHeading = () => {
+      const nextActiveId = headingIds.reduce((lastPassedId, id) => {
+        const heading = document.getElementById(id);
+        return heading &&
+          heading.getBoundingClientRect().top <= ACTIVE_HEADING_OFFSET
+          ? id
+          : lastPassedId;
+      }, headingIds[0]);
 
-    for (const id of headingIds) {
-      const heading = document.getElementById(id);
-      if (heading) {
-        observer.observe(heading);
+      setActiveId((previousActiveId) =>
+        previousActiveId === nextActiveId ? previousActiveId : nextActiveId,
+      );
+    };
+
+    const scheduleActiveHeadingUpdate = () => {
+      if (animationFrameId !== null) {
+        return;
       }
-    }
+
+      animationFrameId = window.requestAnimationFrame(() => {
+        animationFrameId = null;
+        updateActiveHeading();
+      });
+    };
+
+    updateActiveHeading();
+    window.addEventListener("scroll", scheduleActiveHeadingUpdate, {
+      passive: true,
+    });
+    window.addEventListener("resize", scheduleActiveHeadingUpdate);
 
     return () => {
-      observer.disconnect();
+      if (animationFrameId !== null) {
+        window.cancelAnimationFrame(animationFrameId);
+      }
+
+      window.removeEventListener("scroll", scheduleActiveHeadingUpdate);
+      window.removeEventListener("resize", scheduleActiveHeadingUpdate);
     };
   }, [headingIds]);
-
   useEffect(() => {
     const scrollSpy = scrollSpyRef.current;
     const activeItem = scrollSpy?.querySelector<HTMLElement>(
