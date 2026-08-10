@@ -48,6 +48,8 @@ overrides:
   dompurify@<3.4.9: ">=3.4.9"
   dompurify@>=3.0.0 <=3.4.7: ">=3.4.8"
   dompurify@<=3.4.6: ">=3.4.7"
+  dompurify: 3.4.13
+  nanoid@<4: 3.3.17
   markdown-it@<=14.1.1: ">=14.2.0"
   undici@>=7.0.0 <7.29.0: 7.29.0
   smol-toml@<1.6.1: 1.6.1
@@ -6063,10 +6065,10 @@ packages:
       }
     engines: { node: ">= 4" }
 
-  dompurify@3.4.12:
+  dompurify@3.4.13:
     resolution:
       {
-        integrity: sha512-zQvGet8Z2sWbQhCmfFz/T5QWH2oBmjnqK3qvOjaqaNLrLEF912WamU+ohnTp0TCep/MFVHpdJuCZEdFOdTnEFg==,
+        integrity: sha512-2vmYIoqjze2d+kakP8S/nS5shfsl587kzwEjcGlTdiksUVgFHnFCsLYDVj/JNqJVOQZGSYBTmuycv0PodwmnMQ==,
       }
 
   domutils@3.2.2:
@@ -8315,10 +8317,10 @@ packages:
       }
     engines: { node: ">=18" }
 
-  nanoid@3.3.16:
+  nanoid@3.3.17:
     resolution:
       {
-        integrity: sha512-bzlKTyNJ7+LdGIIwy8ijFpIqEQIvafahV7eYykJ8Cvh42EdJeODoJ6gUJXpQJvej1BddH8OqTXZNE/KfbWAu8Q==,
+        integrity: sha512-xQLf0A3HOMlgHq0n247/LRuAOYmB7dXJ/DvAxGvsSBij45XtBSmQycu+F8ODbHwns/XyFZagyL1+J0Offw1E0g==,
       }
     engines: { node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1 }
     hasBin: true
@@ -13507,7 +13509,7 @@ snapshots:
     dependencies:
       "@sanity/eventsource": 5.0.4
       get-it: 8.8.0
-      nanoid: 3.3.16
+      nanoid: 3.3.17
       rxjs: 7.8.2
 
   "@sanity/code-input@7.2.8(0de3109e5b092e170478471903df3daf)":
@@ -15010,7 +15012,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.4.12:
+  dompurify@3.4.13:
     optionalDependencies:
       "@types/trusted-types": 2.0.7
 
@@ -16045,7 +16047,7 @@ snapshots:
 
   isomorphic-dompurify@2.36.0(@noble/hashes@2.2.0):
     dependencies:
-      dompurify: 3.4.12
+      dompurify: 3.4.13
       jsdom: 28.1.0(@noble/hashes@2.2.0)
     transitivePeerDependencies:
       - "@noble/hashes"
@@ -16427,7 +16429,7 @@ snapshots:
 
   nano-pubsub@3.0.0: {}
 
-  nanoid@3.3.16: {}
+  nanoid@3.3.17: {}
 
   nanoid@5.1.16: {}
 
@@ -16760,7 +16762,7 @@ snapshots:
 
   postcss@8.5.23:
     dependencies:
-      nanoid: 3.3.16
+      nanoid: 3.3.17
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
