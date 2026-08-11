@@ -11,6 +11,7 @@ import Link from "next/link";
 import RichText from "@/app/[lng]/post/[slug]/_components/RichText/RichText";
 import FavoriteButton from "@/app/[lng]/post/[slug]/_components/FavoriteButton";
 import Banner from "@/app/[lng]/post/[slug]/_components/Banner";
+import ArticleFeedbackForm from "./ArticleFeedbackForm";
 import PostScrollSpy from "./PostScrollSpy";
 import { PostDoc } from "@/schema/type/post";
 import { formatDate } from "@/utils/date/formate";
@@ -107,6 +108,10 @@ export default function PostDetailContent({
         </Box>
         {showScrollSpy && <PostScrollSpy sections={tableOfContents} />}
       </Box>
+
+      <Divider sx={{ my: 6 }} />
+
+      <ArticleFeedbackForm locale={lng} postId={post._id} />
 
       <Divider sx={{ my: 6 }} />
 

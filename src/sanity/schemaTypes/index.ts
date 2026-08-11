@@ -7,6 +7,7 @@ import { categoryType } from "./categoryType";
 import { userType } from "./userType";
 import { bookmarkType } from "./bookmarkType";
 import { blockContent } from "./blockContent";
+import { articleFeedbackType } from "./articleFeedbackType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -16,5 +17,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     categoryType,
     userType,
     bookmarkType,
+    articleFeedbackType,
   ],
 };

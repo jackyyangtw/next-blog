@@ -17,6 +17,7 @@ import Providers from "@/Providers";
 // ----------------------- Components -----------------------
 import AppWrapper from "./_components/AppWrapper";
 import Footer from "./_components/Footer";
+import ScrollToTopButton from "./_components/ScrollToTopButton";
 import Box from "@mui/material/Box";
 import { Suspense } from "react";
 import { getSiteUrl } from "@/utils/seo";
@@ -152,6 +153,7 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
                   />
                 </Suspense>
               </Box>
+              <ScrollToTopButton />
             </Providers>
           </AppTheme>
         </AppRouterCacheProvider>
