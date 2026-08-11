@@ -22,8 +22,7 @@ import { RichTextTable } from "./RichTextTable";
 import { BlockContent } from "@/schema/type/blockContent";
 import { RichTextImageValue, RichTextTableValue } from "./types";
 import { getPostHeadingId } from "../postTableOfContents";
-
-const POST_HEADING_SCROLL_MARGIN_TOP = 128;
+import { POST_SCROLL_OFFSET } from "../postScrollOffset";
 
 interface RichTextBlockValue {
   _key?: string;
@@ -87,7 +86,7 @@ function RichTextHeading2({ children, value }: RichTextBlockProps) {
   return (
     <h2
       id={value?._key ? getPostHeadingId(value._key) : undefined}
-      style={{ marginTop: 24, scrollMarginTop: POST_HEADING_SCROLL_MARGIN_TOP }}
+      style={{ marginTop: 24, scrollMarginTop: POST_SCROLL_OFFSET }}
     >
       {renderInlineCodeFallback(children)}
     </h2>
@@ -98,7 +97,7 @@ function RichTextHeading3({ children, value }: RichTextBlockProps) {
   return (
     <h3
       id={value?._key ? getPostHeadingId(value._key) : undefined}
-      style={{ marginTop: 16, scrollMarginTop: POST_HEADING_SCROLL_MARGIN_TOP }}
+      style={{ marginTop: 16, scrollMarginTop: POST_SCROLL_OFFSET }}
     >
       {renderInlineCodeFallback(children)}
     </h3>

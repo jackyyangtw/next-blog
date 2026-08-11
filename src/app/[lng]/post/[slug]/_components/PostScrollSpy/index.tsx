@@ -5,11 +5,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 
 import type { PostTableOfContentsSection } from "../postTableOfContents";
+import { POST_SCROLL_OFFSET } from "../postScrollOffset";
 import PostScrollSpyLink from "./PostScrollSpyLink";
 
-const SCROLL_SPY_TOP = 128;
+const SCROLL_SPY_TOP = POST_SCROLL_OFFSET;
 const ACTIVE_HEADING_OFFSET = SCROLL_SPY_TOP + 24;
-const ACTIVE_HEADING_SNAP_OFFSET = ACTIVE_HEADING_OFFSET - 8;
 
 interface PostScrollSpyProps {
   sections: PostTableOfContentsSection[];
@@ -46,7 +46,7 @@ export default function PostScrollSpy({ sections }: PostScrollSpyProps) {
           0,
           window.scrollY +
             heading.getBoundingClientRect().top -
-            ACTIVE_HEADING_SNAP_OFFSET,
+            POST_SCROLL_OFFSET,
         ),
         behavior: "smooth",
       });
