@@ -77,7 +77,8 @@ function createInlineTextContent(
 ): Pick<PortableTextBlock, "children" | "markDefs"> {
   const children: PortableTextSpan[] = [];
   const markDefs: PortableTextMarkDef[] = [];
-  const inlinePattern = /`([^`\n]+)`|(!?)\[([^\]\n]+)\]\(([^)\s]+)\)/g;
+  const inlinePattern =
+    /`([^`\n]+)`|(!?)\[([^\]\n]+)\]\(([^)\s]+)\)|(\*\*\*|___)(?=\S)([^\n]*?\S)\5|(\*\*|__)(?=\S)([^\n]*?\S)\7|(\*|_)(?=\S)([^\n]*?\S)\9/g;
   let lastIndex = 0;
   let match: RegExpExecArray | null;
 
@@ -98,15 +99,40 @@ function createInlineTextContent(
       continue;
     }
 
+    if (match[5] !== undefined) {
+      children.push(createSpan(match[6], ["strong", "em"]));
+      lastIndex = inlinePattern.lastIndex;
+      continue;
+    }
+
+    if (match[7] !== undefined) {
+      children.push(createSpan(match[8], ["strong"]));
+      lastIndex = inlinePattern.lastIndex;
+      continue;
+    }
+
+    if (match[9] !== undefined) {
+      children.push(createSpan(match[10], ["em"]));
+      lastIndex = inlinePattern.lastIndex;
+      continue;
+    }
+
     const markKey = createKey();
     const href = match[4];
+    const linkText = match[3];
+    if (href === undefined || linkText === undefined) {
+      children.push(createSpan(match[0]));
+      lastIndex = inlinePattern.lastIndex;
+      continue;
+    }
+
     markDefs.push({
       _key: markKey,
       _type: "link",
       href,
       ...(isExternalLink(href) ? { newTab: true } : {}),
     });
-    children.push(createSpan(match[3], [markKey]));
+    children.push(createSpan(linkText, [markKey]));
     lastIndex = inlinePattern.lastIndex;
   }
 
@@ -204,6 +230,14 @@ export function hasMarkdownDivider(lines: string[]) {
 
 export function hasMarkdownInlineCode(lines: string[]) {
   return lines.some((line) => /`[^`\n]+`/.test(line));
+}
+
+export function hasMarkdownBold(lines: string[]) {
+  return lines.some((line) => /(\*\*|__)(?=\S)[^\n]*?\S\1/.test(line));
+}
+
+export function hasMarkdownItalic(lines: string[]) {
+  return lines.some((line) => /(\*|_)(?=\S)[^\n]*?\S\1/.test(line));
 }
 
 export function hasMarkdownLink(lines: string[]) {
