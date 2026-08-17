@@ -49,7 +49,7 @@ overrides:
   dompurify@>=3.0.0 <=3.4.7: ">=3.4.8"
   dompurify@<=3.4.6: ">=3.4.7"
   dompurify: 3.4.13
-  nanoid@<4: 3.3.17
+  nanoid@<4: 3.3.18
   markdown-it@<=14.1.1: ">=14.2.0"
   undici@>=7.0.0 <7.29.0: 7.29.0
   smol-toml@<1.6.1: 1.6.1
@@ -8329,10 +8329,10 @@ packages:
       }
     engines: { node: ">=18" }
 
-  nanoid@3.3.17:
+  nanoid@3.3.18:
     resolution:
       {
-        integrity: sha512-xQLf0A3HOMlgHq0n247/LRuAOYmB7dXJ/DvAxGvsSBij45XtBSmQycu+F8ODbHwns/XyFZagyL1+J0Offw1E0g==,
+        integrity: sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w==,
       }
     engines: { node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1 }
     hasBin: true
@@ -13528,7 +13528,7 @@ snapshots:
     dependencies:
       "@sanity/eventsource": 5.0.4
       get-it: 8.8.0
-      nanoid: 3.3.17
+      nanoid: 3.3.18
       rxjs: 7.8.2
 
   "@sanity/code-input@7.2.8(0de3109e5b092e170478471903df3daf)":
@@ -16452,7 +16452,7 @@ snapshots:
 
   nano-pubsub@3.0.0: {}
 
-  nanoid@3.3.17: {}
+  nanoid@3.3.18: {}
 
   nanoid@5.1.16: {}
 
@@ -16789,7 +16789,7 @@ snapshots:
 
   postcss@8.5.23:
     dependencies:
-      nanoid: 3.3.17
+      nanoid: 3.3.18
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
