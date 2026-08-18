@@ -1,8 +1,13 @@
+import { cacheLife, cacheTag } from "next/cache";
 import { publicClient } from "@/sanity/lib/client";
 import { PostDoc } from "@/schema/type/post";
 
 export async function getPost(slug: string): Promise<PostDoc | null> {
-  return await publicClient.withConfig({ useCdn: false }).fetch(
+  "use cache";
+
+  cacheTag("posts", `post:${slug}`);
+
+  const post = await publicClient.withConfig({ useCdn: false }).fetch(
     `*[_type == "post" && slug.current == $slug][0]{
       title,
       description,
@@ -36,6 +41,20 @@ export async function getPost(slug: string): Promise<PostDoc | null> {
       }
     }`,
     { slug },
-    { next: { tags: ["posts", `post:${slug}`] } },
   );
+
+  cacheLife(
+    post
+      ? {
+          stale: 300,
+          revalidate: 86400,
+          expire: 604800,
+        }
+      : {
+          stale: 300,
+          revalidate: 60,
+          expire: 3600,
+        },
+  );
+  return post;
 }

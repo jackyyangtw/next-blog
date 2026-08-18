@@ -1,10 +1,20 @@
 import Grid from "@mui/material/Grid";
+import { cacheLife, cacheTag } from "next/cache";
 import PostCards from "@/components/features/post/PostCards";
 import { publicClient } from "@/sanity/lib/client";
 import { PostDoc } from "@/schema/type/post";
 import type { Locale } from "@/i18n/types";
 
 export default async function PostsSection({ lng }: { lng: Locale }) {
+  "use cache";
+
+  cacheLife({
+    stale: 300,
+    revalidate: 3600,
+    expire: 86400,
+  });
+  cacheTag("posts");
+
   const posts = await publicClient.fetch<PostDoc[]>(
     `*[_type == "post"] | order(_createdAt desc)[0...4] {
       _id,
@@ -37,7 +47,6 @@ export default async function PostsSection({ lng }: { lng: Locale }) {
       }
     }`,
     {},
-    { next: { tags: ["posts"] } },
   );
   return (
     <Grid container spacing={2} columns={12}>
