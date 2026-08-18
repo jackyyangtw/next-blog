@@ -62,6 +62,12 @@ export const POST_BANNER_PRESETS = [
     alt: "Abstract React Hooks state and dependency flow banner",
   },
   {
+    title: "Frontend Performance",
+    value: "frontend-performance",
+    path: "/images/banners/frontend-performance.svg",
+    alt: "Abstract frontend performance and Core Web Vitals banner",
+  },
+  {
     title: "DevTools Inspector",
     value: "devtools-inspector",
     path: "/images/banners/devtools-inspector.png",
