@@ -68,6 +68,12 @@ export const POST_BANNER_PRESETS = [
     alt: "Abstract frontend performance and Core Web Vitals banner",
   },
   {
+    title: "Chart Performance Optimization",
+    value: "chart-performance-optimization",
+    path: "/images/banners/chart-performance-optimization.svg",
+    alt: "Abstract chart performance optimization banner with chart elements",
+  },
+  {
     title: "DevTools Inspector",
     value: "devtools-inspector",
     path: "/images/banners/devtools-inspector.png",
