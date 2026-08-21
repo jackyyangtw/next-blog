@@ -62,10 +62,51 @@ function splitInlineCodeText(text: string, baseKey: string) {
   return parts.length ? parts : [text];
 }
 
+function splitInlineMarkdownText(text: string, baseKey: string) {
+  const parts: ReactNode[] = [];
+  const inlineMarkdownPattern = /`([^`\n]+)`|(\*\*|__)(?=\S)([^\n]*?\S)\2/g;
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = inlineMarkdownPattern.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+
+    if (match[1] !== undefined) {
+      parts.push(
+        <RichTextInlineCode key={`${baseKey}-code-${match.index}`}>
+          {match[1]}
+        </RichTextInlineCode>,
+      );
+    } else if (match[3] !== undefined) {
+      parts.push(
+        <strong key={`${baseKey}-strong-${match.index}`}>{match[3]}</strong>,
+      );
+    }
+
+    lastIndex = inlineMarkdownPattern.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts.length ? parts : [text];
+}
+
 export function renderInlineCodeFallback(children: ReactNode) {
   return Children.toArray(children).flatMap((child, index) =>
     typeof child === "string"
       ? splitInlineCodeText(child, `inline-${index}`)
+      : child,
+  );
+}
+
+export function renderInlineMarkdownFallback(children: ReactNode) {
+  return Children.toArray(children).flatMap((child, index) =>
+    typeof child === "string"
+      ? splitInlineMarkdownText(child, `inline-${index}`)
       : child,
   );
 }

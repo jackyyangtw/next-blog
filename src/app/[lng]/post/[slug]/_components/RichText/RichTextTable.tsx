@@ -6,7 +6,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 
-import { renderInlineCodeFallback } from "./RichTextInlineCode";
+import { renderInlineMarkdownFallback } from "./RichTextInlineCode";
 import { richTextTableContainerSx } from "./RichTextTable.styles";
 import { RichTextTableValue } from "./types";
 
@@ -45,7 +45,7 @@ export function RichTextTable({ value }: RichTextTableProps) {
             <TableRow>
               {headerRow.cells?.map((cell) => (
                 <TableCell key={cell._key} component="th" scope="col">
-                  {renderInlineCodeFallback(cell.text)}
+                  {renderInlineMarkdownFallback(cell.text)}
                 </TableCell>
               ))}
             </TableRow>
@@ -57,7 +57,7 @@ export function RichTextTable({ value }: RichTextTableProps) {
             <TableRow key={row._key}>
               {row.cells?.map((cell) => (
                 <TableCell key={cell._key}>
-                  {renderInlineCodeFallback(cell.text)}
+                  {renderInlineMarkdownFallback(cell.text)}
                 </TableCell>
               ))}
             </TableRow>
