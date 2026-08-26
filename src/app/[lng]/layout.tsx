@@ -33,6 +33,13 @@ function isSupportedLocale(lng: string): lng is Locale {
   return languages.includes(lng as Locale);
 }
 
+async function getLayoutMetadata(lng: Locale) {
+  "use cache";
+
+  const tCommon = await getServerTranslation(lng, "common");
+  return { title: tCommon.t("site_name") };
+}
+
 const GOOGLE_CONSENT_DEFAULT_SCRIPT = `
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -63,9 +70,9 @@ export const generateMetadata = async ({
     notFound();
   }
 
-  const tCommon = await getServerTranslation(lng, "common");
+  const { title } = await getLayoutMetadata(lng);
   return {
-    title: tCommon.t("site_name"),
+    title,
     metadataBase: new URL(getSiteUrl()),
   };
 };

@@ -15,6 +15,8 @@ interface HomeProps {
 }
 
 async function getHomeSeoData(lng: Locale) {
+  "use cache";
+
   const tCommon = await getServerTranslation(lng, "common");
   const title = tCommon.t("site_name");
   const description = tCommon.t("site_description");

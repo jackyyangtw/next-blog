@@ -75,7 +75,8 @@ export async function generateMetadata({ params }: PostPageProps) {
   };
 }
 
-async function PostPageContent({ slug, lng }: { slug: string; lng: Locale }) {
+async function PostPageContent({ params }: PostPageProps) {
+  const { slug, lng } = await params;
   const post = await getPost(slug);
   if (!post) {
     notFound();
@@ -150,11 +151,10 @@ async function PostPageContent({ slug, lng }: { slug: string; lng: Locale }) {
 }
 
 // support PPR (Partial Prerendering)
-export default async function PostPage({ params }: PostPageProps) {
-  const { slug, lng } = await params;
+export default function PostPage({ params }: PostPageProps) {
   return (
     <Suspense fallback={<PostPageSkeleton />}>
-      <PostPageContent slug={slug} lng={lng} />
+      <PostPageContent params={params} />
     </Suspense>
   );
 }

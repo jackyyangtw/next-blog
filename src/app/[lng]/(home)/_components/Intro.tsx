@@ -14,6 +14,8 @@ interface IntroProps {
 }
 
 export default async function Intro({ lng }: IntroProps) {
+  "use cache";
+
   const { t } = await getServerTranslation(lng, "home-page");
 
   return (

@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { Locale } from "@/i18n/types";
 import { Metadata } from "next";
 
+export const instant = false;
+
 export const metadata: Metadata = {
   title: "User",
   robots: {

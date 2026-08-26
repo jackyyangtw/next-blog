@@ -79,6 +79,12 @@ export const POST_BANNER_PRESETS = [
     path: "/images/banners/devtools-inspector.png",
     alt: "Abstract browser DevTools inspector banner",
   },
+  {
+    title: "Next.js Concepts",
+    value: "nextjs-concepts",
+    path: "/images/banners/nextjs-concepts.png",
+    alt: "Monochrome Next.js concepts banner with a stylized N",
+  },
 ] as const;
 
 export type PostBannerPresetValue =
