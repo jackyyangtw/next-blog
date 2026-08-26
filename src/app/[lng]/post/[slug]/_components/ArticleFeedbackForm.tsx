@@ -1,9 +1,16 @@
 "use client";
 
-import { useActionState } from "react";
+import {
+  useActionState,
+  useCallback,
+  useEffect,
+  useState,
+  type ChangeEvent,
+} from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Fade from "@mui/material/Fade";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
@@ -25,6 +32,8 @@ interface ArticleFeedbackFormProps {
   locale: string;
   postId: string;
 }
+
+type FeedbackType = "helpful" | "notHelpful" | "suggestion";
 
 const initialState: SubmitArticleFeedbackState = {};
 
@@ -74,10 +83,44 @@ export default function ArticleFeedbackForm({
   locale,
   postId,
 }: ArticleFeedbackFormProps) {
-  const [state, formAction] = useActionState(
-    submitArticleFeedbackAction,
-    initialState,
+  const [feedbackType, setFeedbackType] = useState<FeedbackType>("helpful");
+  const [successNoticeVersion, setSuccessNoticeVersion] = useState(0);
+  const submitFeedback = useCallback(
+    async (previousState: SubmitArticleFeedbackState, formData: FormData) => {
+      const nextState = await submitArticleFeedbackAction(
+        previousState,
+        formData,
+      );
+
+      setSuccessNoticeVersion((version) =>
+        nextState.success ? version + 1 : 0,
+      );
+
+      return nextState;
+    },
+    [],
   );
+  const [state, formAction] = useActionState(submitFeedback, initialState);
+  const isSuggestion = feedbackType === "suggestion";
+  const isSuccessNoticeVisible = successNoticeVersion > 0;
+  const handleFeedbackTypeChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setFeedbackType(event.target.value as FeedbackType);
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (!isSuccessNoticeVisible) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setSuccessNoticeVersion(0);
+    }, 3000);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [successNoticeVersion, isSuccessNoticeVisible]);
 
   return (
     <Paper
@@ -110,7 +153,12 @@ export default function ArticleFeedbackForm({
           <Stack spacing={2}>
             <FormControl required>
               <FormLabel>你的看法</FormLabel>
-              <RadioGroup defaultValue="helpful" name="feedbackType" row>
+              <RadioGroup
+                name="feedbackType"
+                row
+                value={feedbackType}
+                onChange={handleFeedbackTypeChange}
+              >
                 <FormControlLabel
                   control={<Radio />}
                   label="有幫助"
@@ -135,16 +183,16 @@ export default function ArticleFeedbackForm({
               maxRows={8}
               minRows={4}
               name="message"
-              required
+              required={isSuggestion}
               slotProps={{ htmlInput: { maxLength: 2000 } }}
               sx={feedbackTextFieldSx}
               multiline
             />
 
             {state.error ? <Alert severity="error">{state.error}</Alert> : null}
-            {state.success ? (
+            <Fade in={isSuccessNoticeVisible} timeout={250} unmountOnExit>
               <Alert severity="success">謝謝你的回饋！</Alert>
-            ) : null}
+            </Fade>
 
             <Box>
               <SubmitFeedbackButton />

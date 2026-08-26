@@ -80,6 +80,7 @@ export const blockContent = defineType({
         languageAlternatives: [
           { title: "Text", value: "text" },
           { title: "Diff", value: "diff" },
+          { title: "JSON", value: "json" },
           { title: "TypeScript", value: "tsx" },
           { title: "JavaScript", value: "jsx" },
         ],

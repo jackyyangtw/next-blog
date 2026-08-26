@@ -10,9 +10,9 @@ const FEEDBACK_TYPE_LABELS = {
   suggestion: "建議",
 } as const;
 
-interface ArticleFeedbackEmailInput extends ArticleFeedbackInput {
+type ArticleFeedbackEmailInput = ArticleFeedbackInput & {
   postTitle: string;
-}
+};
 
 function getMailConfiguration() {
   const user = process.env.GMAIL_SMTP_USER;
