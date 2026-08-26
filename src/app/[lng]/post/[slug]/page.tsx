@@ -141,11 +141,13 @@ async function PostPageContent({ params }: PostPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <PostDetailContent post={post} lng={lng} />
-      <RelatedPostsSection
-        slug={slug}
-        lng={lng}
-        categoryIds={post.categories.map((category) => category._id)}
-      />
+      <Suspense fallback={null}>
+        <RelatedPostsSection
+          slug={slug}
+          lng={lng}
+          categoryIds={post.categories.map((category) => category._id)}
+        />
+      </Suspense>
     </>
   );
 }

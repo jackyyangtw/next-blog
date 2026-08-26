@@ -1,3 +1,4 @@
+import { cacheLife, cacheTag } from "next/cache";
 import { publicClient } from "@/sanity/lib/client";
 
 interface CategoryLite {
@@ -37,6 +38,24 @@ interface ScoredPost extends RecommendedPost {
   _score: number;
 }
 
+interface RecommendedPostsQueryParams {
+  categoryIds?: string[];
+  limit?: number;
+  slug: string;
+}
+
+async function fetchRecommendedPosts(
+  query: string,
+  params: RecommendedPostsQueryParams,
+): Promise<RecommendedPost[]> {
+  "use cache";
+
+  cacheTag("posts", `recommended:${params.slug}`);
+  cacheLife({ stale: 300, revalidate: 86400, expire: 604800 });
+
+  return publicClient.fetch<RecommendedPost[]>(query, params);
+}
+
 function getFreshnessScore(createdAt: string): number {
   const createdMs = new Date(createdAt).getTime();
   const diffDays = Math.max(
@@ -60,7 +79,7 @@ export async function getRecommendedPosts({
   limit = 3,
 }: GetRecommendedPostsInput): Promise<RecommendedPost[]> {
   if (categoryIds.length === 0) {
-    return publicClient.fetch<RecommendedPost[]>(
+    return fetchRecommendedPosts(
       `*[_type == "post" && slug.current != $slug] | order(_createdAt desc) [0...$limit] {
         _id,
         _createdAt,
@@ -86,11 +105,10 @@ export async function getRecommendedPosts({
         }
       }`,
       { slug, limit },
-      { next: { tags: ["posts", `recommended:${slug}`] } },
     );
   }
 
-  const candidates = await publicClient.fetch<RecommendedPost[]>(
+  const candidates = await fetchRecommendedPosts(
     `*[
       _type == "post" &&
       slug.current != $slug &&
@@ -120,7 +138,6 @@ export async function getRecommendedPosts({
       }
     }`,
     { slug, categoryIds },
-    { next: { tags: ["posts", `recommended:${slug}`] } },
   );
 
   const sorted = candidates
@@ -163,7 +180,7 @@ export async function getRecommendedPosts({
     return selected.slice(0, limit);
   }
 
-  const fallbackPosts = await publicClient.fetch<RecommendedPost[]>(
+  const fallbackPosts = await fetchRecommendedPosts(
     `*[_type == "post" && slug.current != $slug] | order(_createdAt desc) [0...$limit] {
       _id,
       _createdAt,
@@ -189,7 +206,6 @@ export async function getRecommendedPosts({
       }
     }`,
     { slug, limit },
-    { next: { tags: ["posts", `recommended:${slug}`] } },
   );
 
   for (const post of fallbackPosts) {
