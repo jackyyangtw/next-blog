@@ -85,6 +85,12 @@ export const POST_BANNER_PRESETS = [
     path: "/images/banners/nextjs-concepts.png",
     alt: "Monochrome Next.js concepts banner with a stylized N",
   },
+  {
+    title: "GitLab CI/CD",
+    value: "gitlab-cicd",
+    path: "/images/banners/gitlab-cicd.png",
+    alt: "GitLab CI/CD pipeline with build, test, security, package, and deploy stages",
+  },
 ] as const;
 
 export type PostBannerPresetValue =
