@@ -40,6 +40,7 @@ export default function ClientPage({ lng }: { lng: Locale }) {
 
   const total = posts?.total || 0;
   const totalPages = Math.ceil(total / limit);
+  const hasPosts = Boolean(posts?.data.length);
 
   const setPage = (page: number) => {
     setParams({ page });
@@ -47,25 +48,41 @@ export default function ClientPage({ lng }: { lng: Locale }) {
 
   if (isError) return <div>Error</div>;
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 4 }}>
-      <Filter />
-      {isPostsLoading ? (
-        <PostSkeleton count={2} />
-      ) : (
-        <PostCards lng={lng} posts={posts.data} />
-      )}
-      {posts?.data.length === 0 && (
-        <Typography variant="h3" sx={{ mb: 2 }}>
-          沒有文章
-        </Typography>
-      )}
-      <CustomPagination
-        limit={limit}
-        setParams={setParams}
-        totalPages={totalPages}
-        page={page}
-        setPage={setPage}
-      />
+    <Box
+      sx={{
+        left: { md: "50%" },
+        minWidth: 0,
+        position: { md: "relative" },
+        transform: { md: "translateX(-50%)" },
+        width: { xs: "100%", md: "min(1440px, calc(100vw - 4rem))" },
+      }}
+    >
+      <Filter>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 4,
+            minWidth: 0,
+            order: { xs: 3 },
+          }}
+        >
+          {isPostsLoading ? (
+            <PostSkeleton count={2} />
+          ) : hasPosts ? (
+            <PostCards lng={lng} posts={posts.data} />
+          ) : (
+            <Typography variant="h3">沒有文章</Typography>
+          )}
+          <CustomPagination
+            limit={limit}
+            setParams={setParams}
+            totalPages={totalPages}
+            page={page}
+            setPage={setPage}
+          />
+        </Box>
+      </Filter>
     </Box>
   );
 }

@@ -6,43 +6,31 @@ export default function FilterSkeleton() {
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: { xs: "column-reverse", md: "row" },
+        display: "grid",
+        gridColumn: { md: "1 / -1" },
+        gridTemplateColumns: { md: "14rem minmax(0, 1fr)" },
         width: "100%",
-        justifyContent: "space-between",
-        alignItems: { xs: "start", md: "center" },
+        alignItems: "start",
         gap: { xs: 2, md: 4 },
       }}
     >
-      {/* 類別標籤的 Skeleton */}
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          gap: 1.5,
-          flexWrap: "wrap",
-        }}
-      >
-        {/* 模擬 All Kind 和 3-4 個隨機長度的分類 */}
-        {[80, 100, 90, 110].map((width, index) => (
-          <Skeleton
-            key={index}
-            variant="rectangular" // rectangular 更能貼近 Chip 的形狀
-            width={width}
-            height={32}
-            sx={{ borderRadius: 16 }} // 圓角設定與 Chip 一致
-          />
-        ))}
-      </Box>
-
-      {/* 搜尋框的 Skeleton */}
-      <Box sx={{ width: { md: "300px" }, height: 40 }}>
+      <Skeleton
+        height={320}
+        sx={{ display: { xs: "none", md: "block" } }}
+        variant="rounded"
+      />
+      <Box sx={{ height: 56, width: { xs: "100%", md: "36rem" } }}>
         <Skeleton
           variant="rectangular"
           height="100%"
           sx={{ borderRadius: 1 }}
         />
       </Box>
+      <Skeleton
+        height={40}
+        sx={{ display: { md: "none" } }}
+        variant="rounded"
+      />
     </Box>
   );
 }

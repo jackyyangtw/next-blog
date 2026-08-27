@@ -15,7 +15,7 @@ export default function FeaturedPostsSection({
   t,
 }: FeaturedPostsSectionProps) {
   return (
-    <Box sx={{ py: 10 }}>
+    <Box sx={{ py: 10, maxWidth: 1200, mx: "auto" }}>
       <TransitionFrame kind="fade" timeout={520}>
         <Stack
           direction={{ xs: "column", sm: "row" }}

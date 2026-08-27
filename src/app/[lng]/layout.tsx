@@ -135,8 +135,12 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
                 {/* 內容區塊：維持原本的 Container 限制 */}
                 <Container
                   component="main"
-                  maxWidth="lg"
+                  maxWidth={false}
                   sx={{
+                    width: {
+                      xs: "calc(100% - 2rem)",
+                      md: "min(1440px, calc(100% - 4rem))",
+                    },
                     my: 16,
                     gap: 4,
                     flexGrow: 1, // 讓主內容區塊自動填滿剩餘空間

@@ -2,5 +2,10 @@
   "all_kind": "All Kind",
   "no_post": "No Post",
   "loading_post": "Loading post…",
-  "search_placeholder": "Search for posts title or content…"
+  "search_placeholder": "Search for posts title or content…",
+  "search_title": "Explore articles",
+  "filter_title": "Filter article categories",
+  "filter_empty": "No matching categories",
+  "filter_clear": "Clear filter",
+  "filter_close": "Close"
 }

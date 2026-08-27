@@ -41,37 +41,21 @@ const StyledToolbar = styled(Toolbar, {
   WebkitBackdropFilter: "blur(24px) saturate(140%)",
   border: "1px solid",
   borderColor: (theme.vars || theme).palette.divider,
-  width: scrolled ? "calc(100% + 24px)" : "100%",
-  minHeight: scrolled ? 64 : 48,
-  marginLeft: scrolled ? -12 : 0,
-  marginRight: scrolled ? -12 : 0,
+  width: "100%",
+  minHeight: 56,
   backgroundColor: theme.vars
     ? `rgba(${theme.vars.palette.background.defaultChannel} / ${
         scrolled ? 0.78 : 0.4
       })`
     : alpha(theme.palette.background.default, scrolled ? 0.78 : 0.4),
   boxShadow: (theme.vars || theme).shadows[scrolled ? 3 : 1],
-  padding: scrolled ? "14px 18px" : "8px 12px",
-  transition: theme.transitions.create(
-    [
-      "background-color",
-      "box-shadow",
-      "margin",
-      "min-height",
-      "padding",
-      "width",
-    ],
-    {
-      duration: theme.transitions.duration.shorter,
-    },
-  ),
+  padding: "8px 16px",
   [theme.breakpoints.up("md")]: {
-    width: scrolled ? "calc(100% + 56px)" : "100%",
-    minHeight: scrolled ? 72 : 48,
-    marginLeft: scrolled ? -28 : 0,
-    marginRight: scrolled ? -28 : 0,
-    padding: scrolled ? "16px 24px" : "8px 12px",
+    padding: "8px 24px",
   },
+  transition: theme.transitions.create(["background-color", "box-shadow"], {
+    duration: theme.transitions.duration.shorter,
+  }),
 }));
 
 export default function AppAppBar({
@@ -118,7 +102,16 @@ export default function AppAppBar({
           ),
         })}
       >
-        <Container maxWidth="lg">
+        <Container
+          disableGutters
+          maxWidth={false}
+          sx={{
+            width: {
+              xs: "calc(100% - 2rem)",
+              md: "min(1440px, calc(100% - 4rem))",
+            },
+          }}
+        >
           <StyledToolbar variant="dense" disableGutters scrolled={scrolled}>
             {/* site icon */}
             <Box

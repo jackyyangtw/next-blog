@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Box } from "@mui/material";
 import { getServerTranslation } from "@/i18n/index";
 import { Locale } from "@/i18n/types";
 import TrackingLight from "./TrackingLight";
@@ -33,7 +33,7 @@ export default async function Intro({ lng }: IntroProps) {
     >
       <TrackingLight />
 
-      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
+      <Box sx={{ position: "relative", zIndex: 2 }}>
         <HeroSection
           titleLine1={t("hero.title_line_1")}
           titleLine2={t("hero.title_line_2")}
@@ -45,7 +45,7 @@ export default async function Intro({ lng }: IntroProps) {
         <FeaturedPostsSection lng={lng} t={t} />
         <TechStackSection t={t} />
         <HomeFooterSection t={t} />
-      </Container>
+      </Box>
     </Box>
   );
 }

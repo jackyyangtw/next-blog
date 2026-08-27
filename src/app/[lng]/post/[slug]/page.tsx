@@ -2,6 +2,7 @@
 // 圖片優化: https://www.npmjs.com/package/next-sanity-image
 
 import { Suspense } from "react";
+import Container from "@mui/material/Container";
 
 // ------------- next -------------
 import { notFound } from "next/navigation";
@@ -140,14 +141,20 @@ async function PostPageContent({ params }: PostPageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <PostDetailContent post={post} lng={lng} />
-      <Suspense fallback={null}>
-        <RelatedPostsSection
-          slug={slug}
-          lng={lng}
-          categoryIds={post.categories.map((category) => category._id)}
-        />
-      </Suspense>
+      <Container
+        disableGutters
+        maxWidth={false}
+        sx={{ maxWidth: 1200, mx: "auto" }}
+      >
+        <PostDetailContent post={post} lng={lng} />
+        <Suspense fallback={null}>
+          <RelatedPostsSection
+            slug={slug}
+            lng={lng}
+            categoryIds={post.categories.map((category) => category._id)}
+          />
+        </Suspense>
+      </Container>
     </>
   );
 }

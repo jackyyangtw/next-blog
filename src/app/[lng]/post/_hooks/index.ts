@@ -17,13 +17,19 @@ export function usePostsQueryParams() {
         parseNumbers: true,
         parseBooleans: true,
       }),
-    [sp] // 只在字串改變時重算
+    [sp], // 只在字串改變時重算
   );
+
+  const categories = Array.isArray(parsed.categories)
+    ? parsed.categories
+    : parsed.categories
+      ? [parsed.categories]
+      : [];
 
   return {
     page: (parsed.page as number) ?? DEFAULTS.page,
     limit: (parsed.limit as number) ?? DEFAULTS.limit,
-    categories: (parsed.categories as string[]) ?? [],
+    categories: categories as string[],
     keyword: (parsed.keyword as string) ?? "",
   };
 }
@@ -41,9 +47,11 @@ export function useSetPostsQueryParams() {
         limit: number;
         categories: string[];
         keyword: string;
-      }>
+      }>,
     ) => {
-      const curr = queryString.parse(searchParams.toString(), { arrayFormat: "comma" });
+      const curr = queryString.parse(searchParams.toString(), {
+        arrayFormat: "comma",
+      });
 
       const next: Record<string, unknown> = { ...curr, ...patch };
 
@@ -51,7 +59,10 @@ export function useSetPostsQueryParams() {
       if (next.page === DEFAULTS.page) delete next.page;
       if (next.limit === DEFAULTS.limit) delete next.limit;
       if (!next.keyword) delete next.keyword;
-      if (!Array.isArray(next.categories) || !(next.categories as string[]).length)
+      if (
+        !Array.isArray(next.categories) ||
+        !(next.categories as string[]).length
+      )
         delete next.categories;
 
       const currQs = searchParams.toString();
@@ -62,7 +73,7 @@ export function useSetPostsQueryParams() {
 
       router.replace(nextQs ? `${pathname}?${nextQs}` : pathname);
     },
-    [router, pathname, searchParams] // 合理且必要的依賴
+    [router, pathname, searchParams], // 合理且必要的依賴
   );
 
   return setParams;
