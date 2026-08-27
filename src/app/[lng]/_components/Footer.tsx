@@ -29,7 +29,6 @@ export default function Footer({
       component="footer"
       sx={{
         py: 8,
-        px: 2,
         mt: "auto",
         // 改用主題定義的背景色，避免突兀
         backgroundColor: "background.default",
@@ -38,7 +37,15 @@ export default function Footer({
         borderColor: "divider",
       }}
     >
-      <Container maxWidth="lg">
+      <Container
+        maxWidth={false}
+        sx={{
+          width: {
+            xs: "calc(100% - 2rem)",
+            md: "min(1440px, calc(100% - 4rem))",
+          },
+        }}
+      >
         <Stack
           direction={{ xs: "column", md: "row" }}
           justifyContent="space-between"

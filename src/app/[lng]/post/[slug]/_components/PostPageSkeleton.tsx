@@ -3,7 +3,16 @@ import Skeleton from "@mui/material/Skeleton";
 
 export default function PostPageSkeleton() {
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+        maxWidth: 1200,
+        mx: "auto",
+        width: "100%",
+      }}
+    >
       <Skeleton variant="text" width="70%" height={48} />
       <Skeleton variant="text" width="40%" height={24} />
       <Skeleton variant="rectangular" width="100%" height={320} />
