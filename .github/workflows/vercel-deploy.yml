@@ -65,7 +65,7 @@ jobs:
         run: pnpm typecheck
 
       - name: Check dependency CVEs
-        run: pnpm audit --prod --audit-level high
+        run: bash .github/workflows/scripts/run-cve-audit.sh --prod --audit-level high
 
   deploy-preview:
     name: Deploy Preview to Vercel
