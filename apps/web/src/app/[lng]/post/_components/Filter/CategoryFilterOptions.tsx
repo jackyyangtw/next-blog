@@ -5,6 +5,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
+import { type Theme } from "@mui/material/styles";
 
 import type { CategoryDoc } from "@/schema/type/category";
 
@@ -63,7 +64,7 @@ export default function CategoryFilterOptions({
     >
       <ListItemButton
         selected={!selectedCategories.length}
-        sx={{ borderRadius: 1 }}
+        sx={categoryItemStyles}
         onClick={onClear}
       >
         <ListItemIcon
@@ -89,7 +90,7 @@ export default function CategoryFilterOptions({
             key={category.slug}
             ref={selected ? selectedItemRef : undefined}
             selected={selected}
-            sx={{ borderRadius: 1 }}
+            sx={categoryItemStyles}
             onClick={() => onSelect(category.slug)}
           >
             <ListItemText primary={category.title} />
@@ -107,4 +108,20 @@ export default function CategoryFilterOptions({
       ) : null}
     </List>
   );
+}
+
+function categoryItemStyles(theme: Theme) {
+  const primary = (theme.vars || theme).palette.primary.main;
+
+  return {
+    border: "1px solid transparent",
+    borderRadius: 1,
+    "&.Mui-selected": {
+      backgroundColor: `color-mix(in srgb, ${primary} 14%, transparent)`,
+      borderColor: `color-mix(in srgb, ${primary} 34%, transparent)`,
+    },
+    "&.Mui-selected:hover": {
+      backgroundColor: `color-mix(in srgb, ${primary} 20%, transparent)`,
+    },
+  };
 }
