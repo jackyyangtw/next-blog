@@ -16,6 +16,7 @@
     "test": "playwright test"
   },
   "dependencies": {
+    "@jacky-dev/design-tokens": "workspace:*",
     "@ai-sdk/openai": "^4.0.14",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",

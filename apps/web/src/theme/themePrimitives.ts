@@ -1,4 +1,5 @@
 import { createTheme, alpha, Shadows } from "@mui/material/styles";
+import { primitiveTokens, semanticTokens } from "@jacky-dev/design-tokens";
 
 declare module "@mui/material/Paper" {
   interface PaperPropsVariantOverrides {
@@ -27,69 +28,8 @@ declare module "@mui/material/styles" {
 }
 
 const defaultTheme = createTheme();
-export const brand = {
-  50: "hsl(185, 100%, 95%)",
-  100: "hsl(185, 100%, 92%)",
-  200: "hsl(185, 100%, 80%)",
-  300: "hsl(185, 100%, 65%)",
-  400: "hsl(185, 98%, 48%)",
-  500: "hsl(185, 98%, 42%)",
-  600: "hsl(186, 98%, 55%)",
-  700: "hsl(185, 100%, 35%)",
-  800: "hsl(185, 100%, 16%)",
-  900: "hsl(185, 100%, 10%)",
-};
-export const gray = {
-  50: "hsl(220, 35%, 97%)",
-  100: "hsl(220, 30%, 94%)",
-  200: "hsl(220, 20%, 88%)",
-  300: "hsl(220, 20%, 80%)",
-  400: "hsl(220, 20%, 65%)",
-  500: "hsl(220, 20%, 42%)",
-  600: "hsl(220, 20%, 35%)",
-  700: "hsl(220, 20%, 25%)",
-  800: "hsl(220, 30%, 6%)",
-  900: "hsl(220, 35%, 3%)",
-};
-
-export const green = {
-  50: "hsl(120, 80%, 98%)",
-  100: "hsl(120, 75%, 94%)",
-  200: "hsl(120, 75%, 87%)",
-  300: "hsl(120, 61%, 77%)",
-  400: "hsl(120, 44%, 53%)",
-  500: "hsl(120, 59%, 30%)",
-  600: "hsl(120, 70%, 25%)",
-  700: "hsl(120, 75%, 16%)",
-  800: "hsl(120, 84%, 10%)",
-  900: "hsl(120, 87%, 6%)",
-};
-
-export const orange = {
-  50: "hsl(45, 100%, 97%)",
-  100: "hsl(45, 92%, 90%)",
-  200: "hsl(45, 94%, 80%)",
-  300: "hsl(45, 90%, 65%)",
-  400: "hsl(45, 90%, 40%)",
-  500: "hsl(45, 90%, 35%)",
-  600: "hsl(45, 91%, 25%)",
-  700: "hsl(45, 94%, 20%)",
-  800: "hsl(45, 95%, 16%)",
-  900: "hsl(45, 93%, 12%)",
-};
-
-export const red = {
-  50: "hsl(0, 100%, 97%)",
-  100: "hsl(0, 92%, 90%)",
-  200: "hsl(0, 94%, 80%)",
-  300: "hsl(0, 90%, 65%)",
-  400: "hsl(0, 90%, 40%)",
-  500: "hsl(0, 90%, 30%)",
-  600: "hsl(0, 91%, 25%)",
-  700: "hsl(0, 94%, 18%)",
-  800: "hsl(0, 95%, 12%)",
-  900: "hsl(0, 93%, 6%)",
-};
+export const { brand, gray, green, orange, red } = primitiveTokens.color;
+const { light: lightTokens, dark: darkTokens } = semanticTokens;
 
 export const colorSchemes = {
   light: {
@@ -126,12 +66,12 @@ export const colorSchemes = {
       },
       divider: alpha(gray[300], 0.4),
       background: {
-        default: gray[100],
-        paper: "hsl(220, 35%, 97%)",
+        default: lightTokens.background,
+        paper: lightTokens.card,
       },
       text: {
-        primary: gray[800],
-        secondary: gray[600],
+        primary: lightTokens.foreground,
+        secondary: lightTokens.mutedForeground,
         warning: orange[400],
       },
       action: {
@@ -176,12 +116,12 @@ export const colorSchemes = {
       },
       divider: alpha(gray[700], 0.6),
       background: {
-        default: gray[900],
-        paper: "hsl(220, 30%, 7%)",
+        default: darkTokens.background,
+        paper: darkTokens.card,
       },
       text: {
-        primary: "hsl(0, 0%, 100%)",
-        secondary: gray[400],
+        primary: darkTokens.foreground,
+        secondary: darkTokens.mutedForeground,
       },
       action: {
         hover: alpha(gray[600], 0.2),
