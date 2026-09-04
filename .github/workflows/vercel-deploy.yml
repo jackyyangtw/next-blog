@@ -92,6 +92,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Expose pnpm virtual store to Vercel
+        run: ln -s ../../node_modules/.pnpm apps/web/node_modules/.pnpm
+
       - name: Validate Vercel secrets
         run: |
           test -n "$VERCEL_TOKEN" || (echo "Missing GitHub secret: VERCEL_TOKEN" && exit 1)
@@ -172,6 +175,9 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Expose pnpm virtual store to Vercel
+        run: ln -s ../../node_modules/.pnpm apps/web/node_modules/.pnpm
 
       - name: Validate Vercel secrets
         run: |
