@@ -5,34 +5,26 @@ on:
     branches:
       - main
     paths:
-      - "src/**"
-      - "public/**"
-      - "next.config.ts"
-      - "tsconfig.json"
-      - "eslint.config.mjs"
-      - "next-env.d.ts"
+      - "apps/web/**"
+      - "packages/**"
       - "package.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
-      - "sanity.cli.ts"
-      - "sanity.config.ts"
+      - "turbo.json"
       - "vercel.json"
+      - ".github/workflows/vercel-deploy.yml"
   push:
     branches:
       - "**"
     paths:
-      - "src/**"
-      - "public/**"
-      - "next.config.ts"
-      - "tsconfig.json"
-      - "eslint.config.mjs"
-      - "next-env.d.ts"
+      - "apps/web/**"
+      - "packages/**"
       - "package.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
-      - "sanity.cli.ts"
-      - "sanity.config.ts"
+      - "turbo.json"
       - "vercel.json"
+      - ".github/workflows/vercel-deploy.yml"
   workflow_dispatch:
 
 permissions:
@@ -67,10 +59,10 @@ jobs:
         run: pnpm lint
 
       - name: Generate Next.js types
-        run: pnpm typegen
+        run: pnpm --filter @jacky-dev/web typegen
 
       - name: Run type check
-        run: pnpm tsc
+        run: pnpm typecheck
 
       - name: Check dependency CVEs
         run: pnpm audit --prod --audit-level high
@@ -121,14 +113,14 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Pull Vercel preview environment
-        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
+        run: vercel --cwd apps/web pull --yes --environment=preview --token="$VERCEL_TOKEN"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build Vercel preview output
-        run: vercel build --token="$VERCEL_TOKEN"
+        run: vercel --cwd apps/web build --token="$VERCEL_TOKEN"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -137,7 +129,7 @@ jobs:
       - name: Deploy preview prebuilt output
         id: deploy-preview
         run: |
-          deployment_url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN" \
+          deployment_url=$(vercel --cwd apps/web deploy --prebuilt --token="$VERCEL_TOKEN" \
             --meta githubDeployment=1 \
             --meta githubCommitSha="$GITHUB_SHA" \
             --meta githubCommitRef="$GITHUB_REF_NAME" \
@@ -202,14 +194,14 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Pull Vercel environment
-        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+        run: vercel --cwd apps/web pull --yes --environment=production --token="$VERCEL_TOKEN"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build Vercel output
-        run: vercel build --prod --token="$VERCEL_TOKEN"
+        run: vercel --cwd apps/web build --prod --token="$VERCEL_TOKEN"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -217,7 +209,7 @@ jobs:
 
       - name: Deploy prebuilt output
         run: |
-          vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" \
+          vercel --cwd apps/web deploy --prebuilt --prod --token="$VERCEL_TOKEN" \
             --meta githubDeployment=1 \
             --meta githubCommitSha="$GITHUB_SHA" \
             --meta githubCommitRef="$GITHUB_REF_NAME" \
