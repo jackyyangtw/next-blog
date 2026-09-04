@@ -1,8 +1,9 @@
+import { useMemo } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Chip } from "react-native-paper";
 
 import { topics, type Topic } from "../data/home";
-import { colors, spacing } from "../theme";
+import { spacing, useAppColors } from "../theme";
 
 interface TopicTabsProps {
   activeTopic: Topic;
@@ -13,6 +14,9 @@ export default function TopicTabs({
   activeTopic,
   onTopicPress,
 }: TopicTabsProps) {
+  const colors = useAppColors();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   return (
     <ScrollView
       contentContainerStyle={styles.content}
@@ -39,8 +43,10 @@ export default function TopicTabs({
   );
 }
 
-const styles = StyleSheet.create({
-  content: { gap: spacing.sm, paddingHorizontal: spacing.lg },
-  tab: { backgroundColor: colors.muted, minHeight: 44 },
-  tabActive: { backgroundColor: colors.primary },
-});
+function createStyles(colors: ReturnType<typeof useAppColors>) {
+  return StyleSheet.create({
+    content: { gap: spacing.sm, paddingHorizontal: spacing.lg },
+    tab: { backgroundColor: colors.muted, minHeight: 44 },
+    tabActive: { backgroundColor: colors.primary },
+  });
+}

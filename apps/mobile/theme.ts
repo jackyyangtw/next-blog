@@ -3,34 +3,55 @@ import {
   primitiveTokens,
   semanticTokens,
 } from "@jacky-dev/design-tokens";
-import { MD3LightTheme } from "react-native-paper";
+import {
+  MD3DarkTheme,
+  MD3LightTheme,
+  type MD3Theme,
+  useTheme,
+} from "react-native-paper";
 
-export const colors = semanticTokens.light;
+export type AppColors =
+  | typeof semanticTokens.dark
+  | typeof semanticTokens.light;
+
 export const components = componentTokens;
 export const spacing = primitiveTokens.space;
 
-export const paperTheme = {
-  ...MD3LightTheme,
-  colors: {
-    ...MD3LightTheme.colors,
-    background: colors.background,
-    elevation: {
-      ...MD3LightTheme.colors.elevation,
-      level1: colors.card,
-      level2: colors.card,
+function createPaperTheme(baseTheme: MD3Theme, colors: AppColors) {
+  return {
+    ...baseTheme,
+    colors: {
+      ...baseTheme.colors,
+      background: colors.background,
+      elevation: {
+        ...baseTheme.colors.elevation,
+        level1: colors.card,
+        level2: colors.card,
+      },
+      onPrimary: colors.onPrimary,
+      onPrimaryContainer: colors.onPrimary,
+      onSecondaryContainer: colors.foreground,
+      onSurface: colors.foreground,
+      onSurfaceVariant: colors.mutedForeground,
+      outline: colors.border,
+      primary: colors.primary,
+      primaryContainer: colors.primary,
+      secondary: colors.secondary,
+      secondaryContainer: colors.muted,
+      surface: colors.card,
+      surfaceVariant: colors.muted,
     },
-    onPrimary: colors.onPrimary,
-    onPrimaryContainer: colors.onPrimary,
-    onSecondaryContainer: colors.foreground,
-    onSurface: colors.foreground,
-    onSurfaceVariant: colors.mutedForeground,
-    outline: colors.border,
-    primary: colors.primary,
-    primaryContainer: colors.primary,
-    secondary: colors.secondary,
-    secondaryContainer: colors.muted,
-    surface: colors.card,
-    surfaceVariant: colors.muted,
-  },
-  roundness: 3,
+    roundness: 3,
+  };
+}
+
+export const paperThemes = {
+  dark: createPaperTheme(MD3DarkTheme, semanticTokens.dark),
+  light: createPaperTheme(MD3LightTheme, semanticTokens.light),
 };
+
+export function useAppColors(): AppColors {
+  const theme = useTheme<MD3Theme>();
+
+  return theme.dark ? semanticTokens.dark : semanticTokens.light;
+}

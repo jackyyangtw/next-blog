@@ -1,8 +1,9 @@
+import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 
 import type { ArticlePreview } from "../data/home";
-import { colors, components, spacing } from "../theme";
+import { components, spacing, useAppColors } from "../theme";
 
 interface ArticleCardProps {
   article: ArticlePreview;
@@ -10,6 +11,9 @@ interface ArticleCardProps {
 }
 
 export default function ArticleCard({ article, onPress }: ArticleCardProps) {
+  const colors = useAppColors();
+  const styles = useMemo(() => createStyles(colors), [colors]);
+
   return (
     <Card
       accessibilityHint="開啟這篇文章"
@@ -36,25 +40,31 @@ export default function ArticleCard({ article, onPress }: ArticleCardProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    borderColor: colors.border,
-    borderRadius: components.articleCard.radius,
-    minHeight: 180,
-  },
-  category: { color: colors.accent, fontSize: 13, fontWeight: "700" },
-  content: { gap: spacing.sm, paddingTop: spacing.md },
-  description: { color: colors.mutedForeground, fontSize: 15, lineHeight: 23 },
-  metaRow: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  readTime: { color: colors.mutedForeground, fontSize: 13 },
-  title: {
-    color: colors.foreground,
-    fontSize: 20,
-    fontWeight: "700",
-    lineHeight: 28,
-  },
-});
+function createStyles(colors: ReturnType<typeof useAppColors>) {
+  return StyleSheet.create({
+    card: {
+      borderColor: colors.border,
+      borderRadius: components.articleCard.radius,
+      minHeight: 180,
+    },
+    category: { color: colors.accent, fontSize: 13, fontWeight: "700" },
+    content: { gap: spacing.sm, paddingTop: spacing.md },
+    description: {
+      color: colors.mutedForeground,
+      fontSize: 15,
+      lineHeight: 23,
+    },
+    metaRow: {
+      alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    readTime: { color: colors.mutedForeground, fontSize: 13 },
+    title: {
+      color: colors.foreground,
+      fontSize: 20,
+      fontWeight: "700",
+      lineHeight: 28,
+    },
+  });
+}
