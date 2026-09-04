@@ -1,4 +1,22 @@
-# Jacky Dev
+# Jacky Dev 單一儲存庫
+
+本專案使用 pnpm workspace 與 Turborepo，將網站與原生應用程式集中於同一個程式碼庫管理。
+
+```txt
+apps/
+  web/       Next.js 16 網站、Sanity Studio、API 路由與驗證功能
+  mobile/    Expo / React Native iOS、Android 用戶端
+packages/
+  api/       平台無關的請求與商業邏輯
+  config/    共用工具鏈設定
+  types/     共用領域型別與資料契約
+```
+
+使用 `pnpm dev:web` 啟動網站、`pnpm dev:mobile` 啟動 Expo，或以 `pnpm dev`
+同時執行所有開發工作。網站專用環境變數已移至 `apps/web/.env.local`；建立新環境時，請複製
+`apps/web/env.example` 後再填入設定值。
+
+---
 
 這是一個以 Next.js App Router 打造的多語系技術部落格與內容平台。專案使用 Sanity 作為 Headless CMS，提供文章列表、分類篩選、關鍵字搜尋、文章詳情、相關文章、會員登入與收藏功能，並整合 SEO metadata、結構化資料、sitemap 與文章快取 revalidate 流程。
 
@@ -38,51 +56,61 @@
 ## 專案結構
 
 ```txt
-src/
-  app/
-    [lng]/              # 多語系前台頁面與 layout
-    api/                # Next.js Route Handlers
-    studio/             # 內嵌 Sanity Studio
-    server-sitemap.xml/ # 動態文章 sitemap
-  components/           # 共用 UI 元件
-  hooks/                # 共用 hooks
-  i18n/                 # i18next 設定與語系文案
-  lib/
-    api/                # 前端 API fetch 與 React Query hooks
-    auth/               # NextAuth 與 Sanity user 整合
-  Providers/            # NextAuth、React Query、Cookie providers
-  sanity/               # Sanity client、image helper、schema types
-  schema/               # Sanity 文件型別
-  store/                # Zustand stores
-  theme/                # MUI theme 與客製化設定
+apps/
+  web/                         # Next.js 16 網站
+    src/
+      app/                     # 路由、Route Handlers 與 Sanity Studio
+      components/              # 網站共用 UI 元件
+      features/                # 網站功能模組
+      i18n/                    # 多語系設定與文案
+      lib/                     # NextAuth、Sanity、網站端 API 邏輯
+      Providers/               # NextAuth、React Query 等 Provider
+      theme/                   # MUI 主題與客製化設定
+    public/                    # 網站靜態資源
+    tests/                     # Playwright 端對端測試
+  mobile/                      # Expo / React Native iOS、Android 用戶端
+    App.tsx                    # App 進入點
+    assets/                    # App 圖示與靜態資源
+packages/
+  api/                         # 平台無關的 API 與商業邏輯
+  config/                      # 共用 TypeScript 等工具鏈設定
+  types/                       # 共用領域型別與資料契約
+turbo.json                     # Turborepo 任務管線
+pnpm-workspace.yaml            # pnpm workspace 範圍
 ```
 
 ## 開發環境
 
-此專案使用 pnpm：
+此專案使用 pnpm workspace：
 
 ```bash
 pnpm install
-pnpm dev
+pnpm dev:web
 ```
 
-預設開發伺服器會啟動在 `http://localhost:3200`。Sanity Studio 路徑為 `/studio`，需登入且使用者 role 為 `admin`。
+網站預設啟動於 `http://localhost:3200`。Sanity Studio 路徑為 `/studio`，需登入且使用者 role 為 `admin`。Mobile app 可透過 Expo Go、Android 模擬器或 iOS 模擬器開啟。
 
 ## 常用指令
 
 ```bash
-pnpm dev       # 啟動 Next.js 開發伺服器，使用 Turbopack
-pnpm build     # 建置正式版本並產生 sitemap
-pnpm start     # 啟動正式伺服器
-pnpm lint      # 執行 ESLint
-pnpm tsc       # TypeScript 型別檢查
-pnpm typegen   # 產生 Next.js route/type helper
-pnpm sitemap   # 手動產生 sitemap
+pnpm dev                   # 同時執行所有開發服務
+pnpm dev:web               # 啟動 Next.js 網站（port 3200）
+pnpm dev:mobile            # 啟動 Expo 開發伺服器
+pnpm build                 # 建置所有具備 build 任務的 app（目前為網站）
+pnpm lint                  # 執行各 workspace 的 lint
+pnpm typecheck             # 執行所有 workspace 的 TypeScript 型別檢查
+pnpm test                  # 執行各 workspace 的測試
+pnpm format:check          # 檢查所有檔案格式
+
+pnpm --filter @jacky-dev/web typegen  # 產生 Next.js route 型別 helper
+pnpm --filter @jacky-dev/web start    # 啟動已建置的網站
+pnpm --filter @jacky-dev/mobile ios   # 以 iOS 模擬器啟動 App
+pnpm --filter @jacky-dev/mobile android # 以 Android 模擬器啟動 App
 ```
 
 ## 內容與資料流程
 
-文章、分類、作者、使用者與收藏資料存放在 Sanity。前台透過 `src/app/api/**/route.ts` 提供文章列表、分類、會員、收藏等 API，客戶端再以 TanStack React Query 管理請求狀態。
+文章、分類、作者、使用者與收藏資料存放在 Sanity。前台透過 `apps/web/src/app/api/**/route.ts` 提供文章列表、分類、會員、收藏等 API，客戶端再以 TanStack React Query 管理請求狀態。
 
 登入使用 NextAuth Google Provider。使用者首次登入時會建立或取得對應的 Sanity user 文件，收藏功能會以 Sanity reference 關聯 user 與 post。
 
@@ -131,9 +159,9 @@ AI_REVIEW_MODE=remote
 AI 功能的主要程式碼位於：
 
 ```txt
-src/features/ai/                 # 共用 OpenAI model 設定與錯誤處理
-src/features/ai-seo/             # SEO 建議、schema、Server Action 與 Studio 元件
-src/features/article-review/     # 文章審查、schema、Server Action 與 Studio 元件
+apps/web/src/features/ai/                 # 共用 OpenAI model 設定與錯誤處理
+apps/web/src/features/ai-seo/             # SEO 建議、schema、Server Action 與 Studio 元件
+apps/web/src/features/article-review/     # 文章審查、schema、Server Action 與 Studio 元件
 ```
 
 ## 參考資源
