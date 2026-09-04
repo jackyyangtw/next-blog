@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet } from "react-native";
 import { Chip } from "react-native-paper";
 
 import { topics, type Topic } from "../data/home";
+import { useAppPreferences } from "../providers/AppProviders";
 import { spacing, useAppColors } from "../theme";
 
 interface TopicTabsProps {
@@ -15,6 +16,7 @@ export default function TopicTabs({
   onTopicPress,
 }: TopicTabsProps) {
   const colors = useAppColors();
+  const { t } = useAppPreferences();
   const styles = useMemo(() => createStyles(colors), [colors]);
 
   return (
@@ -25,17 +27,18 @@ export default function TopicTabs({
     >
       {topics.map((topic) => {
         const isActive = topic === activeTopic;
+        const label = topic === "全部" ? t("topic.all") : topic;
 
         return (
           <Chip
-            accessibilityLabel={`篩選主題：${topic}`}
+            accessibilityLabel={t("topic.filter", { topic: label })}
             key={topic}
             onPress={() => onTopicPress(topic)}
             selected={isActive}
             showSelectedCheck={false}
             style={[styles.tab, isActive && styles.tabActive]}
           >
-            {topic}
+            {label}
           </Chip>
         );
       })}

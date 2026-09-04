@@ -4,14 +4,17 @@ import { useRouter } from "expo-router";
 import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { latestArticles } from "../data/home";
+import { getHomeContent } from "../data/home";
+import { useAppPreferences } from "../providers/AppProviders";
 import { spacing, useAppColors } from "../theme";
 import ArticleCard from "./ArticleCard";
 
 export default function PostsScreen() {
   const colors = useAppColors();
+  const { locale, t } = useAppPreferences();
   const router = useRouter();
   const styles = useMemo(() => createStyles(colors), [colors]);
+  const { latestArticles } = getHomeContent(locale);
   const handleArticlePress = useCallback(
     (slug: string) => {
       router.push({ pathname: "/posts/[slug]", params: { slug } });
@@ -23,10 +26,8 @@ export default function PostsScreen() {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.content}>
         <View>
-          <Text style={styles.title}>所有文章</Text>
-          <Text style={styles.description}>
-            持續累積產品、前端與 AI 的實作筆記。
-          </Text>
+          <Text style={styles.title}>{t("posts.title")}</Text>
+          <Text style={styles.description}>{t("posts.description")}</Text>
         </View>
         <View style={styles.articleList}>
           {latestArticles.map((article) => (

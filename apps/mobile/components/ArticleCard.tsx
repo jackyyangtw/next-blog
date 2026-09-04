@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 
 import type { ArticlePreview } from "../data/home";
+import { useAppPreferences } from "../providers/AppProviders";
 import { components, spacing, useAppColors } from "../theme";
 
 interface ArticleCardProps {
@@ -12,12 +13,13 @@ interface ArticleCardProps {
 
 export default function ArticleCard({ article, onPress }: ArticleCardProps) {
   const colors = useAppColors();
+  const { t } = useAppPreferences();
   const styles = useMemo(() => createStyles(colors), [colors]);
 
   return (
     <Card
-      accessibilityHint="開啟這篇文章"
-      accessibilityLabel={`閱讀文章：${article.title}`}
+      accessibilityHint={t("common.readArticle")}
+      accessibilityLabel={`${t("common.readArticle")}：${article.title}`}
       accessible
       mode="outlined"
       onPress={() => onPress(article.id)}
@@ -34,7 +36,9 @@ export default function ArticleCard({ article, onPress }: ArticleCardProps) {
         </Text>
       </Card.Content>
       <Card.Actions>
-        <Button onPress={() => onPress(article.id)}>閱讀文章</Button>
+        <Button onPress={() => onPress(article.id)}>
+          {t("common.readArticle")}
+        </Button>
       </Card.Actions>
     </Card>
   );

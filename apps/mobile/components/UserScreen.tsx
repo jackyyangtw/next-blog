@@ -5,9 +5,11 @@ import { Button, Card, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { spacing, useAppColors } from "../theme";
+import { useAppPreferences } from "../providers/AppProviders";
 
 export default function UserScreen() {
   const colors = useAppColors();
+  const { t } = useAppPreferences();
   const router = useRouter();
   const styles = useMemo(() => createStyles(colors), [colors]);
   const handleLoginPress = useCallback(() => {
@@ -17,15 +19,15 @@ export default function UserScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.content}>
-        <Text style={styles.title}>我的帳號</Text>
+        <Text style={styles.title}>{t("user.title")}</Text>
         <Card style={styles.card}>
           <Card.Content>
-            <Text style={styles.cardTitle}>尚未登入</Text>
-            <Text style={styles.description}>登入後即可同步你的收藏文章。</Text>
+            <Text style={styles.cardTitle}>{t("user.notSignedIn")}</Text>
+            <Text style={styles.description}>{t("user.description")}</Text>
           </Card.Content>
           <Card.Actions>
             <Button mode="contained" onPress={handleLoginPress}>
-              前往登入
+              {t("user.goToLogin")}
             </Button>
           </Card.Actions>
         </Card>

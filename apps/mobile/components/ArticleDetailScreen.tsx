@@ -4,13 +4,16 @@ import { useLocalSearchParams } from "expo-router";
 import { Card, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { featuredArticle, latestArticles } from "../data/home";
+import { getHomeContent } from "../data/home";
+import { useAppPreferences } from "../providers/AppProviders";
 import { spacing, useAppColors } from "../theme";
 
 export default function ArticleDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const colors = useAppColors();
+  const { locale, t } = useAppPreferences();
   const styles = useMemo(() => createStyles(colors), [colors]);
+  const { featuredArticle, latestArticles } = getHomeContent(locale);
   const article =
     latestArticles.find((item) => item.id === slug) ??
     (featuredArticle.id === slug ? featuredArticle : undefined);
@@ -18,8 +21,12 @@ export default function ArticleDetailScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.category}>{article?.category ?? "文章"}</Text>
-        <Text style={styles.title}>{article?.title ?? "找不到這篇文章"}</Text>
+        <Text style={styles.category}>
+          {article?.category ?? t("article.untitled")}
+        </Text>
+        <Text style={styles.title}>
+          {article?.title ?? t("article.notFound")}
+        </Text>
         {article ? (
           <Card style={styles.card}>
             <Card.Content>
@@ -29,9 +36,7 @@ export default function ArticleDetailScreen() {
           </Card>
         ) : (
           <View>
-            <Text style={styles.description}>
-              請返回文章列表，選擇其他文章。
-            </Text>
+            <Text style={styles.description}>{t("article.backToList")}</Text>
           </View>
         )}
       </ScrollView>

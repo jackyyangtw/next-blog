@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 
-import AppProviders from "../providers/AppProviders";
+import AppProviders, { useAppPreferences } from "../providers/AppProviders";
 import { useAppColors } from "../theme";
 
 export default function RootLayout() {
@@ -13,6 +13,7 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const colors = useAppColors();
+  const { t } = useAppPreferences();
 
   return (
     <Stack
@@ -25,8 +26,11 @@ function RootNavigator() {
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="auth" options={{ title: "登入" }} />
-      <Stack.Screen name="posts/[slug]" options={{ title: "文章" }} />
+      <Stack.Screen name="auth" options={{ title: t("auth.title") }} />
+      <Stack.Screen
+        name="posts/[slug]"
+        options={{ title: t("article.untitled") }}
+      />
     </Stack>
   );
 }

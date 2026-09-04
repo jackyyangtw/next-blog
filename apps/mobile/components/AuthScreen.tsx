@@ -4,18 +4,20 @@ import { Button, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { spacing, useAppColors } from "../theme";
+import { useAppPreferences } from "../providers/AppProviders";
 
 export default function AuthScreen() {
   const colors = useAppColors();
+  const { t } = useAppPreferences();
   const styles = useMemo(() => createStyles(colors), [colors]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.content}>
-        <Text style={styles.title}>登入 Jacky Dev</Text>
-        <Text style={styles.description}>登入後可管理收藏文章與個人資料。</Text>
+        <Text style={styles.title}>{t("auth.title")}</Text>
+        <Text style={styles.description}>{t("auth.description")}</Text>
         <Button disabled mode="contained">
-          登入串接準備中
+          {t("auth.pending")}
         </Button>
       </View>
     </SafeAreaView>

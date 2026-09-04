@@ -1,11 +1,11 @@
 import { useCallback, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 
-import { latestArticles, type Topic } from "../data/home";
-import { useAppThemePreference } from "../providers/AppProviders";
+import { getHomeContent, type Topic } from "../data/home";
+import { useAppPreferences } from "../providers/AppProviders";
 import { spacing, useAppColors } from "../theme";
 import ArticleCard from "./ArticleCard";
 import FeaturedArticle from "./FeaturedArticle";
@@ -14,14 +14,15 @@ import TopicTabs from "./TopicTabs";
 export default function HomeScreen() {
   const [activeTopic, setActiveTopic] = useState<Topic>("全部");
   const router = useRouter();
-  const { isDark, toggleTheme } = useAppThemePreference();
+  const { locale, t } = useAppPreferences();
   const colors = useAppColors();
   const styles = useMemo(() => createStyles(colors), [colors]);
 
+  const { latestArticles } = getHomeContent(locale);
   const visibleArticles = useMemo(() => {
     if (activeTopic === "全部") return latestArticles;
     return latestArticles.filter((article) => article.category === activeTopic);
-  }, [activeTopic]);
+  }, [activeTopic, latestArticles]);
 
   const handleArticlePress = useCallback(
     (articleId: string) => {
@@ -41,28 +42,16 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <View>
-            <Text style={styles.brand}>JACKY DEV</Text>
-            <Text style={styles.subtitle}>寫給持續打磨產品的人</Text>
-          </View>
-          <Button
-            accessibilityHint="切換深色或淺色顯示模式"
-            accessibilityLabel={`切換為${isDark ? "淺色" : "深色"}模式`}
-            compact
-            mode="text"
-            onPress={toggleTheme}
-            style={styles.themeButton}
-          >
-            {isDark ? "淺色模式" : "深色模式"}
-          </Button>
+          <Text style={styles.brand}>JACKY DEV</Text>
+          <Text style={styles.subtitle}>{t("home.tagline")}</Text>
         </View>
         <View style={styles.inset}>
           <FeaturedArticle onPress={handleArticlePress} />
         </View>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>探索主題</Text>
+          <Text style={styles.sectionTitle}>{t("home.exploreTopics")}</Text>
           <Text style={styles.articleCount}>
-            {visibleArticles.length} 篇文章
+            {t("home.articleCount", { count: visibleArticles.length })}
           </Text>
         </View>
         <View style={styles.tabsContainer}>
@@ -100,12 +89,7 @@ function createStyles(colors: ReturnType<typeof useAppColors>) {
       paddingBottom: spacing.xl,
       paddingTop: spacing.md,
     },
-    header: {
-      alignItems: "center",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      paddingHorizontal: spacing.lg,
-    },
+    header: { paddingHorizontal: spacing.lg },
     inset: { paddingHorizontal: spacing.lg },
     safeArea: { backgroundColor: colors.background, flex: 1 },
     sectionHeader: {
@@ -116,7 +100,6 @@ function createStyles(colors: ReturnType<typeof useAppColors>) {
     },
     sectionTitle: { color: colors.foreground, fontSize: 22, fontWeight: "700" },
     subtitle: { color: colors.mutedForeground, fontSize: 15 },
-    themeButton: { minHeight: 44 },
     tabsContainer: { marginHorizontal: -spacing.lg },
   });
 }

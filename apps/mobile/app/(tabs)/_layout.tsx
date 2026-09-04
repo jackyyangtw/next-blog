@@ -2,9 +2,11 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
 
 import { useAppColors } from "../../theme";
+import { useAppPreferences } from "../../providers/AppProviders";
 
 export default function TabLayout() {
   const colors = useAppColors();
+  const { t } = useAppPreferences();
 
   return (
     <Tabs
@@ -35,7 +37,7 @@ export default function TabLayout() {
               size={22}
             />
           ),
-          title: "首頁",
+          title: t("nav.home"),
         }}
       />
       <Tabs.Screen
@@ -48,7 +50,7 @@ export default function TabLayout() {
               size={22}
             />
           ),
-          title: "文章",
+          title: t("nav.posts"),
         }}
       />
       <Tabs.Screen
@@ -61,7 +63,20 @@ export default function TabLayout() {
               size={22}
             />
           ),
-          title: "我的",
+          title: t("nav.user"),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <MaterialCommunityIcons
+              color={color}
+              name={focused ? "cog" : "cog-outline"}
+              size={22}
+            />
+          ),
+          title: t("nav.settings"),
         }}
       />
     </Tabs>

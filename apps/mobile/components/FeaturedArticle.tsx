@@ -2,7 +2,8 @@ import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 
-import { featuredArticle } from "../data/home";
+import { getHomeContent } from "../data/home";
+import { useAppPreferences } from "../providers/AppProviders";
 import { components, spacing, useAppColors } from "../theme";
 
 interface FeaturedArticleProps {
@@ -11,27 +12,29 @@ interface FeaturedArticleProps {
 
 export default function FeaturedArticle({ onPress }: FeaturedArticleProps) {
   const colors = useAppColors();
+  const { locale, t } = useAppPreferences();
   const styles = useMemo(() => createStyles(colors), [colors]);
+  const { featuredArticle } = getHomeContent(locale);
 
   return (
     <Card mode="outlined" style={styles.card}>
       <Card.Content style={styles.content}>
         <View style={styles.topRow}>
-          <Text style={styles.eyebrow}>本週精選</Text>
+          <Text style={styles.eyebrow}>{t("featured.eyebrow")}</Text>
           <Text style={styles.readTime}>{featuredArticle.readTime}</Text>
         </View>
         <Text style={styles.category}>{featuredArticle.category}</Text>
         <Text style={styles.title}>{featuredArticle.title}</Text>
         <Text style={styles.description}>{featuredArticle.description}</Text>
         <Button
-          accessibilityHint="開啟本週精選文章"
-          accessibilityLabel={`閱讀精選文章：${featuredArticle.title}`}
+          accessibilityHint={t("featured.read")}
+          accessibilityLabel={`${t("featured.read")}：${featuredArticle.title}`}
           contentStyle={styles.buttonContent}
           mode="contained"
           onPress={() => onPress(featuredArticle.id)}
           style={styles.button}
         >
-          開始閱讀
+          {t("featured.read")}
         </Button>
       </Card.Content>
     </Card>
