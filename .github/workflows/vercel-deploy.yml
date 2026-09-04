@@ -92,11 +92,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Expose pnpm virtual store to Vercel
-        run: |
-          ln -s ../../../node_modules/.pnpm apps/web/node_modules/.pnpm
-          test -d apps/web/node_modules/.pnpm
-
       - name: Validate Vercel secrets
         run: |
           test -n "$VERCEL_TOKEN" || (echo "Missing GitHub secret: VERCEL_TOKEN" && exit 1)
@@ -120,14 +115,14 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Pull Vercel preview environment
-        run: vercel --cwd apps/web pull --yes --environment=preview --token="$VERCEL_TOKEN"
+        run: vercel pull --yes --environment=preview --token="$VERCEL_TOKEN"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build Vercel preview output
-        run: vercel --cwd apps/web build --token="$VERCEL_TOKEN"
+        run: vercel build --token="$VERCEL_TOKEN"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -136,7 +131,7 @@ jobs:
       - name: Deploy preview prebuilt output
         id: deploy-preview
         run: |
-          deployment_url=$(vercel --cwd apps/web deploy --prebuilt --token="$VERCEL_TOKEN" \
+          deployment_url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN" \
             --meta githubDeployment=1 \
             --meta githubCommitSha="$GITHUB_SHA" \
             --meta githubCommitRef="$GITHUB_REF_NAME" \
@@ -178,11 +173,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Expose pnpm virtual store to Vercel
-        run: |
-          ln -s ../../../node_modules/.pnpm apps/web/node_modules/.pnpm
-          test -d apps/web/node_modules/.pnpm
-
       - name: Validate Vercel secrets
         run: |
           test -n "$VERCEL_TOKEN" || (echo "Missing GitHub secret: VERCEL_TOKEN" && exit 1)
@@ -206,14 +196,14 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Pull Vercel environment
-        run: vercel --cwd apps/web pull --yes --environment=production --token="$VERCEL_TOKEN"
+        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Build Vercel output
-        run: vercel --cwd apps/web build --prod --token="$VERCEL_TOKEN"
+        run: vercel build --prod --token="$VERCEL_TOKEN"
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -221,7 +211,7 @@ jobs:
 
       - name: Deploy prebuilt output
         run: |
-          vercel --cwd apps/web deploy --prebuilt --prod --token="$VERCEL_TOKEN" \
+          vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" \
             --meta githubDeployment=1 \
             --meta githubCommitSha="$GITHUB_SHA" \
             --meta githubCommitRef="$GITHUB_REF_NAME" \
