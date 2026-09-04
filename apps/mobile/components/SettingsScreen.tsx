@@ -37,8 +37,13 @@ export default function SettingsScreen() {
                 <Switch
                   accessibilityLabel={t("settings.darkMode")}
                   color={colors.primaryStrong}
+                  ios_backgroundColor={colors.muted}
                   onValueChange={toggleTheme}
-                  uncheckedColor={colors.border}
+                  thumbColor={colors.card}
+                  trackColor={{
+                    false: colors.muted,
+                    true: colors.primaryStrong,
+                  }}
                   value={isDark}
                 />
               </View>
