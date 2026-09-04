@@ -1,21 +1,20 @@
 import { useCallback, useMemo, useState } from "react";
-import { Alert, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Button, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 
 import { latestArticles, type Topic } from "../data/home";
+import { useAppThemePreference } from "../providers/AppProviders";
 import { spacing, useAppColors } from "../theme";
 import ArticleCard from "./ArticleCard";
 import FeaturedArticle from "./FeaturedArticle";
 import TopicTabs from "./TopicTabs";
 
-interface HomeScreenProps {
-  isDark: boolean;
-  onThemeToggle: () => void;
-}
-
-export default function HomeScreen({ isDark, onThemeToggle }: HomeScreenProps) {
+export default function HomeScreen() {
   const [activeTopic, setActiveTopic] = useState<Topic>("全部");
+  const router = useRouter();
+  const { isDark, toggleTheme } = useAppThemePreference();
   const colors = useAppColors();
   const styles = useMemo(() => createStyles(colors), [colors]);
 
@@ -24,11 +23,12 @@ export default function HomeScreen({ isDark, onThemeToggle }: HomeScreenProps) {
     return latestArticles.filter((article) => article.category === activeTopic);
   }, [activeTopic]);
 
-  const handleArticlePress = useCallback((articleId: string) => {
-    const article = latestArticles.find((item) => item.id === articleId);
-    if (article)
-      Alert.alert("文章預覽", `「${article.title}」的完整內容即將推出。`);
-  }, []);
+  const handleArticlePress = useCallback(
+    (articleId: string) => {
+      router.push({ pathname: "/posts/[slug]", params: { slug: articleId } });
+    },
+    [router],
+  );
 
   const handleTopicPress = useCallback((topic: Topic) => {
     setActiveTopic(topic);
@@ -50,7 +50,7 @@ export default function HomeScreen({ isDark, onThemeToggle }: HomeScreenProps) {
             accessibilityLabel={`切換為${isDark ? "淺色" : "深色"}模式`}
             compact
             mode="text"
-            onPress={onThemeToggle}
+            onPress={toggleTheme}
             style={styles.themeButton}
           >
             {isDark ? "淺色模式" : "深色模式"}
