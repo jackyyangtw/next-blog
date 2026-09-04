@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import Box from "@mui/material/Box";
 import { useCallback, useMemo, useState } from "react";
 
@@ -20,19 +19,18 @@ import { RichTextTable } from "./RichTextTable";
 
 // ------------- Types -------------
 import { BlockContent } from "@/schema/type/blockContent";
-import { RichTextImageValue, RichTextTableValue } from "./types";
+import type {
+  RichTextBlockProps,
+  RichTextBlockValue,
+  RichTextChildrenProps,
+  RichTextCodeValue,
+  RichTextImageValue,
+  RichTextLinkValue,
+  RichTextTableValue,
+  RichTextValueProps,
+} from "./types";
 import { getPostHeadingId } from "../postTableOfContents";
 import { POST_SCROLL_OFFSET } from "../postScrollOffset";
-
-interface RichTextBlockValue {
-  _key?: string;
-  children?: unknown[];
-}
-
-interface RichTextBlockProps {
-  children?: ReactNode;
-  value?: RichTextBlockValue;
-}
 
 function isDividerText(text: string) {
   return text === "---" || text === "***" || text === "___";
@@ -121,16 +119,23 @@ export default function RichText({ value }: { value: BlockContent }) {
   const components = useMemo<PortableTextComponents>(
     () => ({
       types: {
-        image: ({ value }) => (
+        image: ({ value }: RichTextValueProps) => (
           <RichTextImage
             value={value as RichTextImageValue}
             onClick={handleImageClick}
           />
         ),
-        code: ({ value }) => (
-          <RichTextCodeBlock code={value?.code} language={value?.language} />
-        ),
-        table: ({ value }) => (
+        code: ({ value }: RichTextValueProps) => {
+          const codeValue = value as RichTextCodeValue;
+
+          return (
+            <RichTextCodeBlock
+              code={codeValue.code ?? ""}
+              language={codeValue.language}
+            />
+          );
+        },
+        table: ({ value }: RichTextValueProps) => (
           <RichTextTable value={value as RichTextTableValue} />
         ),
         divider: RichTextDivider,
@@ -143,22 +148,33 @@ export default function RichText({ value }: { value: BlockContent }) {
         quote: RichTextBlockquote,
       },
       listItem: {
-        bullet: ({ children }) => <li>{renderInlineCodeFallback(children)}</li>,
-        number: ({ children }) => <li>{renderInlineCodeFallback(children)}</li>,
+        bullet: ({ children }: RichTextChildrenProps) => (
+          <li>{renderInlineCodeFallback(children)}</li>
+        ),
+        number: ({ children }: RichTextChildrenProps) => (
+          <li>{renderInlineCodeFallback(children)}</li>
+        ),
       },
       marks: {
-        code: ({ children }) => (
+        code: ({ children }: RichTextChildrenProps) => (
           <RichTextInlineCode>{children}</RichTextInlineCode>
         ),
-        link: ({ children, value }) => (
-          <a
-            href={value?.href}
-            target={value?.newTab ? "_blank" : undefined}
-            rel={value?.newTab ? "noopener noreferrer" : undefined}
-          >
-            {children}
-          </a>
-        ),
+        link: ({
+          children,
+          value,
+        }: RichTextChildrenProps & RichTextValueProps) => {
+          const linkValue = value as RichTextLinkValue;
+
+          return (
+            <a
+              href={linkValue.href}
+              target={linkValue.newTab ? "_blank" : undefined}
+              rel={linkValue.newTab ? "noopener noreferrer" : undefined}
+            >
+              {children}
+            </a>
+          );
+        },
       },
     }),
     [handleImageClick],
