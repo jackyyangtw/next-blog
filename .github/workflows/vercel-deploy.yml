@@ -93,7 +93,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Expose pnpm virtual store to Vercel
-        run: ln -s ../../node_modules/.pnpm apps/web/node_modules/.pnpm
+        run: |
+          ln -s ../../../node_modules/.pnpm apps/web/node_modules/.pnpm
+          test -d apps/web/node_modules/.pnpm
 
       - name: Validate Vercel secrets
         run: |
@@ -177,7 +179,9 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Expose pnpm virtual store to Vercel
-        run: ln -s ../../node_modules/.pnpm apps/web/node_modules/.pnpm
+        run: |
+          ln -s ../../../node_modules/.pnpm apps/web/node_modules/.pnpm
+          test -d apps/web/node_modules/.pnpm
 
       - name: Validate Vercel secrets
         run: |
