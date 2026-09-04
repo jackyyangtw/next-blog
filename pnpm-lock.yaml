@@ -5,6 +5,8 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  browserslist: 4.28.7
+  decode-uri-component: 0.5.0
   minimatch: 10.2.5
   rollup@>=4.0.0 <4.59.0: 4.59.0
   ajv@<6.14.0: 6.14.0
@@ -5426,10 +5428,10 @@ packages:
         integrity: sha512-19OEpq7vWgsH6WkvkBJQDFvJS1uPcbFOQ4v9CU839dO+ZZXUZO6XpE6hNCqvlIIj+4fZvRiJ6DsAQ382GwiyTQ==,
       }
 
-  browserslist@4.28.6:
+  browserslist@4.28.7:
     resolution:
       {
-        integrity: sha512-FQBYNK15VMslhLHpA7+n+n1GOlF1kId2xcCg7/j95f24AOF6VDYMNH4mFxF7KuaTdv627faazpOAjFzMrfJOUw==,
+        integrity: sha512-JxV13hNrFxqjOc8alRbq9dK1MM79NEXYpma2B2J4wAtpWS5zIEIKqWPGCl7N4o7Uc7B7itylh7SuDujATRyyTw==,
       }
     engines: { node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7 }
     hasBin: true
@@ -5948,10 +5950,10 @@ packages:
         integrity: sha512-GtpQYB283KrPp6nRw50q3U9/VfOutZOe103qlN7BPP6Ad27xYnOIWv4lPzo8HCAL+mMZofJ9KEy30fq6MfaK6Q==,
       }
 
-  decode-uri-component@0.4.1:
+  decode-uri-component@0.5.0:
     resolution:
       {
-        integrity: sha512-+8VxcR21HhTy8nOt6jf20w0c9CADrw1O8d+VZ/YzzCt4bJ3uBjw+D1q2osAB8RnpwwaeYBxy0HyKQxD5JBMuuQ==,
+        integrity: sha512-1BiQVoK8C9gUbQU6NzAtO/tkz2qOFpEObMWpcFvhx4fYnj4Oc5yzaJN/LD36ihkVUdXyh5ZekzX+yM+ty/SrPg==,
       }
     engines: { node: ">=14.16" }
 
@@ -6123,10 +6125,10 @@ packages:
     engines: { node: ">=0.10.0" }
     hasBin: true
 
-  electron-to-chromium@1.5.392:
+  electron-to-chromium@1.5.420:
     resolution:
       {
-        integrity: sha512-1yQq3VQCZRwsnYc67Oc+1fge6Lwtn0hzi6zmEVkB61Zx21kTbwJAW4dFLadl5Rc1tKhG/kSpYXnfiAhu0f0a1g==,
+        integrity: sha512-2yD6XreGusOfNV+dUcvipJEXc3n/n7fgr7996aszTG+YY5E4mqM4tOq/3uhP129cazL9YHbVWSpc79ePotWtPA==,
       }
 
   emoji-regex@10.6.0:
@@ -10347,7 +10349,7 @@ packages:
       }
     hasBin: true
     peerDependencies:
-      browserslist: ">= 4.21.0"
+      browserslist: 4.28.7
 
   uri-js@4.4.1:
     resolution:
@@ -11063,7 +11065,7 @@ snapshots:
     dependencies:
       "@babel/compat-data": 7.29.7
       "@babel/helper-validator-option": 7.29.7
-      browserslist: 4.28.6
+      browserslist: 4.28.7
       lru-cache: 5.1.1
       semver: 6.3.1
 
@@ -14698,13 +14700,13 @@ snapshots:
     dependencies:
       pako: 0.2.9
 
-  browserslist@4.28.6:
+  browserslist@4.28.7:
     dependencies:
       baseline-browser-mapping: 2.11.19
       caniuse-lite: 1.0.30001810
-      electron-to-chromium: 1.5.392
+      electron-to-chromium: 1.5.420
       node-releases: 2.0.51
-      update-browserslist-db: 1.2.3(browserslist@4.28.6)
+      update-browserslist-db: 1.2.3(browserslist@4.28.7)
 
   buffer-from@1.1.2: {}
 
@@ -14869,7 +14871,7 @@ snapshots:
 
   core-js-compat@3.49.0:
     dependencies:
-      browserslist: 4.28.6
+      browserslist: 4.28.7
 
   core-util-is@1.0.3: {}
 
@@ -14984,7 +14986,7 @@ snapshots:
     dependencies:
       character-entities: 2.0.2
 
-  decode-uri-component@0.4.1: {}
+  decode-uri-component@0.5.0: {}
 
   decompress-response@7.0.0:
     dependencies:
@@ -15079,7 +15081,7 @@ snapshots:
     dependencies:
       jake: 10.9.4
 
-  electron-to-chromium@1.5.392: {}
+  electron-to-chromium@1.5.420: {}
 
   emoji-regex@10.6.0: {}
 
@@ -16869,7 +16871,7 @@ snapshots:
 
   query-string@9.3.1:
     dependencies:
-      decode-uri-component: 0.4.1
+      decode-uri-component: 0.5.0
       filter-obj: 5.1.0
       split-on-first: 3.0.0
 
@@ -17924,9 +17926,9 @@ snapshots:
       "@unrs/resolver-binding-win32-ia32-msvc": 1.11.1
       "@unrs/resolver-binding-win32-x64-msvc": 1.11.1
 
-  update-browserslist-db@1.2.3(browserslist@4.28.6):
+  update-browserslist-db@1.2.3(browserslist@4.28.7):
     dependencies:
-      browserslist: 4.28.6
+      browserslist: 4.28.7
       escalade: 3.2.0
       picocolors: 1.1.1
 
