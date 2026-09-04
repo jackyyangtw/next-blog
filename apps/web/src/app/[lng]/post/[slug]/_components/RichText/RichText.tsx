@@ -126,7 +126,7 @@ export default function RichText({ value }: { value: BlockContent }) {
           />
         ),
         code: ({ value }: RichTextValueProps) => {
-          const codeValue = value as RichTextCodeValue;
+          const codeValue = (value ?? {}) as RichTextCodeValue;
 
           return (
             <RichTextCodeBlock
@@ -163,7 +163,7 @@ export default function RichText({ value }: { value: BlockContent }) {
           children,
           value,
         }: RichTextChildrenProps & RichTextValueProps) => {
-          const linkValue = value as RichTextLinkValue;
+          const linkValue = (value ?? {}) as RichTextLinkValue;
 
           return (
             <a

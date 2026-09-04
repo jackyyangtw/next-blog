@@ -11,7 +11,7 @@ export interface RichTextBlockProps {
 }
 
 export interface RichTextValueProps {
-  value: unknown;
+  value?: unknown;
 }
 
 export interface RichTextChildrenProps {
