@@ -1,30 +1,27 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
+import type { BottomTabBarProps } from "expo-router/build/react-navigation/bottom-tabs";
+import { useCallback } from "react";
 
-import { useAppColors } from "../../theme";
+import FloatingTabBar from "../../components/FloatingTabBar";
 import { useAppPreferences } from "../../providers/AppProviders";
+import { useAppColors } from "../../theme";
 
 export default function TabLayout() {
   const colors = useAppColors();
   const { t } = useAppPreferences();
+  const renderTabBar = useCallback(
+    (props: BottomTabBarProps) => <FloatingTabBar {...props} />,
+    [],
+  );
 
   return (
     <Tabs
+      tabBar={renderTabBar}
       screenOptions={{
         headerShown: false,
         sceneStyle: { backgroundColor: colors.background },
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.mutedForeground,
-        tabBarItemStyle: { minHeight: 48 },
-        tabBarLabelStyle: { fontSize: 12, fontWeight: "600", marginTop: 0 },
-        tabBarStyle: {
-          backgroundColor: colors.card,
-          borderTopColor: colors.border,
-          borderTopWidth: 1,
-          height: 72,
-          paddingBottom: 8,
-          paddingTop: 8,
-        },
+        tabBarHideOnKeyboard: true,
       }}
     >
       <Tabs.Screen
