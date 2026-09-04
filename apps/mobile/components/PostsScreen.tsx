@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { Text } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { getHomeContent } from "../data/home";
 import { useAppPreferences } from "../providers/AppProviders";
@@ -13,7 +13,8 @@ export default function PostsScreen() {
   const colors = useAppColors();
   const { locale, t } = useAppPreferences();
   const router = useRouter();
-  const styles = useMemo(() => createStyles(colors), [colors]);
+  const insets = useSafeAreaInsets();
+  const styles = useMemo(() => createStyles(colors, insets), [colors, insets]);
   const { latestArticles } = getHomeContent(locale);
   const handleArticlePress = useCallback(
     (slug: string) => {
@@ -23,8 +24,11 @@ export default function PostsScreen() {
   );
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.content}>
+    <View style={styles.screen}>
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
         <View>
           <Text style={styles.title}>{t("posts.title")}</Text>
           <Text style={styles.description}>{t("posts.description")}</Text>
@@ -39,20 +43,28 @@ export default function PostsScreen() {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
-function createStyles(colors: ReturnType<typeof useAppColors>) {
+function createStyles(
+  colors: ReturnType<typeof useAppColors>,
+  insets: ReturnType<typeof useSafeAreaInsets>,
+) {
   return StyleSheet.create({
     articleList: { gap: spacing.md },
-    content: { gap: spacing.xl, padding: spacing.lg },
+    content: {
+      gap: spacing.xl,
+      paddingBottom: Math.max(insets.bottom, 16) + 132,
+      paddingHorizontal: spacing.lg,
+      paddingTop: insets.top + spacing.lg,
+    },
     description: {
       color: colors.mutedForeground,
       fontSize: 15,
       marginTop: spacing.xs,
     },
-    safeArea: { backgroundColor: colors.background, flex: 1 },
+    screen: { backgroundColor: colors.background, flex: 1 },
     title: { color: colors.foreground, fontSize: 28, fontWeight: "700" },
   });
 }

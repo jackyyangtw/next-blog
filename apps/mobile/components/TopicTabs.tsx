@@ -16,8 +16,8 @@ export default function TopicTabs({
   onTopicPress,
 }: TopicTabsProps) {
   const colors = useAppColors();
-  const { t } = useAppPreferences();
-  const styles = useMemo(() => createStyles(colors), [colors]);
+  const { isDark, t } = useAppPreferences();
+  const styles = useMemo(() => createStyles(colors, isDark), [colors, isDark]);
 
   return (
     <ScrollView
@@ -37,6 +37,7 @@ export default function TopicTabs({
             selected={isActive}
             showSelectedCheck={false}
             style={[styles.tab, isActive && styles.tabActive]}
+            textStyle={isActive ? styles.tabActiveText : styles.tabText}
           >
             {label}
           </Chip>
@@ -46,10 +47,22 @@ export default function TopicTabs({
   );
 }
 
-function createStyles(colors: ReturnType<typeof useAppColors>) {
+function createStyles(
+  colors: ReturnType<typeof useAppColors>,
+  isDark: boolean,
+) {
   return StyleSheet.create({
     content: { gap: spacing.sm, paddingHorizontal: spacing.lg },
     tab: { backgroundColor: colors.muted, minHeight: 44 },
-    tabActive: { backgroundColor: colors.primary },
+    tabActive: {
+      backgroundColor: colors.navigationGlassActive,
+      borderColor: colors.border,
+      borderWidth: 1,
+    },
+    tabActiveText: {
+      color: isDark ? colors.foreground : colors.primary,
+      fontWeight: "700",
+    },
+    tabText: { color: colors.foreground },
   });
 }

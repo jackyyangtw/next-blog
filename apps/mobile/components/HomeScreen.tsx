@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Text } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 
 import { getHomeContent, type Topic } from "../data/home";
@@ -16,7 +16,8 @@ export default function HomeScreen() {
   const router = useRouter();
   const { locale, t } = useAppPreferences();
   const colors = useAppColors();
-  const styles = useMemo(() => createStyles(colors), [colors]);
+  const insets = useSafeAreaInsets();
+  const styles = useMemo(() => createStyles(colors, insets), [colors, insets]);
 
   const { latestArticles } = getHomeContent(locale);
   const visibleArticles = useMemo(() => {
@@ -36,7 +37,7 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <View style={styles.screen}>
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
@@ -70,11 +71,14 @@ export default function HomeScreen() {
           ))}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
-function createStyles(colors: ReturnType<typeof useAppColors>) {
+function createStyles(
+  colors: ReturnType<typeof useAppColors>,
+  insets: ReturnType<typeof useSafeAreaInsets>,
+) {
   return StyleSheet.create({
     articleCount: { color: colors.mutedForeground, fontSize: 14 },
     articleList: { gap: spacing.md },
@@ -86,12 +90,12 @@ function createStyles(colors: ReturnType<typeof useAppColors>) {
     },
     content: {
       gap: spacing.lg,
-      paddingBottom: spacing.xl,
-      paddingTop: spacing.md,
+      paddingBottom: Math.max(insets.bottom, 16) + 132,
+      paddingTop: insets.top + spacing.md,
     },
     header: { paddingHorizontal: spacing.lg },
     inset: { paddingHorizontal: spacing.lg },
-    safeArea: { backgroundColor: colors.background, flex: 1 },
+    screen: { backgroundColor: colors.background, flex: 1 },
     sectionHeader: {
       alignItems: "baseline",
       flexDirection: "row",

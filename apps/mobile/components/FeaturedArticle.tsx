@@ -33,6 +33,7 @@ export default function FeaturedArticle({ onPress }: FeaturedArticleProps) {
           mode="contained"
           onPress={() => onPress(featuredArticle.id)}
           style={styles.button}
+          buttonColor={colors.primaryStrong}
         >
           {t("featured.read")}
         </Button>

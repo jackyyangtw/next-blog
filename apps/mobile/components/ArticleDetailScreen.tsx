@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { Card, Text } from "react-native-paper";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { getHomeContent } from "../data/home";
 import { useAppPreferences } from "../providers/AppProviders";
@@ -12,15 +12,19 @@ export default function ArticleDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const colors = useAppColors();
   const { locale, t } = useAppPreferences();
-  const styles = useMemo(() => createStyles(colors), [colors]);
+  const insets = useSafeAreaInsets();
+  const styles = useMemo(() => createStyles(colors, insets), [colors, insets]);
   const { featuredArticle, latestArticles } = getHomeContent(locale);
   const article =
     latestArticles.find((item) => item.id === slug) ??
     (featuredArticle.id === slug ? featuredArticle : undefined);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <ScrollView contentContainerStyle={styles.content}>
+    <View style={styles.screen}>
+      <ScrollView
+        contentContainerStyle={styles.content}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.category}>
           {article?.category ?? t("article.untitled")}
         </Text>
@@ -40,18 +44,26 @@ export default function ArticleDetailScreen() {
           </View>
         )}
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
-function createStyles(colors: ReturnType<typeof useAppColors>) {
+function createStyles(
+  colors: ReturnType<typeof useAppColors>,
+  insets: ReturnType<typeof useSafeAreaInsets>,
+) {
   return StyleSheet.create({
     card: { backgroundColor: colors.card },
     category: { color: colors.primary, fontSize: 15, fontWeight: "700" },
-    content: { gap: spacing.lg, padding: spacing.lg },
+    content: {
+      gap: spacing.lg,
+      paddingBottom: Math.max(insets.bottom, 16) + 132,
+      paddingHorizontal: spacing.lg,
+      paddingTop: insets.top + spacing.lg,
+    },
     description: { color: colors.foreground, fontSize: 17, lineHeight: 28 },
     readTime: { color: colors.mutedForeground, marginTop: spacing.md },
-    safeArea: { backgroundColor: colors.background, flex: 1 },
+    screen: { backgroundColor: colors.background, flex: 1 },
     title: {
       color: colors.foreground,
       fontSize: 30,

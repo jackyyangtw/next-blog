@@ -12,27 +12,30 @@ export default function AuthScreen() {
   const styles = useMemo(() => createStyles(colors), [colors]);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.content}>
-        <Text style={styles.title}>{t("auth.title")}</Text>
-        <Text style={styles.description}>{t("auth.description")}</Text>
-        <Button disabled mode="contained">
-          {t("auth.pending")}
-        </Button>
-      </View>
-    </SafeAreaView>
+    <View style={styles.screen}>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.content}>
+          <Text style={styles.title}>{t("auth.title")}</Text>
+          <Text style={styles.description}>{t("auth.description")}</Text>
+          <Button disabled mode="contained">
+            {t("auth.pending")}
+          </Button>
+        </View>
+      </SafeAreaView>
+    </View>
   );
 }
 
 function createStyles(colors: ReturnType<typeof useAppColors>) {
   return StyleSheet.create({
-    content: { gap: spacing.lg, padding: spacing.lg },
+    content: { gap: spacing.lg, padding: spacing.lg, paddingBottom: 132 },
     description: {
       color: colors.mutedForeground,
       fontSize: 16,
       lineHeight: 24,
     },
-    safeArea: { backgroundColor: colors.background, flex: 1 },
+    safeArea: { flex: 1 },
+    screen: { backgroundColor: colors.background, flex: 1 },
     title: { color: colors.foreground, fontSize: 28, fontWeight: "700" },
   });
 }
