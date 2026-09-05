@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid";
 import { cacheLife, cacheTag } from "next/cache";
 import PostCards from "@/components/features/post/PostCards";
 import { publicClient } from "@/sanity/lib/client";
-import { PostDoc } from "@/schema/type/post";
+import { PostSummary } from "@/schema/type/post";
 import type { Locale } from "@/i18n/types";
 
 export default async function PostsSection({ lng }: { lng: Locale }) {
@@ -15,7 +15,7 @@ export default async function PostsSection({ lng }: { lng: Locale }) {
   });
   cacheTag("posts");
 
-  const posts = await publicClient.fetch<PostDoc[]>(
+  const posts = await publicClient.fetch<PostSummary[]>(
     `*[_type == "post"] | order(_createdAt desc)[0...4] {
       _id,
       _createdAt,

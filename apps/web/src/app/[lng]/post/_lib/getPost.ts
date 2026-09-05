@@ -23,7 +23,7 @@ export async function getPost(slug: string): Promise<PostDoc | null> {
         },
         alt
       },
-      slug,
+      "slug": slug.current,
       content,
       _id,
       _createdAt,

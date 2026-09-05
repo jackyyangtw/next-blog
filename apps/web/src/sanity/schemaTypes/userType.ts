@@ -1,10 +1,34 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const userType = defineType({
   name: "user",
   title: "User",
   type: "document",
   fields: [
+    defineField({
+      name: "bookmarkRevision",
+      type: "number",
+      hidden: true,
+      readOnly: true,
+    }),
+    defineField({
+      name: "bookmarkIndex",
+      type: "array",
+      hidden: true,
+      readOnly: true,
+      description:
+        "API-managed index updated atomically with bookmark documents.",
+      of: [
+        defineArrayMember({
+          name: "bookmarkIndexEntry",
+          type: "object",
+          fields: [
+            defineField({ name: "postId", type: "string" }),
+            defineField({ name: "bookmarkId", type: "string" }),
+          ],
+        }),
+      ],
+    }),
     defineField({
       name: "name",
       title: "名稱",

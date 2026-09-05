@@ -1,7 +1,10 @@
+import { PostsResponseSchema, type PostsResponse } from "@/schema/type/post";
 import { FetchPostsParams } from "./types";
 import { HttpError } from "@/utils/fetch/http-error";
 
-export async function fetchPosts(params: FetchPostsParams = {}) {
+export async function fetchPosts(
+  params: FetchPostsParams = {},
+): Promise<PostsResponse> {
   const searchParams = new URLSearchParams(
     Object.entries(params)
       .filter(([, v]) => v !== undefined && v !== null)
@@ -14,5 +17,5 @@ export async function fetchPosts(params: FetchPostsParams = {}) {
     throw new HttpError("Failed to fetch posts", res.status);
   }
 
-  return res.json();
+  return PostsResponseSchema.parse(await res.json());
 }

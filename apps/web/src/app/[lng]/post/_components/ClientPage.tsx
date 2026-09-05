@@ -69,7 +69,7 @@ export default function ClientPage({ lng }: { lng: Locale }) {
         >
           {isPostsLoading ? (
             <PostSkeleton count={2} />
-          ) : hasPosts ? (
+          ) : hasPosts && posts ? (
             <PostCards lng={lng} posts={posts.data} />
           ) : (
             <Typography variant="h3">沒有文章</Typography>

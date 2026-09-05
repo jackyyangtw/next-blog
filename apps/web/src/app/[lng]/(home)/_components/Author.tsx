@@ -10,7 +10,7 @@ import { urlFor } from "@/sanity/lib/image";
 
 // ------------- Schema -------------
 import { AuthorDoc } from "@/schema/type/author";
-import { PostDoc } from "@/schema/type/post";
+import { PostSummary } from "@/schema/type/post";
 
 // ------------- Dayjs -------------
 import dayjs from "dayjs";
@@ -20,7 +20,7 @@ export default function Author({
   post,
 }: {
   authors: AuthorDoc;
-  post: PostDoc;
+  post: Pick<PostSummary, "_createdAt">;
 }) {
   return (
     <Box
@@ -43,7 +43,7 @@ export default function Author({
       >
         <Avatar
           alt={authors.name}
-          src={urlFor(authors.avatar).url()}
+          src={authors.avatar ? urlFor(authors.avatar).url() : undefined}
           sx={{ width: 24, height: 24 }}
         />
         <Typography variant="caption">{authors.name}</Typography>

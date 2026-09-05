@@ -73,7 +73,7 @@ export const useRemoveBookmark = () => {
 
       // 先把要刪的從快取移除
       queryClient.setQueryData<Bookmark[]>(key, (old = []) =>
-        old.filter((b) => b.post._id !== postId),
+        old.filter((b) => b.post?._id !== postId),
       );
 
       return { previous };

@@ -11,7 +11,7 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 
 // ------------- Types -------------
-import { PostDoc } from "@/schema/type/post";
+import { PostSummary } from "@/schema/type/post";
 
 // ------------- Next -------------
 import NextLink from "next/link";
@@ -75,7 +75,7 @@ export default function PostCards({
   posts,
 }: {
   lng: Locale;
-  posts: PostDoc[];
+  posts: PostSummary[];
 }) {
   const { keyword } = usePostsQueryParams(); // 取得目前的關鍵字
   return (

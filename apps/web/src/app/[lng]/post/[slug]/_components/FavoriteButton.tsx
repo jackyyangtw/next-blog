@@ -36,7 +36,7 @@ export default function FavoriteButton({ postId }: FavoriteButtonProps) {
   const { data: bookmarks } = useBookmarks();
   const isFavorite = React.useMemo(() => {
     if (!bookmarks) return false;
-    return bookmarks.some((b) => b.post._id === postId);
+    return bookmarks.some((b) => b.post?._id === postId);
   }, [bookmarks, postId]);
 
   // --------------- Mutation ---------------

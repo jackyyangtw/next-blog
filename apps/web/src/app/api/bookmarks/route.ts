@@ -1,3 +1,11 @@
+import { NextResponse } from "next/server";
+import { z } from "zod";
+import { BookmarkInputSchema, BookmarkSchema } from "@/schema/type/bookmark";
+import {
+  BookmarkError,
+  mutateBookmark,
+} from "@/features/bookmarks/server/mutateBookmark";
+import { sanityBookmarkStore } from "@/features/bookmarks/server/sanityBookmarkStore";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth";
 import { client } from "@/sanity/lib/client";
@@ -18,6 +26,7 @@ export async function GET() {
       _createdAt,
       "post": post->{
         _id,
+        _createdAt,
         title,
         description,
         bannerSource,
@@ -50,7 +59,7 @@ export async function GET() {
 
   try {
     const items = await client.fetch(query, { userId }, { cache: "no-store" });
-    return new Response(JSON.stringify(items), {
+    return new Response(JSON.stringify(z.array(BookmarkSchema).parse(items)), {
       status: 200,
       headers: { "content-type": "application/json" },
     });
@@ -63,90 +72,49 @@ export async function GET() {
   }
 }
 
-export async function POST(req: Request) {
+async function handleMutation(req: Request, bookmarked: boolean) {
   const session = await getServerSession(authOptions);
   const userId = session?.user?._id;
   if (!userId) {
-    return new Response(JSON.stringify({ message: "Unauthorized" }), {
-      status: 401,
-      headers: { "content-type": "application/json" },
-    });
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
   try {
-    const { postId } = await req.json();
-    if (!postId) {
-      return new Response(JSON.stringify({ message: "postId is required" }), {
-        status: 400,
-        headers: { "content-type": "application/json" },
-      });
+    const input: unknown = bookmarked
+      ? await req.json()
+      : { postId: new URL(req.url).searchParams.get("postId") };
+    const parsed = BookmarkInputSchema.safeParse(input);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { message: "A valid postId is required" },
+        { status: 400 },
+      );
     }
-    const exist = await client.fetch(
-      '*[_type=="bookmark" && user._ref==$userId && post._ref==$postId][0]._id',
-      { userId, postId },
+    const result = await mutateBookmark(
+      sanityBookmarkStore,
+      userId,
+      parsed.data.postId,
+      bookmarked,
     );
-    if (exist) {
-      return new Response(JSON.stringify({ message: "Already bookmarked" }), {
-        status: 200,
-        headers: { "content-type": "application/json" },
-      });
+    return NextResponse.json(result);
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      return NextResponse.json({ message: "Invalid JSON" }, { status: 400 });
     }
-    const doc = {
-      _type: "bookmark",
-      user: { _type: "reference", _ref: userId },
-      post: { _type: "reference", _ref: postId },
-    };
-    const created = await client.create(doc);
-    return new Response(JSON.stringify(created), {
-      status: 201,
-      headers: { "content-type": "application/json" },
-    });
-  } catch (err) {
-    console.error("[POST /api/bookmarks] error:", err);
-    return new Response(JSON.stringify({ message: "Internal Error" }), {
-      status: 500,
-      headers: { "content-type": "application/json" },
-    });
+    if (error instanceof BookmarkError) {
+      return NextResponse.json(
+        { message: error.message },
+        { status: error.status },
+      );
+    }
+    console.error("[bookmark mutation] error:", error);
+    return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
 
+export async function POST(req: Request) {
+  return handleMutation(req, true);
+}
+
 export async function DELETE(req: Request) {
-  const session = await getServerSession(authOptions);
-  const userId = session?.user?._id;
-  if (!userId) {
-    return new Response(JSON.stringify({ message: "Unauthorized" }), {
-      status: 401,
-      headers: { "content-type": "application/json" },
-    });
-  }
-  try {
-    const { searchParams } = new URL(req.url);
-    const postId = searchParams.get("postId");
-    if (!postId) {
-      return new Response(JSON.stringify({ message: "postId is required" }), {
-        status: 400,
-        headers: { "content-type": "application/json" },
-      });
-    }
-    const bookmarkId = await client.fetch(
-      '*[_type=="bookmark" && user._ref==$userId && post._ref==$postId][0]._id',
-      { userId, postId },
-    );
-    if (!bookmarkId) {
-      return new Response(JSON.stringify({ message: "Not found" }), {
-        status: 404,
-        headers: { "content-type": "application/json" },
-      });
-    }
-    await client.delete(bookmarkId);
-    return new Response(JSON.stringify({ message: "Bookmark deleted" }), {
-      status: 200,
-      headers: { "content-type": "application/json" },
-    });
-  } catch (err) {
-    console.error("[DELETE /api/bookmarks] error:", err);
-    return new Response(JSON.stringify({ message: "Internal Error" }), {
-      status: 500,
-      headers: { "content-type": "application/json" },
-    });
-  }
+  return handleMutation(req, false);
 }

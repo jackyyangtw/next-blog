@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { publicClient } from "@/sanity/lib/client";
-import { PostDoc } from "@/schema/type/post";
+import { PostsResponseSchema, type PostSummary } from "@/schema/type/post";
 
 const POSTS_QUERY = `*[
   _type == "post" &&
@@ -49,6 +49,7 @@ function getBoundedInteger(
   min: number,
   max: number,
 ) {
+  if (value === null || value.trim() === "") return fallback;
   const parsed = Number(value);
   if (!Number.isFinite(parsed)) {
     return fallback;
@@ -84,7 +85,7 @@ export async function GET(req: NextRequest) {
     next: { tags: ["posts"] },
   });
 
-  const posts = await publicClient.fetch<PostDoc[]>(POSTS_QUERY, params, {
+  const posts = await publicClient.fetch<PostSummary[]>(POSTS_QUERY, params, {
     next: { tags: ["posts"] },
   });
 
@@ -95,5 +96,5 @@ export async function GET(req: NextRequest) {
     limit,
   };
 
-  return NextResponse.json(resData);
+  return NextResponse.json(PostsResponseSchema.parse(resData));
 }
