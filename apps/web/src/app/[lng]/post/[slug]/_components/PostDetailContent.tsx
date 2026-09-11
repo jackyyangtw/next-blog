@@ -1,4 +1,6 @@
 "use client";
+
+import type { ReactNode } from "react";
 import { useMemo } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -11,7 +13,6 @@ import {
 } from "@mui/icons-material";
 import Link from "next/link";
 
-import RichText from "@/app/[lng]/post/[slug]/_components/RichText/RichText";
 import FavoriteButton from "@/app/[lng]/post/[slug]/_components/FavoriteButton";
 import Banner from "@/app/[lng]/post/[slug]/_components/Banner";
 import ArticleFeedbackForm from "./ArticleFeedbackForm";
@@ -28,7 +29,7 @@ interface PostDetailContentProps {
 
   showCategories?: boolean;
   showScrollSpy?: boolean;
-  closeModal?: () => void;
+  richText: ReactNode;
 }
 
 export default function PostDetailContent({
@@ -37,6 +38,7 @@ export default function PostDetailContent({
   showBackLink = true,
   showCategories = true,
   showScrollSpy = true,
+  richText,
 }: PostDetailContentProps) {
   const tableOfContents = useMemo(
     () => (showScrollSpy ? getPostTableOfContents(post.content) : []),
@@ -107,9 +109,7 @@ export default function PostDetailContent({
           position: "relative",
         }}
       >
-        <Box sx={{ minWidth: 0, flex: 1 }}>
-          <RichText value={post.content} />
-        </Box>
+        <Box sx={{ minWidth: 0, flex: 1 }}>{richText}</Box>
         {showScrollSpy && <PostScrollSpy sections={tableOfContents} />}
       </Box>
 

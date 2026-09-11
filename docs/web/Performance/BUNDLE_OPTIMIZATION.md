@@ -80,7 +80,7 @@ Bundle Analyzer 顯示的 route graph 包含該 route 可到達的同步與非�
 
 | 優先級 | 項目                                        | 主要影響                            | 預期收益                                      | 修改風險 |
 | ------ | ------------------------------------------- | ----------------------------------- | --------------------------------------------- | -------- |
-| P0     | 移除完整 Prism language bundle              | 文章頁首屏                          | 約 180–230 KB gzip                            | 中       |
+| ✅ P0  | 移除完整 Prism language bundle              | 文章頁首屏                          | 約 180–230 KB gzip                            | 中       |
 | P0     | 將 Zod 留在 server validation boundary      | 文章列表、收藏、文章頁 client graph | 上限約 96 KB gzip reachable graph             | 中       |
 | P1     | 將 React Query Provider 下放到需要的 routes | 所有公開頁面基線                    | 約 12–15 KB gzip，加上較少 hydration          | 低       |
 | P1     | 拆分 `PostCards` 的展示與搜尋狀態           | 首頁及文章列表                      | 約 8 KB gzip dependencies，加上較少 hydration | 中       |
@@ -113,7 +113,7 @@ apps/web/src/app/[lng]/post/[slug]/_components/RichText/CodeBlock.tsx
 - Gzip：230 KB
 - 約佔目前文章頁 HTML 初始 JS 的 40%
 
-### 建議方案 A：Server-side Shiki
+### ✅ 建議方案 A：Server-side Shiki
 
 建議優先採用此方案。
 
@@ -141,19 +141,6 @@ Client 只保留 CopyButton 等互動 island
 - 只允許由可信 highlighter 產生的 HTML；不要直接插入未處理的使用者 HTML。
 - highlighter 應在 server/cache boundary 內重用，避免每次 render 重建高成本物件。
 - 保持 light/dark theme 的輸出策略一致，避免 hydration mismatch 或首次顯示閃爍。
-
-### 建議方案 B：PrismLight
-
-如果暫時不改 server rendering，可改用 light build，只註冊內容實際使用的語言，例如：
-
-- TypeScript
-- JavaScript / JSX / TSX
-- JSON
-- Bash / Shell
-- CSS
-- Markdown
-
-優點是改動較小；缺點是 tokenizer 仍會在 client 執行，而且必須維護允許的語言清單。
 
 ### 驗收條件
 

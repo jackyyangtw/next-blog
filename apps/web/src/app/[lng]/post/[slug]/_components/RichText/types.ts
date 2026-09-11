@@ -20,6 +20,7 @@ export interface RichTextChildrenProps {
 
 export interface RichTextCodeValue {
   code?: string;
+  highlightedHtml?: string;
   language?: string;
 }
 
