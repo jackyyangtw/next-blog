@@ -17,7 +17,7 @@ import FavoriteButton from "@/app/[lng]/post/[slug]/_components/FavoriteButton";
 import Banner from "@/app/[lng]/post/[slug]/_components/Banner";
 import ArticleFeedbackForm from "./ArticleFeedbackForm";
 import PostScrollSpy from "./PostScrollSpy";
-import { PostDoc } from "@/schema/type/post";
+import type { PostDoc } from "@/schema/type/post";
 import { formatDate } from "@/utils/date/formate";
 import { hasPostBannerImage } from "@/sanity/postBanner";
 import { getPostTableOfContents } from "./postTableOfContents";

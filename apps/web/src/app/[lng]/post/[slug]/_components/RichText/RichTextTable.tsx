@@ -8,7 +8,7 @@ import TableRow from "@mui/material/TableRow";
 
 import { renderInlineMarkdownFallback } from "./RichTextInlineCode";
 import { richTextTableContainerSx } from "./RichTextTable.styles";
-import { RichTextTableValue } from "./types";
+import type { RichTextTableValue } from "./types";
 
 interface RichTextTableProps {
   value: RichTextTableValue;

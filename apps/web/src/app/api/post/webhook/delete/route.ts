@@ -1,7 +1,8 @@
 // src/app/api/webhooks/sanity-delete/route.ts
 import { client } from "@/sanity/lib/client";
 import { parseBody } from "next-sanity/webhook";
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
 type DeleteWebhookPayload = {
   _id?: string;

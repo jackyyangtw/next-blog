@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { usePathname, useSearchParams } from "next/navigation";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 import { LOCALES, languages } from "@/i18n/config";
 import { persistLocaleCookie } from "@/i18n/cookie";
 

@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import TechMarquee from "../TechMarquee";
 import TransitionFrame from "./TransitionFrame";
-import { HomePageT } from "./types";
+import type { HomePageT } from "./types";
 
 interface TechStackSectionProps {
   t: HomePageT;

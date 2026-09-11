@@ -3,7 +3,7 @@
 import Box from "@mui/material/Box";
 import Image from "next/image";
 
-import { PostDoc } from "@/schema/type/post";
+import type { PostDoc } from "@/schema/type/post";
 import {
   getPostBannerAlt,
   getPostBannerBlurDataURL,

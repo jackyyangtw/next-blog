@@ -1,4 +1,5 @@
-import { createTheme, alpha, Shadows } from "@mui/material/styles";
+import type { Shadows } from "@mui/material/styles";
+import { createTheme, alpha } from "@mui/material/styles";
 import { primitiveTokens, semanticTokens } from "@jacky-dev/design-tokens";
 
 declare module "@mui/material/Paper" {

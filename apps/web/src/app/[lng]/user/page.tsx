@@ -2,8 +2,8 @@ import UserPageClient from "./_components/Client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
-import { Locale } from "@/i18n/types";
-import { Metadata } from "next";
+import type { Locale } from "@/i18n/types";
+import type { Metadata } from "next";
 
 export const instant = false;
 

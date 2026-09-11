@@ -2,7 +2,7 @@
 import { dir } from "i18next";
 import { languages } from "@/i18n/config";
 import { getServerTranslation } from "@/i18n";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 
 // ----------------------- MUI -----------------------
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";

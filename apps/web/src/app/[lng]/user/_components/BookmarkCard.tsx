@@ -12,7 +12,7 @@ import NextLink from "next/link";
 import Image from "next/image";
 
 import { urlFor } from "@/sanity/lib/image";
-import { BookmarkDoc } from "@/schema/type/bookmark";
+import type { BookmarkDoc } from "@/schema/type/bookmark";
 import { getPostBannerAlt, getPostBannerImageSrc } from "@/sanity/postBanner";
 
 export default function BookmarkCard({ bookmark }: { bookmark: BookmarkDoc }) {

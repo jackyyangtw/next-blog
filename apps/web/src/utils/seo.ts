@@ -1,5 +1,5 @@
 import { fallbackLng, languages } from "@/i18n/config";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 
 const DEFAULT_LOCAL_URL = "http://localhost:3200";
 const PRODUCTION_HOST = "jacky-dev.com";

@@ -23,7 +23,7 @@ import {
   openGraphLocale,
   stringifyStructuredData,
 } from "@/utils/seo";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 
 interface PostPageProps {
   params: Promise<{ slug: string; lng: Locale }>;

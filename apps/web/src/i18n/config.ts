@@ -1,7 +1,7 @@
 // src/i18n/config.ts
-import { Locale, LocaleConfig } from "@/i18n/types";
+import type { Locale, LocaleConfig } from "@/i18n/types";
 import { zhTW, enUS } from "@mui/material/locale"; // 🚨 這只是 MUI 的語系設定
-import { Namespace } from "@/i18n/types";
+import type { Namespace } from "@/i18n/types";
 
 // ---------------------------- i18next 語系設定 ----------------------------
 export const fallbackLng: Locale = "zh-TW";

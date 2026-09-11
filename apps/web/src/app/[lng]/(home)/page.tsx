@@ -2,7 +2,7 @@ import Intro from "./_components/Intro";
 
 // ------------- i18n -------------
 import { getServerTranslation } from "@/i18n/index";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 import {
   absoluteUrl,
   languageAlternates,

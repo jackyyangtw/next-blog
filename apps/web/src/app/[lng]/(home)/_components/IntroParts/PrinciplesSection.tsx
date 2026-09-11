@@ -2,7 +2,7 @@ import { IntegrationInstructions, Layers, Storage } from "@mui/icons-material";
 import { Grid, Typography } from "@mui/material";
 import PhilosophyCard from "../PhilosophyCard";
 import TransitionFrame from "./TransitionFrame";
-import { HomePageT } from "./types";
+import type { HomePageT } from "./types";
 
 interface PrinciplesSectionProps {
   t: HomePageT;

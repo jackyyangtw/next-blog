@@ -6,7 +6,7 @@ import { useState } from "react";
 import { urlFor } from "@/sanity/lib/image";
 
 import { ImagePreviewDialog } from "./ImagePreviewDialog";
-import { RichTextImageValue } from "./types";
+import type { RichTextImageValue } from "./types";
 
 interface RichTextImageProps {
   value: RichTextImageValue;

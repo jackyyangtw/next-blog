@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { BookmarkInputSchema, BookmarkSchema } from "@/schema/type/bookmark";
+import {
+  BookmarkInputSchema,
+  BookmarkMutationResponseSchema,
+  BookmarkSchema,
+} from "@/schema/type/bookmark";
 import {
   BookmarkError,
   mutateBookmark,
@@ -95,7 +99,8 @@ async function handleMutation(req: Request, bookmarked: boolean) {
       parsed.data.postId,
       bookmarked,
     );
-    return NextResponse.json(result);
+    // The client trusts this boundary and no longer re-parses the response.
+    return NextResponse.json(BookmarkMutationResponseSchema.parse(result));
   } catch (error) {
     if (error instanceof SyntaxError) {
       return NextResponse.json({ message: "Invalid JSON" }, { status: 400 });

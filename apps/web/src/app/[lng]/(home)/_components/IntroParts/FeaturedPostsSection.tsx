@@ -2,7 +2,7 @@ import { ArrowForward } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import PostsSection from "../PostSection";
 import TransitionFrame from "./TransitionFrame";
-import { HomePageT } from "./types";
+import type { HomePageT } from "./types";
 import type { Locale } from "@/i18n/types";
 
 interface FeaturedPostsSectionProps {

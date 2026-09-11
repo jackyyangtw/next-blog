@@ -24,6 +24,9 @@ const eslintConfig = defineConfig([
     },
     rules: {
       "@typescript-eslint/no-explicit-any": "error",
+      // Keeps type-only imports out of the runtime module graph, so Zod
+      // schemas and other server-side modules cannot leak into client bundles.
+      "@typescript-eslint/consistent-type-imports": "error",
     },
   },
   // Override default ignores of eslint-config-next.

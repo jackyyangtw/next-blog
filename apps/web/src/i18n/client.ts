@@ -3,10 +3,10 @@
 
 import { useEffect } from "react";
 import i18next from "i18next";
+import type { UseTranslationOptions } from "react-i18next";
 import {
   initReactI18next,
   useTranslation as useTranslationOrg,
-  UseTranslationOptions,
 } from "react-i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import {
@@ -15,8 +15,8 @@ import {
   defaultNS,
   fallbackLng,
 } from "./config";
-import { Locale } from "@/i18n/types";
-import { Namespace } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
+import type { Namespace } from "@/i18n/types";
 import { useParams } from "next/navigation";
 import { loadTranslationResource } from "./resources";
 
