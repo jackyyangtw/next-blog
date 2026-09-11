@@ -21,6 +21,7 @@ import {
   languageAlternates,
   localizedUrl,
   openGraphLocale,
+  stringifyStructuredData,
 } from "@/utils/seo";
 import { Locale } from "@/i18n/types";
 
@@ -140,7 +141,9 @@ async function PostPageContent({ params }: PostPageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{
+          __html: stringifyStructuredData(structuredData),
+        }}
       />
       <Container
         disableGutters

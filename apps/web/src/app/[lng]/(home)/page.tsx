@@ -8,6 +8,7 @@ import {
   languageAlternates,
   localizedUrl,
   openGraphLocale,
+  stringifyStructuredData,
 } from "@/utils/seo";
 
 interface HomeProps {
@@ -24,10 +25,6 @@ async function getHomeSeoData(lng: Locale) {
   const imageUrl = absoluteUrl("/images/home-og.jpg");
 
   return { title, description, url, imageUrl };
-}
-
-function stringifyStructuredData(data: unknown) {
-  return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
 function getHomeStructuredData({

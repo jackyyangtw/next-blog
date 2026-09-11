@@ -173,13 +173,11 @@ export async function generateMetadata({ params }: PostPageProps) {
 規則：
 
 - 在 `page.tsx` 中以原生 `<script>` 標籤渲染（**不使用** `next/script`，JSON-LD 是結構化資料非可執行腳本）
-- **必須防止 XSS**：將 `<` 字元替換為 `\\u003c`。文章標題、作者名、description 都來自 Sanity，屬於可被編輯者注入的內容
-- 統一使用 `stringifyStructuredData()` 這個 helper，不要各頁自己寫 `JSON.stringify`
+- **必須防止 XSS**：將 `<` 字元替換為 `\u003c`。文章標題、作者名、description 都來自 Sanity，屬於可被編輯者注入的內容
+- 序列化一律用 `@/utils/seo` 的 `stringifyStructuredData()`，不要各頁自己寫 `JSON.stringify`
 
 ```tsx
-function stringifyStructuredData(data: unknown) {
-  return JSON.stringify(data).replace(/</g, "\\u003c");
-}
+import { stringifyStructuredData } from "@/utils/seo";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -315,5 +313,4 @@ const structuredData = {
 
 ## 已知待修項目
 
-- `post/[slug]/page.tsx` 的 JSON-LD 直接用 `JSON.stringify`，**未做 `\\u003c` 跳脫**；首頁的 `stringifyStructuredData` 才有。修到該頁時請一併統一。
 - 全站缺少 `title.template`，文章詳情頁的 `<title>` 不含站名。若要補，應在 `[lng]/layout.tsx` 的 `generateMetadata` 加 `title: { default: siteName, template: "%s | Jacky Dev" }`，並移除列表頁手動拼接的 `| ${siteName}`。
