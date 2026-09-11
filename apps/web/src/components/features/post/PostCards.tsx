@@ -11,7 +11,7 @@ import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 
 // ------------- Types -------------
-import { PostSummary } from "@/schema/type/post";
+import type { PostSummary } from "@/schema/type/post";
 
 // ------------- Next -------------
 import NextLink from "next/link";

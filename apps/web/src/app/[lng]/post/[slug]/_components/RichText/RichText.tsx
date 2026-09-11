@@ -1,6 +1,6 @@
 import "server-only";
 
-import { BlockContent } from "@/schema/type/blockContent";
+import type { BlockContent } from "@/schema/type/blockContent";
 
 import { highlightCode } from "./CodeBlock";
 import { RichTextClient } from "./RichTextClient";

@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 
 import { PortableText, type PortableTextComponents } from "next-sanity";
 
-import { BlockContent } from "@/schema/type/blockContent";
+import type { BlockContent } from "@/schema/type/blockContent";
 
 import { CodeBlockView } from "./CodeBlockView";
 import { RichTextDivider } from "./RichTextDivider";

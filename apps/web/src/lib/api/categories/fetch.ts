@@ -1,4 +1,4 @@
-import { CategoryDoc } from "@/schema/type/category";
+import type { CategoryDoc } from "@/schema/type/category";
 import { HttpError } from "@/utils/fetch/http-error";
 
 export async function fetchCategories(): Promise<CategoryDoc[]> {

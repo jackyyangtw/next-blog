@@ -1,8 +1,9 @@
 // src/lib/middleware/i18n.ts
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import acceptLanguage from "accept-language";
 import { fallbackLng, languages, cookieName } from "@/i18n/config";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 
 acceptLanguage.languages(languages);
 

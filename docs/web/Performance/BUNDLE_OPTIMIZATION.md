@@ -81,7 +81,7 @@ Bundle Analyzer 顯示的 route graph 包含該 route 可到達的同步與非�
 | 優先級 | 項目                                        | 主要影響                            | 預期收益                                      | 修改風險 |
 | ------ | ------------------------------------------- | ----------------------------------- | --------------------------------------------- | -------- |
 | ✅ P0  | 移除完整 Prism language bundle              | 文章頁首屏                          | 約 180–230 KB gzip                            | 中       |
-| P0     | 將 Zod 留在 server validation boundary      | 文章列表、收藏、文章頁 client graph | 上限約 96 KB gzip reachable graph             | 中       |
+| ✅ P0  | 將 Zod 留在 server validation boundary      | 文章列表、收藏、文章頁 client graph | 實測 `/post`、`/user`、文章頁各 −64 KB gzip   | 中       |
 | P1     | 將 React Query Provider 下放到需要的 routes | 所有公開頁面基線                    | 約 12–15 KB gzip，加上較少 hydration          | 低       |
 | P1     | 拆分 `PostCards` 的展示與搜尋狀態           | 首頁及文章列表                      | 約 8 KB gzip dependencies，加上較少 hydration | 中       |
 | P1     | 延後或改為主動載入 Joyride                  | fresh visitor 的所有公開頁面        | 至少 22 KB gzip immediate load                | 低至中   |
@@ -151,7 +151,9 @@ Client 只保留 CopyButton 等互動 island
 
 ---
 
-## P0：將 Zod 留在 server validation boundary
+## ✅ P0：將 Zod 留在 server validation boundary
+
+> 已完成。實測結果見本節「實測結果」。
 
 ### 現況
 
@@ -197,6 +199,36 @@ Client 不再重複 parse 自家 API response，代表信任 server 已執行的
 - 公開 route 的 client graph 不再包含完整 Zod runtime，或只保留明確需要的最小部分。
 - API route 的 invalid response 測試仍能失敗並回報清楚錯誤。
 - Client fetch 的回傳型別維持精確，且不以 `any` 取代。
+
+### 實測結果
+
+量測日期：2026-09-11（Prism → Shiki 之後的 HEAD，因此與本文件上方「Bundle 基準」表格不可直接比較）。
+
+方法：`next build` 後，讀取 `server/app/<route>.html` 直接引用的 `/_next/static/chunks/*.js`，逐一以 gzip level 9 壓縮後加總。before/after 只差在 `posts/fetch.ts` 與 `bookmarks/fetch.ts` 兩個檔案。
+
+| Route                |   Before |    After |             差異 |
+| -------------------- | -------: | -------: | ---------------: |
+| `/zh-TW`             | 323.3 KB | 323.3 KB |                — |
+| `/zh-TW/post`        | 420.3 KB | 356.8 KB |     **−63.5 KB** |
+| `/zh-TW/user`        | 390.1 KB | 326.2 KB |     **−63.9 KB** |
+| `/zh-TW/post/[slug]` |        — | 342.7 KB | 同樣移除該 chunk |
+| `/zh-TW/auth`        | 305.7 KB | 305.7 KB |                — |
+
+Before 的 264 個 browser chunk 中有一個專屬 Zod chunk（`1gzf_*.js`，raw 295 KB / gzip 66 KB），被 `/post`、`/user`、`/post/[slug]` 的 HTML **直接引用**，屬首屏初始 JS 而非僅「可到達」。After 以 `ZodError`、`unrecognized_keys`、`invalid_union`、`too_big`、`invalid_enum_value` 等 runtime 字串交叉搜尋全部 browser chunk，命中數為 0。
+
+`server/chunks/ssr/` 仍有 2 個含 Zod 的 chunk，來源是 `ai` / `@ai-sdk/*`（Studio 的 `"use server"` action），屬 server 側，符合預期。
+
+### 實際改動
+
+1. `lib/api/posts/fetch.ts`、`lib/api/bookmarks/fetch.ts`：移除 client 端重複 parse，改為只 `import type`；回傳型別由函式簽章收斂，未使用 `as` 或 `any`。
+2. `lib/api/categories/fetch.ts`：型別 import 改為 `import type`。
+3. `api/bookmarks/route.ts`：POST/DELETE 補上 `BookmarkMutationResponseSchema.parse(result)`。
+4. `api/categories/route.ts`：補上 `z.array(CategorySchema).parse(...)`（先前 server 與 client 皆無驗證）。
+5. eslint 啟用 `@typescript-eslint/consistent-type-imports`，全專案 autofix 63 處，避免 runtime schema 再度流入 client graph。
+
+### 待辦
+
+`/api/user` 目前沒有 response schema，也沒有 client 消費者（`lib/api/user/fetch.ts` 與 `useUser` 未被任何元件引用）。因為不構成 client zod 負擔，本輪未處理；未來若要啟用該 API，應一併補上 `UserSchema` 與 route handler 驗證，或移除這段死碼。
 
 ---
 

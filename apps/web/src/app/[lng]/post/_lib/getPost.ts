@@ -1,6 +1,6 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { publicClient } from "@/sanity/lib/client";
-import { PostDoc } from "@/schema/type/post";
+import type { PostDoc } from "@/schema/type/post";
 
 export async function getPost(slug: string): Promise<PostDoc | null> {
   "use cache";

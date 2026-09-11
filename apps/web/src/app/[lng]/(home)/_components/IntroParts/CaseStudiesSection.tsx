@@ -7,7 +7,7 @@ import {
 import { Box, Grid, Typography } from "@mui/material";
 import CaseStudyCard from "./CaseStudyCard";
 import TransitionFrame from "./TransitionFrame";
-import { HomePageT } from "./types";
+import type { HomePageT } from "./types";
 
 interface CaseStudiesSectionProps {
   t: HomePageT;

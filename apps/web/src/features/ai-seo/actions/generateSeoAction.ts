@@ -1,7 +1,7 @@
 ﻿"use server";
 
 import { getServerSession } from "next-auth";
-import { ZodError } from "zod";
+import type { ZodError } from "zod";
 
 import { providerErrorMessage } from "@/features/ai/errors/providerErrorMessage";
 import { authOptions } from "@/lib/auth/auth";

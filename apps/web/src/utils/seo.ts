@@ -1,5 +1,5 @@
 import { fallbackLng, languages } from "@/i18n/config";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 
 const DEFAULT_LOCAL_URL = "http://localhost:3200";
 const PRODUCTION_HOST = "jacky-dev.com";
@@ -73,4 +73,13 @@ export function languageAlternates(path = "", fallback?: string) {
 
 export function openGraphLocale(lng: Locale | string) {
   return lng.replace("-", "_");
+}
+
+/**
+ * 序列化 JSON-LD 結構化資料。
+ * 內容來自 Sanity（標題、作者名、description），必須把 `<` 跳脫成 Unicode escape，
+ * 否則字串中的 `</script>` 會提前關閉標籤造成 XSS。
+ */
+export function stringifyStructuredData(data: unknown) {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
 }

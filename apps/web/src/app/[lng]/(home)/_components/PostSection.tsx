@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid";
 import { cacheLife, cacheTag } from "next/cache";
 import PostCards from "@/components/features/post/PostCards";
 import { publicClient } from "@/sanity/lib/client";
-import { PostSummary } from "@/schema/type/post";
+import type { PostSummary } from "@/schema/type/post";
 import type { Locale } from "@/i18n/types";
 
 export default async function PostsSection({ lng }: { lng: Locale }) {

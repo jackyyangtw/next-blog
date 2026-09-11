@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Box, keyframes } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material";
 

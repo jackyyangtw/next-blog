@@ -12,7 +12,7 @@ import { colorSchemes, typography, shadows, shape } from "./themePrimitives";
 
 // ------------- i18n -------------
 import { getMUILocale, fallbackLng } from "@/i18n/config";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 
 interface AppThemeProps {
   children: React.ReactNode;

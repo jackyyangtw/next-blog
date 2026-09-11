@@ -9,8 +9,8 @@ import Typography from "@mui/material/Typography";
 import { urlFor } from "@/sanity/lib/image";
 
 // ------------- Schema -------------
-import { AuthorDoc } from "@/schema/type/author";
-import { PostSummary } from "@/schema/type/post";
+import type { AuthorDoc } from "@/schema/type/author";
+import type { PostSummary } from "@/schema/type/post";
 
 // ------------- Dayjs -------------
 import dayjs from "dayjs";

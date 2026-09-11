@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 
 import { urlFor } from "@/sanity/lib/image";
 
-import { RichTextImageValue } from "./types";
+import type { RichTextImageValue } from "./types";
 
 interface ImagePreviewDialogProps {
   image: RichTextImageValue | null;

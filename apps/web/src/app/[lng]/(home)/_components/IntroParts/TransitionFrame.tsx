@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
+import type { ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Box, Fade, Grow, Slide, useMediaQuery } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material";
 

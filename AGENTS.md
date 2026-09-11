@@ -35,7 +35,7 @@
 - 主元件改為 `index.tsx`，負責組合與業務邏輯
 - 外部 import 路徑維持不變（資料夾 `index.tsx` 自動解析）
 
-> 完整規範與範例請參閱 [CREATE_COMPONENT.md](./docs/Components/CREATE_COMPONENT.md) 的「200 行拆分規則」章節。
+> 完整規範與範例請參閱 [CREATE_COMPONENT.md](./docs/web/Components/CREATE_COMPONENT.md) 的「200 行拆分規則」章節。
 
 ### 5. 確認後再動手
 

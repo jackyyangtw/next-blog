@@ -1,7 +1,12 @@
-import { PostsResponseSchema, type PostsResponse } from "@/schema/type/post";
-import { FetchPostsParams } from "./types";
+import type { PostsResponse } from "@/schema/type/post";
+import type { FetchPostsParams } from "./types";
 import { HttpError } from "@/utils/fetch/http-error";
 
+/**
+ * Response validation lives in the /api/posts route handler
+ * (PostsResponseSchema.parse). Re-parsing here would ship the whole Zod
+ * runtime and the post/author/category/blockContent schemas to the client.
+ */
 export async function fetchPosts(
   params: FetchPostsParams = {},
 ): Promise<PostsResponse> {
@@ -17,5 +22,5 @@ export async function fetchPosts(
     throw new HttpError("Failed to fetch posts", res.status);
   }
 
-  return PostsResponseSchema.parse(await res.json());
+  return res.json();
 }

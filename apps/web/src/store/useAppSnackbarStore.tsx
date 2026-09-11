@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { withDevtools } from "./withDevtools";
-import { AlertColor } from "@mui/material";
+import type { AlertColor } from "@mui/material";
 
 interface AppSnackbarStore {
   open: boolean;

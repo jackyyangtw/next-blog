@@ -3,8 +3,8 @@ import { createInstance } from "i18next";
 import resourcesToBackend from "i18next-resources-to-backend";
 import { initReactI18next } from "react-i18next/initReactI18next";
 import { getI18nextOptions } from "./config";
-import { Locale } from "@/i18n/types";
-import { Namespace } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
+import type { Namespace } from "@/i18n/types";
 import { loadTranslationResource } from "./resources";
 
 const initI18next = async (lng: Locale, ns: Namespace) => {

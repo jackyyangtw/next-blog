@@ -13,11 +13,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/auth";
 
 // --------------------- i18n--------------------
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 
 // --------------------- next/navigation--------------------
 import { redirect } from "next/navigation";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 // 需依每次請求的 session 決定是否轉址，無法安全預渲染或快取。
 export const instant = false;

@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { getServerTranslation } from "@/i18n/index";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 import TrackingLight from "./TrackingLight";
 import CaseStudiesSection from "./IntroParts/CaseStudiesSection";
 import FeaturedPostsSection from "./IntroParts/FeaturedPostsSection";

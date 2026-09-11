@@ -2,7 +2,7 @@ import ClientPage from "./_components/ClientPage";
 import { Suspense } from "react";
 import { CircularProgress } from "@mui/material";
 import { getServerTranslation } from "@/i18n";
-import { Locale } from "@/i18n/types";
+import type { Locale } from "@/i18n/types";
 import { languageAlternates, localizedUrl, openGraphLocale } from "@/utils/seo";
 
 async function getPostListSeoData(lng: Locale) {

@@ -5,7 +5,8 @@ import { useEffect, useCallback, useMemo } from "react";
 import { useFeatureTourStore } from "@/store/useFeatureTourStore";
 
 // ------------------ react-joyride ----------------
-import { EventData, EVENTS, Joyride, STATUS, Step } from "react-joyride";
+import type { EventData, Step } from "react-joyride";
+import { EVENTS, Joyride, STATUS } from "react-joyride";
 
 // ------------------ next-auth ----------------
 import { useSession } from "next-auth/react";

@@ -54,3 +54,6 @@ skills-lock.json
 # codegraph
 .codegraph/
 .mcp.json
+
+# claude code (.claude/skills is a junction to .agents/skills)
+.claude/skills

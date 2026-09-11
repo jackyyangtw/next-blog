@@ -1,5 +1,5 @@
 // react-joyride
-import { TooltipRenderProps } from "react-joyride";
+import type { TooltipRenderProps } from "react-joyride";
 
 // ------------------ mui ----------------
 import { useTheme } from "@mui/material";

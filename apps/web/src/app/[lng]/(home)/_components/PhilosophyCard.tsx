@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
-import { SvgIconProps } from "@mui/material";
+import type { SvgIconProps } from "@mui/material";
 
 interface PhilosophyCardProps {
   title: string;

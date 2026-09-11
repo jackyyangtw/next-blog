@@ -1,7 +1,7 @@
 import { Email, GitHub } from "@mui/icons-material";
 import { Box, Button, Stack, Typography } from "@mui/material";
 import TransitionFrame from "./TransitionFrame";
-import { HomePageT } from "./types";
+import type { HomePageT } from "./types";
 
 interface HomeFooterSectionProps {
   t: HomePageT;
