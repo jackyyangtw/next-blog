@@ -11,6 +11,7 @@ import { notFound } from "next/navigation";
 import PostDetailContent from "./_components/PostDetailContent";
 import PostPageSkeleton from "./_components/PostPageSkeleton";
 import RelatedPostsSection from "./_components/RelatedPostsSection";
+import RichText from "./_components/RichText/RichText";
 
 // ------------- utils -------------
 import { getPost } from "../_lib/getPost";
@@ -146,7 +147,11 @@ async function PostPageContent({ params }: PostPageProps) {
         maxWidth={false}
         sx={{ maxWidth: 1200, mx: "auto" }}
       >
-        <PostDetailContent post={post} lng={lng} />
+        <PostDetailContent
+          post={post}
+          lng={lng}
+          richText={<RichText value={post.content} />}
+        />
         <Suspense fallback={null}>
           <RelatedPostsSection
             slug={slug}

@@ -17,11 +17,11 @@
     "test:unit": "playwright test --config=playwright.unit.config.ts"
   },
   "dependencies": {
-    "@jacky-dev/design-tokens": "workspace:*",
     "@ai-sdk/openai": "^4.0.14",
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@jacky-dev/design-tokens": "workspace:*",
     "@mui/icons-material": "^7.3.7",
     "@mui/material": "^7.3.7",
     "@mui/material-nextjs": "^7.3.7",
@@ -49,9 +49,9 @@
     "react-i18next": "^15.7.4",
     "react-icons": "^5.6.0",
     "react-joyride": "3.2.0",
-    "react-syntax-highlighter": "^16.1.0",
     "sanity": "^6.5.0",
     "server-only": "^0.0.1",
+    "shiki": "^4.4.3",
     "styled-components": "^6.3.9",
     "use-debounce": "^10.1.0",
     "zod": "^4.3.6",

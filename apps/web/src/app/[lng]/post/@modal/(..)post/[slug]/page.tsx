@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import PostModal from "./PostModal";
 import { getPost } from "../../../_lib/getPost";
 import PostDetailContent from "../../../[slug]/_components/PostDetailContent";
+import RichText from "../../../[slug]/_components/RichText/RichText";
 
 interface InterceptedPostPageProps {
   params: Promise<{ slug: string; lng: string }>;
@@ -25,6 +26,7 @@ export default async function InterceptedPostPage({
         showBackLink={false}
         showCategories={false}
         showScrollSpy={false}
+        richText={<RichText value={post.content} />}
       />
     </PostModal>
   );
