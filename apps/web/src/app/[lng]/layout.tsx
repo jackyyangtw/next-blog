@@ -83,7 +83,7 @@ export async function generateStaticParams() {
 }
 
 export default async function RootLayout(props: LayoutProps<"/[lng]">) {
-  const { children, params } = props;
+  const { children, modal, params } = props;
   const { lng: routeLocale } = await params;
   if (!isSupportedLocale(routeLocale)) {
     notFound();
@@ -164,6 +164,7 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
                   />
                 </Suspense>
               </Box>
+              {modal}
               <ScrollToTopButton />
             </Providers>
           </AppTheme>

@@ -9,6 +9,7 @@ import { OpenInNew as OpenInNewIcon } from "@mui/icons-material";
 import { Close as CloseIcon } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import { alpha } from "@mui/material/styles";
+import { localizedPath } from "@/utils/seo";
 
 interface PostModalProps {
   children: React.ReactNode;
@@ -18,7 +19,8 @@ export default function PostModal({ children }: PostModalProps) {
   const router = useRouter();
   const params = useParams() as { lng?: string; slug?: string };
 
-  const postPath = `/${params.lng ?? "en"}/post/${params.slug ?? ""}`;
+  const lng = params.lng ?? "en";
+  const postPath = localizedPath(lng, `/post/${params.slug ?? ""}`);
 
   const handleClose = () => {
     if (window.history.length > 1) {
@@ -26,11 +28,11 @@ export default function PostModal({ children }: PostModalProps) {
       return;
     }
 
-    router.push(`/${params.lng ?? "en"}/post`);
+    router.push(localizedPath(lng, "/post"));
   };
 
   const handleOpenPostPage = () => {
-    window.location.assign(postPath);
+    router.push(postPath);
   };
 
   return (

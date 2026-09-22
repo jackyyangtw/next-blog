@@ -1,16 +1,17 @@
 import { notFound } from "next/navigation";
 import PostModal from "./PostModal";
-import { getPost } from "../../../_lib/getPost";
-import PostDetailContent from "../../../[slug]/_components/PostDetailContent";
-import RichText from "../../../[slug]/_components/RichText/RichText";
+import { getPost } from "@/app/[lng]/post/_lib/getPost";
+import PostDetailContent from "@/app/[lng]/post/[slug]/_components/PostDetailContent";
+import RichText from "@/app/[lng]/post/[slug]/_components/RichText/RichText";
+import type { Locale } from "@/i18n/types";
 
-interface InterceptedPostPageProps {
-  params: Promise<{ slug: string; lng: string }>;
+interface InterceptedPostPreviewPageProps {
+  params: Promise<{ slug: string; lng: Locale }>;
 }
 
-export default async function InterceptedPostPage({
+export default async function InterceptedPostPreviewPage({
   params,
-}: InterceptedPostPageProps) {
+}: InterceptedPostPreviewPageProps) {
   const { slug, lng } = await params;
   const post = await getPost(slug);
 

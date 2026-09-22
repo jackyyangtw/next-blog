@@ -27,6 +27,7 @@ import HighlightText from "./HighlightText";
 import { usePostsQueryParams } from "@/app/[lng]/post/_hooks";
 
 import type { Locale } from "@/i18n/types";
+import { localizedPath } from "@/utils/seo";
 
 const StyledCard = styled(Card)(({ theme }) => ({
   display: "flex",
@@ -94,7 +95,7 @@ export default function PostCards({
           >
             <CardActionArea
               component={NextLink}
-              href={`/${lng}/post/${post.slug}`}
+              href={localizedPath(lng, `/post/${post.slug}/preview`)}
               scroll={false}
               sx={{
                 display: "flex",
