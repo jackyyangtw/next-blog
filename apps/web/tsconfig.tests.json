@@ -6,7 +6,9 @@
   "include": [
     "next-env.d.ts",
     "tests/unit/**/*.ts",
-    "playwright.unit.config.ts"
+    "tests/instant/**/*.ts",
+    "playwright.unit.config.ts",
+    "playwright.instant.config.ts"
   ],
   "exclude": ["node_modules"]
 }

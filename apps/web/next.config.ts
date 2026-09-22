@@ -3,6 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
+  experimental: {
+    exposeTestingApiInProductionBuild:
+      process.env.EXPOSE_TESTING_API === "1" ||
+      process.env.VERCEL_ENV === "preview",
+  },
   images: {
     remotePatterns: [
       {

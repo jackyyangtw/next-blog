@@ -127,6 +127,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          NEXT_PUBLIC_DEPLOYMENT_SHA: ${{ github.sha }}
 
       - name: Deploy preview prebuilt output
         id: deploy-preview
@@ -149,6 +150,19 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter @jacky-dev/web exec playwright install --with-deps chromium
+
+      - name: Verify preview deployment commit
+        run: node apps/web/scripts/verify-deployment-sha.mjs "$DEPLOYMENT_URL" "$GITHUB_SHA"
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy-preview.outputs.url }}
+
+      - name: Test instant post preview navigation
+        run: pnpm --filter @jacky-dev/web test:instant
+        env:
+          BASE_URL: ${{ steps.deploy-preview.outputs.url }}
 
   deploy:
     name: Deploy to Vercel

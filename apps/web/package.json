@@ -7,12 +7,14 @@
     "dev": "next dev --turbopack -p 3200",
     "build": "next build",
     "start": "next start",
+    "start:instant": "next start -p 3201",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"next.config.ts\" \"eslint.config.mjs\"",
     "typecheck": "tsc --noEmit && tsc --project tsconfig.tests.json",
     "prettier:check": "prettier . --check",
     "typegen": "next typegen",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
+    "test:instant": "playwright test --config=playwright.instant.config.ts",
     "test": "pnpm test:unit && pnpm test:e2e",
     "test:unit": "playwright test --config=playwright.unit.config.ts"
   },
@@ -59,6 +61,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.3",
+    "@next/playwright": "16.3.5",
     "@playwright/test": "^1.61.0",
     "@types/node": "^20.19.33",
     "@types/nodemailer": "^8.0.1",

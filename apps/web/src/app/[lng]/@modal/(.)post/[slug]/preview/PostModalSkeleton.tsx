@@ -24,7 +24,10 @@ export default function PostModalSkeleton() {
       scroll="paper"
       aria-label="Loading post preview"
     >
-      <DialogContent sx={{ p: { xs: 2.5, md: 4 } }}>
+      <DialogContent
+        data-testid="post-preview-shell"
+        sx={{ p: { xs: 2.5, md: 4 } }}
+      >
         <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 4 }}>
           <IconButton aria-label="close post modal" onClick={handleClose}>
             <CloseIcon />

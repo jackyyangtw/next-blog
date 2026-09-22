@@ -23,14 +23,16 @@ async function InterceptedPostPreviewContent({
 
   return (
     <PostModal>
-      <PostDetailContent
-        post={post}
-        lng={lng}
-        showBackLink={false}
-        showCategories={false}
-        showScrollSpy={false}
-        richText={<RichText value={post.content} />}
-      />
+      <div data-testid="post-preview-content">
+        <PostDetailContent
+          post={post}
+          lng={lng}
+          showBackLink={false}
+          showCategories={false}
+          showScrollSpy={false}
+          richText={<RichText value={post.content} />}
+        />
+      </div>
     </PostModal>
   );
 }
