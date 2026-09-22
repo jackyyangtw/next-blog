@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Filter from "./Filter";
 import PostCards from "@/components/features/post/PostCards";
 import CustomPagination from "@/components/custom/CustomPagination";
-import PostSkeleton from "@/components/features/post/PostSkeleton";
+import PostSkeleton from "./PostSkeleton";
 
 // ------------- react query -------------
 import { usePosts } from "@/lib/api/posts/hooks";
