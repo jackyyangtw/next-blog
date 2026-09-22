@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import PostModal from "./PostModal";
+import PostModalSkeleton from "./PostModalSkeleton";
 import { getPost } from "@/app/[lng]/post/_lib/getPost";
 import PostDetailContent from "@/app/[lng]/post/[slug]/_components/PostDetailContent";
 import RichText from "@/app/[lng]/post/[slug]/_components/RichText/RichText";
@@ -9,7 +11,7 @@ interface InterceptedPostPreviewPageProps {
   params: Promise<{ slug: string; lng: Locale }>;
 }
 
-export default async function InterceptedPostPreviewPage({
+async function InterceptedPostPreviewContent({
   params,
 }: InterceptedPostPreviewPageProps) {
   const { slug, lng } = await params;
@@ -30,5 +32,15 @@ export default async function InterceptedPostPreviewPage({
         richText={<RichText value={post.content} />}
       />
     </PostModal>
+  );
+}
+
+export default function InterceptedPostPreviewPage({
+  params,
+}: InterceptedPostPreviewPageProps) {
+  return (
+    <Suspense fallback={<PostModalSkeleton />}>
+      <InterceptedPostPreviewContent params={params} />
+    </Suspense>
   );
 }
