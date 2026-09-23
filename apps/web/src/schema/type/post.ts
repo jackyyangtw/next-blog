@@ -47,6 +47,10 @@ export const PostSummarySchema = z.object({
     .transform((value) => value ?? undefined),
   photo: PhotoSchema.nullish(),
   description: z.string(),
+  searchSnippet: z
+    .string()
+    .nullish()
+    .transform((value) => value ?? undefined),
   author: AuthorSchema,
   categories: z.array(CategorySchema),
 });

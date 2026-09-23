@@ -12,9 +12,10 @@ export function getPostSearchPatterns(value: string | null) {
     .replace(/\bci[/\s-]+cd\b/gi, "cicd");
   const alternate =
     expanded !== keyword ? expanded : compact !== keyword ? compact : null;
+  const pattern = keyword.toLowerCase() === "ai" ? keyword : `*${keyword}*`;
 
   return {
-    keyword: `*${keyword}*`,
+    keyword: pattern,
     alternateKeyword: alternate ? `*${alternate}*` : null,
   };
 }

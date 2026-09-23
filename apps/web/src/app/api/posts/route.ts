@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { defineQuery } from "next-sanity";
 import { publicClient } from "@/sanity/lib/client";
 import { PostsResponseSchema, type PostSummary } from "@/schema/type/post";
+import { getSearchSnippet } from "./getSearchSnippet";
 import { getPostSearchPatterns } from "./searchPatterns";
 
 const POST_SEARCH_FILTER = `(
@@ -28,6 +29,12 @@ const POSTS_QUERY = defineQuery(/* groq */ `*[
   _createdAt,
   title,
   description,
+  "searchContent": select(
+    defined($keyword) && (
+      pt::text(content) match $keyword ||
+      (defined($alternateKeyword) && pt::text(content) match $alternateKeyword)
+    ) => pt::text(content)
+  ),
   bannerSource,
   presetBanner,
   photo{
@@ -76,6 +83,7 @@ function getBoundedInteger(
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
+  const keyword = searchParams.get("keyword")?.trim() ?? "";
   const page = getBoundedInteger(searchParams.get("page"), 1, 1, 10000);
   const limit = getBoundedInteger(searchParams.get("limit"), 10, 1, 50);
   const start = (page - 1) * limit;
@@ -94,19 +102,26 @@ export async function GET(req: NextRequest) {
     start,
     end,
     categories: categories.length ? categories : null,
-    ...getPostSearchPatterns(searchParams.get("keyword")),
+    ...getPostSearchPatterns(keyword),
   };
 
   const total = await publicClient.fetch<number>(POSTS_COUNT_QUERY, params, {
     next: { tags: ["posts"] },
   });
 
-  const posts = await publicClient.fetch<PostSummary[]>(POSTS_QUERY, params, {
+  const posts = await publicClient.fetch<
+    (PostSummary & { searchContent?: string | null })[]
+  >(POSTS_QUERY, params, {
     next: { tags: ["posts"] },
   });
 
   const resData = {
-    data: posts,
+    data: posts.map(({ searchContent, ...post }) => ({
+      ...post,
+      searchSnippet: searchContent
+        ? getSearchSnippet(searchContent, keyword)
+        : null,
+    })),
     total,
     page,
     limit,

@@ -25,7 +25,9 @@ export function getHighlightParts(
         ? "next[.\\s-]*js"
         : term === "cicd"
           ? "ci[/\\s-]*cd"
-          : term.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&"),
+          : term === "ai"
+            ? "\\bai\\b"
+            : term.replace(/[|\\{}()[\]^$+*?.]/g, "\\$&"),
     );
   const expression = new RegExp(patterns.join("|"), "gi");
   const parts: HighlightPart[] = [];

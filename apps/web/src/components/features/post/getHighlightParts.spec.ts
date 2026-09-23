@@ -32,6 +32,16 @@ test("搜尋 CI/CD 時也會標記沒有斜線的寫法", () => {
   ]);
 });
 
+test("搜尋 AI 時只標記獨立詞，不標記 Detail 或 failed", () => {
+  expect(getHighlightParts("Detail failed AI 與 ai-powered", "AI")).toEqual([
+    { text: "Detail failed ", isHighlighted: false },
+    { text: "AI", isHighlighted: true },
+    { text: " 與 ", isHighlighted: false },
+    { text: "ai", isHighlighted: true },
+    { text: "-powered", isHighlighted: false },
+  ]);
+});
+
 test("搜尋多個詞時會分別標記卡片中的符合文字", () => {
   expect(getHighlightParts("Next.js Cache 入門", "nextjs cache")).toEqual([
     { text: "Next.js", isHighlighted: true },

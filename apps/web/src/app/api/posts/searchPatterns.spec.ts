@@ -29,6 +29,17 @@ test("輸入 CI/CD 時也會搜尋 cicd 寫法", () => {
   });
 });
 
+test("搜尋 AI 時只比對完整詞而不包含 Detail 或 failed", () => {
+  expect(getPostSearchPatterns("AI")).toEqual({
+    keyword: "AI",
+    alternateKeyword: null,
+  });
+  expect(getPostSearchPatterns("ai")).toEqual({
+    keyword: "ai",
+    alternateKeyword: null,
+  });
+});
+
 test("包含其他關鍵字時仍保留 Next.js 的替代寫法", () => {
   expect(getPostSearchPatterns("nextjs cache")).toEqual({
     keyword: "*nextjs cache*",

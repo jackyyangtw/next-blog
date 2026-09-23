@@ -153,7 +153,7 @@ export default function PostCards({
                   <DescriptionTypography variant="body2" color="text.secondary">
                     {/* 高亮描述 */}
                     <HighlightText
-                      text={post.description}
+                      text={post.searchSnippet ?? post.description}
                       highlight={keyword}
                     />
                   </DescriptionTypography>
