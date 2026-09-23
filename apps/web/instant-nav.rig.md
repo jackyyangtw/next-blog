@@ -1,11 +1,10 @@
 # Instant navigation rig: Jacky Dev web
 
-- BUILD: local `EXPOSE_TESTING_API=1 pnpm build` followed by `pnpm start:instant`; CI uses the Vercel preview artifact built by `vercel build`.
+- BUILD: local `EXPOSE_TESTING_API=1 pnpm build` followed by `pnpm start:instant`. The Preview CI job runs `vercel build` and deploys the result without running the browser test.
 - EXPOSE: local builds use `EXPOSE_TESTING_API=1`; Vercel preview builds use `VERCEL_ENV=preview`. Production builds expose no testing API.
-- RUN: `pnpm test:instant`; local base URL is `http://127.0.0.1:3201`, while CI supplies the deployed preview URL through `BASE_URL`.
+- RUN: `pnpm test:instant` manually; the local base URL is `http://127.0.0.1:3201`. Set `BASE_URL` to test a deployed preview manually.
 - TEST USER: anonymous public visitor; no login or stored session is required. The feature tour is disabled through local storage before navigation.
 - DRIFT: published Sanity posts, Sanity environment variables, the `zh-TW` locale, Vercel preview protection, and feature-tour local storage can differ between local and CI runs. The test requires at least one published post.
-- LOOP: local production build → start on port 3201 → Playwright instant test → server shutdown. CI deploys the preview artifact, verifies its commit SHA, then runs the same test. Agents cannot supply missing Vercel or Sanity secrets.
-- LIVENESS: `/api/healthz` reports `NEXT_PUBLIC_DEPLOYMENT_SHA`; CI compares it with `GITHUB_SHA` before testing. A fresh local build needs no SHA probe.
-- PROTECTION: If Vercel Deployment Protection is enabled for previews, enable Protection Bypass for Automation in the Vercel project and save its value as the GitHub Actions secret `VERCEL_AUTOMATION_BYPASS_SECRET`. CI uses the secret for the SHA probe and establishes a browser cookie before the instant navigation test.
+- LOOP: local production build → start on port 3201 → Playwright instant test → server shutdown. Preview CI only builds and deploys. Agents cannot supply missing Vercel or Sanity secrets.
+- PROTECTION: To run the test manually against a protected Vercel preview, provide the project's Protection Bypass for Automation value in `VERCEL_AUTOMATION_BYPASS_SECRET`; the test establishes a browser cookie before navigation.
 - WALLS: managed Windows sandboxes may deny deletion of stale `.next` files; run the production build with normal workspace permissions. Port 3201 must be free before a local run.
