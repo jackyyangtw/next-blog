@@ -16,7 +16,7 @@ on:
       - ".github/workflows/scripts/**"
   push:
     branches:
-      - "**"
+      - main
     paths:
       - "apps/web/**"
       - "packages/**"
