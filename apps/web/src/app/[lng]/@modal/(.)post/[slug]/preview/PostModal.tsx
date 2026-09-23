@@ -1,38 +1,22 @@
 "use client";
 
-import * as React from "react";
-import { useRouter, useParams } from "next/navigation";
+import type { ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import IconButton from "@mui/material/IconButton";
-import { OpenInNew as OpenInNewIcon } from "@mui/icons-material";
 import { Close as CloseIcon } from "@mui/icons-material";
-import Box from "@mui/material/Box";
 import { alpha } from "@mui/material/styles";
-import { localizedPath } from "@/utils/seo";
 
 interface PostModalProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function PostModal({ children }: PostModalProps) {
   const router = useRouter();
-  const params = useParams() as { lng?: string; slug?: string };
-
-  const lng = params.lng ?? "en";
-  const postPath = localizedPath(lng, `/post/${params.slug ?? ""}`);
 
   const handleClose = () => {
-    if (window.history.length > 1) {
-      router.back();
-      return;
-    }
-
-    router.push(localizedPath(lng, "/post"));
-  };
-
-  const handleOpenPostPage = () => {
-    router.push(postPath);
+    router.back();
   };
 
   return (
@@ -79,9 +63,11 @@ export default function PostModal({ children }: PostModalProps) {
       }}
     >
       <DialogContent
+        data-testid="post-preview-shell"
         sx={(theme) => ({
           p: { xs: 2.5, md: 4 },
           color: "text.primary",
+          position: "relative",
           "& .post-modal-closeButton": {
             color: alpha(theme.palette.grey[900], 0.74),
             borderColor: alpha(theme.palette.grey[900], 0.12),
@@ -128,62 +114,19 @@ export default function PostModal({ children }: PostModalProps) {
           },
         })}
       >
-        <Box sx={{ display: "flex", justifyContent: "space-between", mb: 4 }}>
-          <Box
-            component="button"
-            type="button"
-            onClick={handleOpenPostPage}
-            sx={(theme) => ({
-              display: "flex",
-              alignItems: "center",
-              gap: 1,
-              px: 1.75,
-              py: 0.85,
-              fontSize: "0.875rem",
-              fontWeight: 600,
-              color: theme.palette.grey[700],
-              backgroundColor: alpha(theme.palette.common.white, 0.68),
-              border: `1px solid ${alpha(theme.palette.grey[900], 0.12)}`,
-              borderRadius: 1.5,
-              cursor: "pointer",
-              backdropFilter: "blur(8px)",
-              transition: (theme) =>
-                theme.transitions.create(
-                  ["background-color", "border-color", "color", "box-shadow"],
-                  { duration: theme.transitions.duration.shorter },
-                ),
-              "&:hover": {
-                backgroundColor: alpha(theme.palette.primary.main, 0.08),
-                color: theme.palette.grey[900],
-                borderColor: alpha(theme.palette.primary.main, 0.2),
-              },
-              "&:focus-visible": {
-                outline: "none",
-                boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.28)}`,
-              },
-              ...theme.applyStyles("dark", {
-                color: alpha(theme.palette.common.white, 0.72),
-                backgroundColor: alpha(theme.palette.common.white, 0.035),
-                borderColor: alpha(theme.palette.common.white, 0.12),
-                "&:hover": {
-                  backgroundColor: alpha(theme.palette.primary.light, 0.1),
-                  color: alpha(theme.palette.common.white, 0.92),
-                  borderColor: alpha(theme.palette.primary.light, 0.28),
-                },
-              }),
-            })}
-          >
-            <OpenInNewIcon sx={{ fontSize: 16 }} />
-            <span>開啟完整文章</span>
-          </Box>
-          <IconButton
-            className="post-modal-closeButton"
-            aria-label="close post modal"
-            onClick={handleClose}
-          >
-            <CloseIcon />
-          </IconButton>
-        </Box>
+        <IconButton
+          className="post-modal-closeButton"
+          aria-label="close post modal"
+          onClick={handleClose}
+          sx={{
+            position: "absolute",
+            right: { xs: 20, md: 32 },
+            top: { xs: 20, md: 32 },
+            zIndex: 1,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
         {children}
       </DialogContent>
     </Dialog>

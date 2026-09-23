@@ -1,5 +1,5 @@
 import ClientPage from "./_components/ClientPage";
-import PostPageSkeleton from "./_components/PostPageSkeleton";
+import PostListPageSkeleton from "./_components/PostListPageSkeleton";
 import { Suspense } from "react";
 import { getServerTranslation } from "@/i18n";
 import type { Locale } from "@/i18n/types";
@@ -48,7 +48,7 @@ export default async function PostPage({
   const { lng } = await params;
 
   return (
-    <Suspense fallback={<PostPageSkeleton />}>
+    <Suspense fallback={<PostListPageSkeleton />}>
       <ClientPage lng={lng} />
     </Suspense>
   );

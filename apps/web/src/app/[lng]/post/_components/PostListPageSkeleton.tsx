@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 
 import FilterSkeleton from "./FilterSkeleton";
 
-export default function PostPageSkeleton() {
+export default function PostListPageSkeleton() {
   return (
     <Box
       sx={{

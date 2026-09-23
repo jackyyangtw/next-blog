@@ -1,14 +1,34 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 import PostModal from "./PostModal";
-import PostModalSkeleton from "./PostModalSkeleton";
+import PostModalOpenButton from "./PostModalOpenButton";
 import { getPost } from "@/app/[lng]/post/_lib/getPost";
 import PostDetailContent from "@/app/[lng]/post/[slug]/_components/PostDetailContent";
+import PostDetailPageSkeleton from "@/app/[lng]/post/[slug]/_components/PostDetailPageSkeleton";
 import RichText from "@/app/[lng]/post/[slug]/_components/RichText/RichText";
 import type { Locale } from "@/i18n/types";
 
 interface InterceptedPostPreviewPageProps {
   params: Promise<{ slug: string; lng: Locale }>;
+}
+
+function PostModalLoading() {
+  return (
+    <>
+      <Box sx={{ minHeight: 40, mb: 4 }}>
+        <Skeleton
+          aria-hidden="true"
+          variant="rounded"
+          width={150}
+          height={38}
+          sx={{ borderRadius: 1.5 }}
+        />
+      </Box>
+      <PostDetailPageSkeleton />
+    </>
+  );
 }
 
 async function InterceptedPostPreviewContent({
@@ -22,7 +42,10 @@ async function InterceptedPostPreviewContent({
   }
 
   return (
-    <PostModal>
+    <>
+      <Box sx={{ minHeight: 40, mb: 4 }}>
+        <PostModalOpenButton postPath={`/${lng}/post/${slug}`} />
+      </Box>
       <div data-testid="post-preview-content">
         <PostDetailContent
           post={post}
@@ -33,7 +56,7 @@ async function InterceptedPostPreviewContent({
           richText={<RichText value={post.content} />}
         />
       </div>
-    </PostModal>
+    </>
   );
 }
 
@@ -41,8 +64,10 @@ export default function InterceptedPostPreviewPage({
   params,
 }: InterceptedPostPreviewPageProps) {
   return (
-    <Suspense fallback={<PostModalSkeleton />}>
-      <InterceptedPostPreviewContent params={params} />
-    </Suspense>
+    <PostModal>
+      <Suspense fallback={<PostModalLoading />}>
+        <InterceptedPostPreviewContent params={params} />
+      </Suspense>
+    </PostModal>
   );
 }

@@ -9,7 +9,7 @@ import { notFound } from "next/navigation";
 
 // ------------- Components -------------
 import PostDetailContent from "./_components/PostDetailContent";
-import PostPageSkeleton from "./_components/PostPageSkeleton";
+import PostDetailPageSkeleton from "./_components/PostDetailPageSkeleton";
 import RelatedPostsSection from "./_components/RelatedPostsSection";
 import RichText from "./_components/RichText/RichText";
 
@@ -170,7 +170,7 @@ async function PostPageContent({ params }: PostPageProps) {
 // support PPR (Partial Prerendering)
 export default function PostPage({ params }: PostPageProps) {
   return (
-    <Suspense fallback={<PostPageSkeleton />}>
+    <Suspense fallback={<PostDetailPageSkeleton />}>
       <PostPageContent params={params} />
     </Suspense>
   );
