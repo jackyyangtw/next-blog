@@ -13,7 +13,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("post preview modal shell commits during an instant navigation", async ({
+test("post preview content is prefetched for instant navigation", async ({
   page,
 }) => {
   await page.goto("/zh-TW/post", { waitUntil: "domcontentloaded" });
@@ -22,6 +22,7 @@ test("post preview modal shell commits during an instant navigation", async ({
     .locator('a[href^="/zh-TW/post/"][href$="/preview"]')
     .first();
   await expect(previewLink).toBeVisible({ timeout: 20_000 });
+  await page.waitForLoadState("networkidle");
   const previewShell = page.getByTestId("post-preview-shell");
   const openFullPostButton = page.getByRole("button", {
     name: "開啟完整文章",
@@ -31,8 +32,8 @@ test("post preview modal shell commits during an instant navigation", async ({
     await previewLink.click();
     await expect(previewShell).toBeVisible();
     const shellHandle = await previewShell.elementHandle();
-    await expect(page.getByTestId("post-preview-content")).toHaveCount(0);
-    await expect(openFullPostButton).toHaveCount(0);
+    await expect(page.getByTestId("post-preview-content")).toBeVisible();
+    await expect(openFullPostButton).toBeVisible();
 
     if (!shellHandle) {
       throw new Error("Post preview shell was not mounted during navigation");
@@ -41,8 +42,6 @@ test("post preview modal shell commits during an instant navigation", async ({
     return shellHandle;
   });
 
-  await expect(page.getByTestId("post-preview-content")).toBeVisible();
-  await expect(openFullPostButton).toBeVisible();
   expect(
     await previewShellHandle.evaluate((element) => element.isConnected),
   ).toBe(true);
@@ -53,10 +52,12 @@ test("post preview modal shell commits during an instant navigation", async ({
       value: true,
     });
   });
+
   await openFullPostButton.click();
 
   await expect(page).toHaveURL(/\/zh-TW\/post\/[^/]+\/?$/);
   await expect(previewShell).not.toBeVisible();
+
   expect(
     await page.evaluate(() =>
       Object.prototype.hasOwnProperty.call(

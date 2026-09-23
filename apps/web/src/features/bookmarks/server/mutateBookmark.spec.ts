@@ -5,7 +5,7 @@ import {
   type BookmarkEntry,
   type BookmarkStore,
   type BookmarkUser,
-} from "../../src/features/bookmarks/server/mutateBookmark";
+} from "./mutateBookmark";
 
 function makeStore(legacy: BookmarkEntry[] = []) {
   let revision = 0;

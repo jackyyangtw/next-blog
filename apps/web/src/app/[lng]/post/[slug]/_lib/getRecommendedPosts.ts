@@ -1,5 +1,10 @@
 import { cacheLife, cacheTag } from "next/cache";
 import { publicClient } from "@/sanity/lib/client";
+import {
+  FALLBACK_RECOMMENDED_POSTS_QUERY,
+  RELATED_RECOMMENDED_POSTS_QUERY,
+} from "./recommendedPostQueries";
+import { getRecommendationScore } from "./recommendationScore";
 
 interface CategoryLite {
   _id: string;
@@ -48,29 +53,7 @@ async function fetchRecommendedPosts(
   query: string,
   params: RecommendedPostsQueryParams,
 ): Promise<RecommendedPost[]> {
-  "use cache";
-
-  cacheTag("posts", `recommended:${params.slug}`);
-  cacheLife({ stale: 300, revalidate: 86400, expire: 604800 });
-
   return publicClient.fetch<RecommendedPost[]>(query, params);
-}
-
-function getFreshnessScore(createdAt: string): number {
-  const createdMs = new Date(createdAt).getTime();
-  const diffDays = Math.max(
-    0,
-    (Date.now() - createdMs) / (1000 * 60 * 60 * 24),
-  );
-  return Math.max(0, 1 - diffDays / 90);
-}
-
-function getScore(post: RecommendedPost, categoryIds: string[]): number {
-  const overlapCount = post.categories.filter((category) =>
-    categoryIds.includes(category._id),
-  ).length;
-  const freshnessScore = getFreshnessScore(post._createdAt);
-  return overlapCount * 4 + freshnessScore * 2;
 }
 
 export async function getRecommendedPosts({
@@ -78,72 +61,28 @@ export async function getRecommendedPosts({
   categoryIds,
   limit = 3,
 }: GetRecommendedPostsInput): Promise<RecommendedPost[]> {
+  "use cache";
+
+  cacheTag("posts", `recommended:${slug}`);
+  cacheLife({ stale: 300, revalidate: 86400, expire: 604800 });
+
   if (categoryIds.length === 0) {
-    return fetchRecommendedPosts(
-      `*[_type == "post" && slug.current != $slug] | order(_createdAt desc) [0...$limit] {
-        _id,
-        _createdAt,
-        title,
-        description,
-        bannerSource,
-        presetBanner,
-        photo{
-          asset->{
-            _id,
-            url,
-            metadata{
-              lqip
-            }
-          },
-          alt
-        },
-        "slug": slug.current,
-        categories[]->{
-          _id,
-          title,
-          "slug": slug.current
-        }
-      }`,
-      { slug, limit },
-    );
+    return fetchRecommendedPosts(FALLBACK_RECOMMENDED_POSTS_QUERY, {
+      slug,
+      limit,
+    });
   }
 
   const candidates = await fetchRecommendedPosts(
-    `*[
-      _type == "post" &&
-      slug.current != $slug &&
-      count(categories[@._ref in $categoryIds]) > 0
-    ] | order(_createdAt desc) [0...40] {
-      _id,
-      _createdAt,
-      title,
-      description,
-      bannerSource,
-      presetBanner,
-      photo{
-        asset->{
-          _id,
-          url,
-          metadata{
-            lqip
-          }
-        },
-        alt
-      },
-      "slug": slug.current,
-      categories[]->{
-        _id,
-        title,
-        "slug": slug.current
-      }
-    }`,
+    RELATED_RECOMMENDED_POSTS_QUERY,
     { slug, categoryIds },
   );
 
+  const referenceTime = Date.now();
   const sorted = candidates
     .map<ScoredPost>((post) => ({
       ...post,
-      _score: getScore(post, categoryIds),
+      _score: getRecommendationScore(post, categoryIds, referenceTime),
     }))
     .sort((a, b) => b._score - a._score);
 
@@ -181,30 +120,7 @@ export async function getRecommendedPosts({
   }
 
   const fallbackPosts = await fetchRecommendedPosts(
-    `*[_type == "post" && slug.current != $slug] | order(_createdAt desc) [0...$limit] {
-      _id,
-      _createdAt,
-      title,
-      description,
-      bannerSource,
-      presetBanner,
-      photo{
-        asset->{
-          _id,
-          url,
-          metadata{
-            lqip
-          }
-        },
-        alt
-      },
-      "slug": slug.current,
-      categories[]->{
-        _id,
-        title,
-        "slug": slug.current
-      }
-    }`,
+    FALLBACK_RECOMMENDED_POSTS_QUERY,
     { slug, limit },
   );
 

@@ -34,5 +34,5 @@
     "sanity.cli.ts",
     "sanity.config.ts"
   ],
-  "exclude": ["node_modules", "tests", "scripts"]
+  "exclude": ["node_modules", "tests", "scripts", "src/**/*.spec.ts"]
 }

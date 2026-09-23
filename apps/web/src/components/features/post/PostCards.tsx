@@ -96,6 +96,7 @@ export default function PostCards({
             <CardActionArea
               component={NextLink}
               href={localizedPath(lng, `/post/${post.slug}/preview`)}
+              prefetch={true}
               scroll={false}
               sx={{
                 display: "flex",

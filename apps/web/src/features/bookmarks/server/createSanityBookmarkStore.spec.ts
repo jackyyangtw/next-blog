@@ -1,6 +1,6 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { createClient } from "@sanity/client";
-import { createSanityBookmarkStore } from "../../src/features/bookmarks/server/createSanityBookmarkStore";
+import { createSanityBookmarkStore } from "./createSanityBookmarkStore";
 
 test("Sanity adapter sends the revision guard, index and document changes atomically", async () => {
   const client = createClient({
