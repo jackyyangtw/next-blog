@@ -2,6 +2,22 @@ import { expect, test } from "@playwright/test";
 import { instant } from "@next/playwright";
 
 test.beforeEach(async ({ page }) => {
+  const deploymentUrl = process.env.BASE_URL;
+  const bypassSecret = process.env.VERCEL_AUTOMATION_BYPASS_SECRET;
+  if (deploymentUrl && bypassSecret) {
+    const response = await page.request.get(
+      new URL("/api/healthz", deploymentUrl).toString(),
+      {
+        headers: {
+          "x-vercel-protection-bypass": bypassSecret,
+          "x-vercel-set-bypass-cookie": "true",
+        },
+      },
+    );
+    expect(response.ok()).toBe(true);
+    expect(response.headers()["content-type"]).toContain("application/json");
+  }
+
   await page.addInitScript(() => {
     window.localStorage.setItem(
       "feature-tour-store",
