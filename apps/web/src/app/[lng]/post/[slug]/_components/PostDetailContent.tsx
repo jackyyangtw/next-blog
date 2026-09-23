@@ -3,15 +3,19 @@
 import type { ReactNode } from "react";
 import { useMemo } from "react";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import {
+  ArrowBackRounded as ArrowBackRoundedIcon,
   Event as EventIcon,
   LinkRounded as LinkRoundedIcon,
 } from "@mui/icons-material";
+import { alpha, type SxProps, type Theme } from "@mui/material/styles";
 import Link from "next/link";
+import { semanticTokens } from "@jacky-dev/design-tokens";
 
 import FavoriteButton from "@/app/[lng]/post/[slug]/_components/FavoriteButton";
 import Banner from "@/app/[lng]/post/[slug]/_components/Banner";
@@ -20,6 +24,7 @@ import PostScrollSpy from "./PostScrollSpy";
 import type { PostDoc } from "@/schema/type/post";
 import { formatDate } from "@/utils/date/formate";
 import { hasPostBannerImage } from "@/sanity/postBanner";
+import { readableAccentSx } from "@/theme/readableAccent";
 import { getPostTableOfContents } from "./postTableOfContents";
 
 interface PostDetailContentProps {
@@ -31,6 +36,34 @@ interface PostDetailContentProps {
   showScrollSpy?: boolean;
   richText: ReactNode;
 }
+
+const backToPostsButtonSx: SxProps<Theme> = (theme) => ({
+  ...readableAccentSx,
+  minHeight: 44,
+  px: 2.5,
+  borderRadius: 1.5,
+  borderColor: alpha(semanticTokens.light.primary, 0.24),
+  backgroundColor: alpha(semanticTokens.light.primary, 0.035),
+  fontWeight: 700,
+  "&:hover": {
+    borderColor: alpha(semanticTokens.light.primary, 0.45),
+    backgroundColor: alpha(semanticTokens.light.primary, 0.09),
+  },
+  "&:focus-visible": {
+    outline: `3px solid ${alpha(semanticTokens.light.primary, 0.4)}`,
+  },
+  ...theme.applyStyles("dark", {
+    borderColor: alpha(theme.palette.primary.light, 0.26),
+    backgroundColor: alpha(theme.palette.primary.light, 0.06),
+    "&:hover": {
+      borderColor: alpha(theme.palette.primary.light, 0.48),
+      backgroundColor: alpha(theme.palette.primary.light, 0.12),
+    },
+    "&:focus-visible": {
+      outline: `3px solid ${alpha(theme.palette.primary.main, 0.5)}`,
+    },
+  }),
+});
 
 export default function PostDetailContent({
   post,
@@ -121,9 +154,15 @@ export default function PostDetailContent({
 
       {showBackLink && (
         <Box textAlign="center">
-          <Link href={`/${lng}/post`} style={{ textDecoration: "none" }}>
-            <Typography color="primary">← 回到所有文章</Typography>
-          </Link>
+          <Button
+            component={Link}
+            href={`/${lng}/post`}
+            startIcon={<ArrowBackRoundedIcon />}
+            sx={backToPostsButtonSx}
+            variant="outlined"
+          >
+            回到所有文章
+          </Button>
         </Box>
       )}
     </>

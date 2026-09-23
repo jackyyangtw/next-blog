@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 
 import { useClientTranslation } from "@/i18n/client";
 import type { CategoryDoc } from "@/schema/type/category";
+import { readableAccentSx } from "@/theme/readableAccent";
 import CategoryFilterOptions from "./CategoryFilterOptions";
 
 interface CategoryFilterProps {
@@ -109,7 +110,7 @@ export default function CategoryFilter({
             py: 1,
           }}
         >
-          <FilterListRoundedIcon color="primary" fontSize="small" />
+          <FilterListRoundedIcon sx={readableAccentSx} fontSize="small" />
           <Typography component="h2" fontWeight={700} variant="subtitle1">
             {t("filter_title")}
           </Typography>
@@ -167,7 +168,7 @@ export default function CategoryFilter({
             }}
           >
             <Box sx={{ alignItems: "center", display: "flex", gap: 1 }}>
-              <FilterListRoundedIcon color="primary" fontSize="small" />
+              <FilterListRoundedIcon sx={readableAccentSx} fontSize="small" />
               <Typography component="h2" fontWeight={700} variant="subtitle1">
                 {t("filter_title")}
               </Typography>

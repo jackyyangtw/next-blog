@@ -6,6 +6,7 @@ import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import ConsentSettingsButton from "./AnalyticsConsent/ConsentSettingsButton";
+import { readableAccentSx } from "@/theme/readableAccent";
 
 // ------------- Icons -------------
 import { GitHub as GitHubIcon } from "@mui/icons-material";
@@ -109,7 +110,7 @@ export default function Footer({
             sx={{ letterSpacing: 0.5 }}
           >
             Built with{" "}
-            <Box component="span" color="primary.main">
+            <Box component="span" sx={readableAccentSx}>
               Next.js
             </Box>
             , TypeScript & Sanity.

@@ -7,7 +7,12 @@ import ListItemText from "@mui/material/ListItemText";
 import Typography from "@mui/material/Typography";
 import { type Theme } from "@mui/material/styles";
 
+import { semanticTokens } from "@jacky-dev/design-tokens";
 import type { CategoryDoc } from "@/schema/type/category";
+import { readableAccentSx } from "@/theme/readableAccent";
+
+const selectedCategoryIconSx = { ...readableAccentSx, minWidth: 32 };
+const categoryIconSx = { color: "text.secondary", minWidth: 32 };
 
 interface CategoryFilterOptionsProps {
   allLabel: string;
@@ -68,12 +73,9 @@ export default function CategoryFilterOptions({
         onClick={onClear}
       >
         <ListItemIcon
-          sx={{
-            color: !selectedCategories.length
-              ? "primary.main"
-              : "text.secondary",
-            minWidth: 32,
-          }}
+          sx={
+            !selectedCategories.length ? selectedCategoryIconSx : categoryIconSx
+          }
         >
           <CategoryRoundedIcon fontSize="small" />
         </ListItemIcon>
@@ -112,16 +114,26 @@ export default function CategoryFilterOptions({
 
 function categoryItemStyles(theme: Theme) {
   const primary = (theme.vars || theme).palette.primary.main;
+  const lightPrimary = semanticTokens.light.primary;
 
   return {
     border: "1px solid transparent",
     borderRadius: 1,
     "&.Mui-selected": {
-      backgroundColor: `color-mix(in srgb, ${primary} 14%, transparent)`,
-      borderColor: `color-mix(in srgb, ${primary} 34%, transparent)`,
+      backgroundColor: `color-mix(in srgb, ${lightPrimary} 8%, transparent)`,
+      borderColor: `color-mix(in srgb, ${lightPrimary} 24%, transparent)`,
     },
     "&.Mui-selected:hover": {
-      backgroundColor: `color-mix(in srgb, ${primary} 20%, transparent)`,
+      backgroundColor: `color-mix(in srgb, ${lightPrimary} 12%, transparent)`,
     },
+    ...theme.applyStyles("dark", {
+      "&.Mui-selected": {
+        backgroundColor: `color-mix(in srgb, ${primary} 14%, transparent)`,
+        borderColor: `color-mix(in srgb, ${primary} 34%, transparent)`,
+      },
+      "&.Mui-selected:hover": {
+        backgroundColor: `color-mix(in srgb, ${primary} 20%, transparent)`,
+      },
+    }),
   };
 }

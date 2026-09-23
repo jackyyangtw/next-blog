@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Box from "@mui/material/Box";
 import { OpenInNew as OpenInNewIcon } from "@mui/icons-material";
 import { alpha } from "@mui/material/styles";
+import { semanticTokens } from "@jacky-dev/design-tokens";
 
 interface PostModalOpenButtonProps {
   postPath: string;
@@ -42,13 +43,13 @@ export default function PostModalOpenButton({
           { duration: theme.transitions.duration.shorter },
         ),
         "&:hover": {
-          backgroundColor: alpha(theme.palette.primary.main, 0.08),
+          backgroundColor: alpha(semanticTokens.light.primary, 0.08),
           color: theme.palette.grey[900],
-          borderColor: alpha(theme.palette.primary.main, 0.2),
+          borderColor: alpha(semanticTokens.light.primary, 0.24),
         },
         "&:focus-visible": {
           outline: "none",
-          boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.28)}`,
+          boxShadow: `0 0 0 3px ${alpha(semanticTokens.light.primary, 0.28)}`,
         },
         ...theme.applyStyles("dark", {
           color: alpha(theme.palette.common.white, 0.72),
@@ -58,6 +59,9 @@ export default function PostModalOpenButton({
             backgroundColor: alpha(theme.palette.primary.light, 0.1),
             color: alpha(theme.palette.common.white, 0.92),
             borderColor: alpha(theme.palette.primary.light, 0.28),
+          },
+          "&:focus-visible": {
+            boxShadow: `0 0 0 3px ${alpha(theme.palette.primary.main, 0.28)}`,
           },
         }),
       })}

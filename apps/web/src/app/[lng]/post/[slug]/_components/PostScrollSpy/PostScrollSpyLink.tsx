@@ -1,6 +1,7 @@
 import type { MouseEvent, ReactNode } from "react";
 import Typography from "@mui/material/Typography";
 import { alpha } from "@mui/material/styles";
+import { semanticTokens } from "@jacky-dev/design-tokens";
 
 interface PostScrollSpyLinkProps {
   children: ReactNode;
@@ -32,7 +33,7 @@ export default function PostScrollSpyLink({
         py: isSection ? 0.35 : 0.3,
         borderRadius: 1,
         backgroundColor: isActive
-          ? alpha(theme.palette.primary.main, 0.12)
+          ? alpha(semanticTokens.light.primary, 0.08)
           : "transparent",
         color: isActive ? "text.primary" : "text.secondary",
         fontWeight: isActive ? 700 : isSection ? 600 : 500,
@@ -41,7 +42,7 @@ export default function PostScrollSpyLink({
         transition: "color 0.2s ease, background-color 0.2s ease",
         "&:hover": {
           color: "text.primary",
-          backgroundColor: alpha(theme.palette.primary.main, 0.08),
+          backgroundColor: alpha(semanticTokens.light.primary, 0.12),
         },
         ...theme.applyStyles("dark", {
           backgroundColor: isActive

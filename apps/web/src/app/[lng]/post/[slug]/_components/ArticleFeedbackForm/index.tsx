@@ -9,7 +9,6 @@ import {
 } from "react";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Fade from "@mui/material/Fade";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -20,13 +19,17 @@ import RadioGroup from "@mui/material/RadioGroup";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import type { SxProps, Theme } from "@mui/material/styles";
-import { useFormStatus } from "react-dom";
 
 import {
   submitArticleFeedbackAction,
   type SubmitArticleFeedbackState,
 } from "@/features/article-feedback/actions/submitArticleFeedbackAction";
+import SubmitFeedbackButton from "./SubmitFeedbackButton";
+import {
+  feedbackFormLabelSx,
+  feedbackRadioSx,
+  feedbackTextFieldSx,
+} from "./styles";
 
 interface ArticleFeedbackFormProps {
   locale: string;
@@ -36,48 +39,6 @@ interface ArticleFeedbackFormProps {
 type FeedbackType = "helpful" | "notHelpful" | "suggestion";
 
 const initialState: SubmitArticleFeedbackState = {};
-
-const feedbackTextFieldSx: SxProps<Theme> = {
-  "& .MuiInputLabel-root": {
-    bgcolor: "background.paper",
-    px: 0.5,
-  },
-  "& .MuiOutlinedInput-root": {
-    border: "1px solid",
-    borderColor: "divider",
-    "&.Mui-focused": {
-      borderColor: "primary.main",
-      outline: "none",
-    },
-    "&.MuiInputBase-multiline": {
-      height: "auto",
-    },
-    "& .MuiOutlinedInput-notchedOutline": {
-      border: "none",
-    },
-  },
-};
-
-const submitFeedbackButtonSx: SxProps<Theme> = {
-  "&.Mui-disabled": {
-    color: "common.black",
-  },
-};
-
-function SubmitFeedbackButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button
-      disabled={pending}
-      sx={submitFeedbackButtonSx}
-      type="submit"
-      variant="contained"
-    >
-      {pending ? "送出中…" : "送出回饋"}
-    </Button>
-  );
-}
 
 export default function ArticleFeedbackForm({
   locale,
@@ -152,7 +113,7 @@ export default function ArticleFeedbackForm({
 
           <Stack spacing={2}>
             <FormControl required>
-              <FormLabel>你的看法</FormLabel>
+              <FormLabel sx={feedbackFormLabelSx}>你的看法</FormLabel>
               <RadioGroup
                 name="feedbackType"
                 row
@@ -160,17 +121,17 @@ export default function ArticleFeedbackForm({
                 onChange={handleFeedbackTypeChange}
               >
                 <FormControlLabel
-                  control={<Radio />}
+                  control={<Radio sx={feedbackRadioSx} />}
                   label="有幫助"
                   value="helpful"
                 />
                 <FormControlLabel
-                  control={<Radio />}
+                  control={<Radio sx={feedbackRadioSx} />}
                   label="沒有幫助"
                   value="notHelpful"
                 />
                 <FormControlLabel
-                  control={<Radio />}
+                  control={<Radio sx={feedbackRadioSx} />}
                   label="提供建議"
                   value="suggestion"
                 />

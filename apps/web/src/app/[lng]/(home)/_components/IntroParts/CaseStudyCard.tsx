@@ -1,5 +1,6 @@
 import type { SvgIconProps } from "@mui/material";
 import { Box, Card, CardContent, Stack, Typography } from "@mui/material";
+import { readableAccentSx } from "@/theme/readableAccent";
 
 interface CaseStudyCardProps {
   title: string;
@@ -47,7 +48,7 @@ export default function CaseStudyCard({
               display: "flex",
             }}
           >
-            <Icon sx={{ color: "primary.main" }} fontSize="small" />
+            <Icon sx={readableAccentSx} fontSize="small" />
           </Box>
           <Typography variant="h6" sx={{ fontSize: "1.05rem" }}>
             {title}
