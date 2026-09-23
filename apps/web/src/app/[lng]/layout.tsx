@@ -160,7 +160,7 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
                       chrome.common.analytics_consent.settings
                     }
                     showConsentSettings={Boolean(googleAnalyticsId)}
-                    siteName={chrome.common.site_name}
+                    siteName={chrome.common.footer_name}
                   />
                 </Suspense>
               </Box>
