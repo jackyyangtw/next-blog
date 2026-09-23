@@ -1,12 +1,28 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { defineQuery } from "next-sanity";
 import { publicClient } from "@/sanity/lib/client";
 import { PostsResponseSchema, type PostSummary } from "@/schema/type/post";
+import { getPostSearchPatterns } from "./searchPatterns";
 
-const POSTS_QUERY = `*[
+const POST_SEARCH_FILTER = `(
+  !defined($keyword) ||
+  title match $keyword ||
+  description match $keyword ||
+  pt::text(content) match $keyword ||
+  count(categories[@->title match $keyword || @->slug.current match $keyword]) > 0 ||
+  (defined($alternateKeyword) && (
+    title match $alternateKeyword ||
+    description match $alternateKeyword ||
+    pt::text(content) match $alternateKeyword ||
+    count(categories[@->title match $alternateKeyword || @->slug.current match $alternateKeyword]) > 0
+  ))
+)`;
+
+const POSTS_QUERY = defineQuery(/* groq */ `*[
   _type == "post" &&
   (!defined($categories) || count(categories[@->slug.current in $categories]) > 0) &&
-  (!defined($keyword) || title match $keyword || description match $keyword)
+  ${POST_SEARCH_FILTER}
 ] | order(_createdAt desc) [$start...$end] {
   _id,
   _createdAt,
@@ -36,13 +52,13 @@ const POSTS_QUERY = `*[
     "slug": slug.current,
     avatar
   }
-}`;
+}`);
 
-const POSTS_COUNT_QUERY = `count(*[
+const POSTS_COUNT_QUERY = defineQuery(/* groq */ `count(*[
   _type == "post" &&
   (!defined($categories) || count(categories[@->slug.current in $categories]) > 0) &&
-  (!defined($keyword) || title match $keyword || description match $keyword)
-])`;
+  ${POST_SEARCH_FILTER}
+])`);
 
 function getBoundedInteger(
   value: string | null,
@@ -74,12 +90,11 @@ export async function GET(req: NextRequest) {
         .slice(0, 20)
     : [];
 
-  const keyword = searchParams.get("keyword")?.trim().slice(0, 100);
   const params = {
     start,
     end,
     categories: categories.length ? categories : null,
-    keyword: keyword ? `*${keyword}*` : null,
+    ...getPostSearchPatterns(searchParams.get("keyword")),
   };
 
   const total = await publicClient.fetch<number>(POSTS_COUNT_QUERY, params, {

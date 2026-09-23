@@ -140,7 +140,9 @@ export default function PostCards({
                   >
                     {post.categories.map((cat) => (
                       <Chip
-                        label={cat.title}
+                        label={
+                          <HighlightText text={cat.title} highlight={keyword} />
+                        }
                         size="small"
                         key={cat._id}
                         variant="outlined"

@@ -10,11 +10,32 @@ import { SearchRounded as SearchRoundedIcon } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import { CloseRounded as CloseRoundedIcon } from "@mui/icons-material";
 import Typography from "@mui/material/Typography";
+import { semanticTokens } from "@jacky-dev/design-tokens";
 
 import { useSetPostsQueryParams, usePostsQueryParams } from "../_hooks";
 
 // ------------- i18n -------------
 import { useClientTranslation } from "@/i18n/client";
+
+const searchInputSx = {
+  backgroundColor: "transparent",
+  borderRadius: 2,
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: 0,
+  },
+  "&.Mui-focused": {
+    outline: "none",
+    borderColor: semanticTokens.light.primary,
+    boxShadow: `inset 0 0 0 1px ${semanticTokens.light.primary}, 0 0 0 3px color-mix(in srgb, ${semanticTokens.light.primary} 24%, transparent)`,
+    "& .MuiOutlinedInput-notchedOutline": {
+      border: 0,
+    },
+  },
+  ".dark &.Mui-focused": {
+    borderColor: semanticTokens.dark.primary,
+    boxShadow: `inset 0 0 0 1px ${semanticTokens.dark.primary}, 0 0 0 3px color-mix(in srgb, ${semanticTokens.dark.primary} 24%, transparent)`,
+  },
+} as const;
 
 export default function Search() {
   const setParams = useSetPostsQueryParams();
@@ -58,17 +79,7 @@ export default function Search() {
           id="search"
           size="small"
           placeholder={t("search_placeholder")}
-          sx={{
-            backgroundColor: "transparent",
-            borderRadius: 2,
-            "& .MuiOutlinedInput-notchedOutline": {
-              border: 0,
-            },
-            "&.Mui-focused": {
-              boxShadow: (theme) =>
-                `inset 0 0 0 1px ${theme.palette.primary.main}, 0 0 0 3px ${theme.palette.primary.main}24`,
-            },
-          }}
+          sx={searchInputSx}
           startAdornment={
             <InputAdornment position="start" sx={{ color: "text.secondary" }}>
               <SearchRoundedIcon fontSize="small" />

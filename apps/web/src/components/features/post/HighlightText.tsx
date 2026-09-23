@@ -1,39 +1,37 @@
 import Box from "@mui/material/Box";
+import { semanticTokens } from "@jacky-dev/design-tokens";
+import { getHighlightParts } from "./getHighlightParts";
 
 interface HighlightTextProps {
   text: string;
   highlight: string;
 }
 
-export default function HighlightText({ text, highlight }: HighlightTextProps) {
-  if (!highlight.trim()) return <>{text}</>;
+const highlightedTextSx = {
+  backgroundColor: `color-mix(in srgb, ${semanticTokens.light.primary} 24%, transparent)`,
+  color: semanticTokens.light.primary,
+  fontWeight: 800,
+  borderRadius: 0.5,
+  px: 0.25,
+  boxDecorationBreak: "clone",
+  ".dark &": {
+    backgroundColor: `color-mix(in srgb, ${semanticTokens.dark.primary} 24%, transparent)`,
+    color: semanticTokens.dark.primary,
+  },
+} as const;
 
-  // 使用正則表達式拆分文字，並忽略大小寫
-  const parts = text.split(new RegExp(`(${highlight})`, "gi"));
+export default function HighlightText({ text, highlight }: HighlightTextProps) {
+  const parts = getHighlightParts(text, highlight);
 
   return (
     <>
-      {parts.map((part, i) =>
-        part.toLowerCase() === highlight.toLowerCase() ? (
-          <Box
-            key={i}
-            component="span"
-            sx={{
-              // 改用更強烈的對比色
-              backgroundColor: "warning.dark", // 使用 MUI 內建的警告深色
-              color: "#fff", // 純白文字確保在深色背景上的閱讀品質
-              fontWeight: "700",
-              borderRadius: "4px", // 稍微加大圓角比較現代
-              px: "4px", // 增加左右間距讓文字不擁擠
-              mx: "1px", // 與前後文字稍微留一點縫隙
-              display: "inline-block", // 確保 padding 生效
-              lineHeight: 1.2,
-            }}
-          >
-            {part}
+      {parts.map((part, index) =>
+        part.isHighlighted ? (
+          <Box key={index} component="mark" sx={highlightedTextSx}>
+            {part.text}
           </Box>
         ) : (
-          part
+          part.text
         ),
       )}
     </>
