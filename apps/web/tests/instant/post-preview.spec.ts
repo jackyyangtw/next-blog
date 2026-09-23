@@ -13,9 +13,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 
-test("post preview content is prefetched for instant navigation", async ({
-  page,
-}) => {
+test("預先擷取文章預覽內容以實現即時導覽", async ({ page }) => {
   await page.goto("/zh-TW/post", { waitUntil: "domcontentloaded" });
 
   const previewLink = page

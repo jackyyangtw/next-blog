@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "vitest";
 import {
   BookmarkError,
   mutateBookmark,
@@ -47,7 +47,7 @@ function makeStore(legacy: BookmarkEntry[] = []) {
   };
 }
 
-test("simultaneous adds converge to exactly one bookmark, including after retries", async () => {
+test("同時新增與重試後仍只會產生一筆書籤", async () => {
   const fixture = makeStore();
   const results = await Promise.all(
     Array.from({ length: 4 }, () =>
@@ -62,7 +62,7 @@ test("simultaneous adds converge to exactly one bookmark, including after retrie
   expect(fixture.documents.size).toBe(1);
 });
 
-test("concurrent different posts preserve both writes", async () => {
+test("同時新增不同文章時保留兩筆寫入", async () => {
   const fixture = makeStore();
   await Promise.all(
     ["post-1", "post-2"].map((id) =>
@@ -73,7 +73,7 @@ test("concurrent different posts preserve both writes", async () => {
   expect(fixture.getUser().bookmarkIndex).toHaveLength(2);
 });
 
-test("initializes legacy IDs, deletes duplicates, and supports delete/re-add", async () => {
+test("初始化舊書籤 ID、刪除重複書籤，並支援刪除後重新新增", async () => {
   const legacy = ["old-1", "old-2"].map((id) => ({
     _type: "bookmarkIndexEntry" as const,
     _key: id,
@@ -92,7 +92,7 @@ test("initializes legacy IDs, deletes duplicates, and supports delete/re-add", a
   expect(fixture.legacyReads()).toBe(1); // Stale legacy query is never reused.
 });
 
-test("concurrent add/delete leaves index and documents consistent", async () => {
+test("同時新增與刪除後，索引與文件保持一致", async () => {
   const fixture = makeStore();
   await mutateBookmark(fixture.store, "user-1", "post-1", true);
   await Promise.all(
@@ -104,7 +104,7 @@ test("concurrent add/delete leaves index and documents consistent", async () => 
   expect(fixture.documents.size).toBeLessThanOrEqual(1);
 });
 
-test("stale user revisions cannot create duplicates", async () => {
+test("過期的使用者版本不會產生重複書籤", async () => {
   const fixture = makeStore();
   const stale = structuredClone(fixture.getUser());
   await mutateBookmark(fixture.store, "user-1", "post-1", true);
@@ -117,7 +117,7 @@ test("stale user revisions cannot create duplicates", async () => {
   expect(reads).toBe(3);
 });
 
-test("bounded conflicts and provider errors never report success", async () => {
+test("重試次數用盡或服務錯誤時不會回報成功", async () => {
   const fixture = makeStore();
   let attempts = 0;
   fixture.store.commit = async () => {
@@ -137,7 +137,7 @@ test("bounded conflicts and provider errors never report success", async () => {
   ).rejects.toThrow("Offline");
 });
 
-test("missing users and posts are rejected before writing", async () => {
+test("使用者或文章不存在時，在寫入前拒絕請求", async () => {
   const fixture = makeStore();
   fixture.store.postExists = async () => false;
   await expect(
@@ -150,7 +150,7 @@ test("missing users and posts are rejected before writing", async () => {
   expect(fixture.documents.size).toBe(0);
 });
 
-test("recreates a bookmark removed by an external cleanup using its indexed ID", async () => {
+test("外部清理刪除書籤後，使用索引中的 ID 重新建立", async () => {
   const fixture = makeStore();
   await mutateBookmark(fixture.store, "user-1", "post-1", true);
   const originalId = [...fixture.documents.keys()][0];

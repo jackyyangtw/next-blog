@@ -7,7 +7,7 @@
     "next-env.d.ts",
     "src/**/*.spec.ts",
     "tests/instant/**/*.ts",
-    "playwright.unit.config.ts",
+    "vitest.config.mts",
     "playwright.instant.config.ts"
   ],
   "exclude": ["node_modules"]

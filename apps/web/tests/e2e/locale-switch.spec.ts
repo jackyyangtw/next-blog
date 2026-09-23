@@ -36,10 +36,8 @@ test.beforeEach(async ({ page }) => {
     );
   });
 });
-test.describe("locale switcher", () => {
-  test("switches from zh-TW to en and persists the locale cookie", async ({
-    page,
-  }) => {
+test.describe("語言切換器", () => {
+  test("從 zh-TW 切換至 en 並儲存語系 Cookie", async ({ page }) => {
     await page.goto("/zh-TW", { waitUntil: "domcontentloaded" });
     await expect(page).toHaveURL(/\/zh-TW\/?$/);
 
@@ -55,9 +53,7 @@ test.describe("locale switcher", () => {
     await expectLocaleCookie(page, "en");
   });
 
-  test("switches from en to zh-TW and persists the locale cookie", async ({
-    page,
-  }) => {
+  test("從 en 切換至 zh-TW 並儲存語系 Cookie", async ({ page }) => {
     await page.goto("/en", { waitUntil: "domcontentloaded" });
     await expect(page).toHaveURL(/\/en\/?$/);
 
