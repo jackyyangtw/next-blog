@@ -1,8 +1,7 @@
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./src",
-  testMatch: "**/*.spec.ts",
+  testDir: "./tests/unit",
   outputDir: "../../test-results/unit",
   fullyParallel: true,
   reporter: "list",

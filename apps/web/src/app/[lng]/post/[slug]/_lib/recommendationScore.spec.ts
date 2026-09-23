@@ -1,9 +1,9 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "vitest";
 import { getRecommendationScore } from "./recommendationScore";
 
 const referenceTime = Date.parse("2026-09-23T00:00:00.000Z");
 
-test("category overlap contributes more than freshness", () => {
+test("分類重疊對推薦分數的影響大於新鮮度", () => {
   const score = getRecommendationScore(
     {
       _createdAt: "2026-06-25T00:00:00.000Z",
@@ -16,7 +16,7 @@ test("category overlap contributes more than freshness", () => {
   expect(score).toBe(4);
 });
 
-test("newer posts rank higher when category overlap is equal", () => {
+test("分類重疊相同時，較新的文章分數較高", () => {
   const categories = [{ _id: "nextjs" }];
   const recentScore = getRecommendationScore(
     { _createdAt: "2026-09-22T00:00:00.000Z", categories },

@@ -45,6 +45,13 @@
 
 取得使用者確認後再開始修改。
 
+## Web 測試規範
+
+- 單元測試使用 Vitest，不使用 Playwright 撰寫單元測試。遵循就近放原則：測試檔與被測程式碼放在同一目錄，以同名的 `.spec.ts` 檔案命名（例如 `post.ts` 對應 `post.spec.ts`），不要集中搬到獨立的單元測試目錄。測試檔位於 `apps/web/src/**/*.spec.ts`，從 `vitest` 匯入 `test`、`expect` 等測試 API；目前由 `apps/web/vitest.config.mts` 設定為 Node 環境。
+- 端對端測試使用 Playwright，放在 `apps/web/tests/e2e/`；即時導覽測試也使用 Playwright，放在 `apps/web/tests/instant/`，並使用各自的設定檔。
+- `test`、`describe` 等測試項目與群組名稱使用繁體中文，清楚描述被驗證的行為。語系代碼、程式識別字及 Sanity 等專有名稱可保留原文。
+- 修改單元測試後執行 `pnpm --filter @jacky-dev/web test:unit`；修改端對端或即時導覽測試後，分別執行 `pnpm --filter @jacky-dev/web test:e2e` 或 `pnpm --filter @jacky-dev/web test:instant`。
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know

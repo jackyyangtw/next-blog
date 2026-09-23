@@ -1,8 +1,8 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "vitest";
 import { PostsResponseSchema, PostSchema } from "./post";
 import { postSummaryFixture } from "./post.test-fixtures";
 
-test("list accepts an actual Sanity image and missing body; detail requires body", () => {
+test("列表接受實際的 Sanity 圖片與缺少內文的文章，詳情則要求內文", () => {
   const result = PostsResponseSchema.parse({
     data: [postSummaryFixture],
     total: 1,
@@ -18,7 +18,7 @@ test("list accepts an actual Sanity image and missing body; detail requires body
   ).toBe(true);
 });
 
-test("rejects malformed list items and pagination instead of propagating any", () => {
+test("拒絕格式錯誤的列表項目與分頁資料", () => {
   for (const changed of [
     { total: "1" },
     { page: 0 },

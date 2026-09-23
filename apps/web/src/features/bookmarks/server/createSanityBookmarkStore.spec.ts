@@ -1,8 +1,8 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "vitest";
 import { createClient } from "@sanity/client";
 import { createSanityBookmarkStore } from "./createSanityBookmarkStore";
 
-test("Sanity adapter sends the revision guard, index and document changes atomically", async () => {
+test("Sanity 轉接器以原子操作送出版本檢查、索引與文件異動", async () => {
   const client = createClient({
     projectId: "testproject",
     dataset: "test",

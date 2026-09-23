@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "vitest";
 import {
   BookmarkInputSchema,
   BookmarkMutationResponseSchema,
@@ -6,7 +6,7 @@ import {
 } from "./bookmark";
 import { postSummaryFixture } from "./post.test-fixtures";
 
-test("bookmark read contract contains a summary and tolerates deleted references", () => {
+test("書籤讀取資料包含文章摘要，並容許已刪除的參照", () => {
   for (const post of [postSummaryFixture, null]) {
     expect(
       BookmarkSchema.safeParse({
@@ -18,7 +18,7 @@ test("bookmark read contract contains a summary and tolerates deleted references
   }
 });
 
-test("mutations have explicit responses and reject invalid published IDs", () => {
+test("書籤異動回傳明確結果，並拒絕無效的已發布文章 ID", () => {
   expect(
     BookmarkMutationResponseSchema.parse({
       postId: "post-1",
