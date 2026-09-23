@@ -26,7 +26,7 @@ function PostModalLoading() {
           sx={{ borderRadius: 1.5 }}
         />
       </Box>
-      <PostDetailPageSkeleton />
+      <PostDetailPageSkeleton showCategories={false} showScrollSpy={false} />
     </>
   );
 }

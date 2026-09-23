@@ -2,7 +2,15 @@ import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
-export default function PostDetailPageSkeleton() {
+interface PostDetailPageSkeletonProps {
+  showCategories?: boolean;
+  showScrollSpy?: boolean;
+}
+
+export default function PostDetailPageSkeleton({
+  showCategories = true,
+  showScrollSpy = true,
+}: PostDetailPageSkeletonProps) {
   return (
     <Box
       aria-hidden="true"
@@ -23,7 +31,7 @@ export default function PostDetailPageSkeleton() {
           <Skeleton
             variant="text"
             width="72%"
-            height={58}
+            height={40}
             sx={{ transformOrigin: "left top" }}
           />
           <Skeleton
@@ -39,7 +47,7 @@ export default function PostDetailPageSkeleton() {
           <Skeleton variant="text" width={96} height={22} />
         </Stack>
 
-        <Stack gap={0.5}>
+        <Stack gap={1} mb={3}>
           <Skeleton variant="text" width="86%" height={28} />
           <Skeleton
             variant="text"
@@ -47,24 +55,67 @@ export default function PostDetailPageSkeleton() {
             sx={{ width: { xs: "62%", md: "44%" } }}
           />
         </Stack>
+
+        {showCategories && (
+          <Stack direction="row" gap={1} flexWrap="wrap">
+            {[64, 92, 116, 68].map((width) => (
+              <Skeleton
+                key={width}
+                variant="rounded"
+                width={width}
+                height={20}
+                sx={{ borderRadius: 2 }}
+              />
+            ))}
+          </Stack>
+        )}
       </Box>
 
-      <Skeleton
-        variant="rectangular"
-        width="100%"
+      <Box
         sx={{
           aspectRatio: { xs: "16 / 9", md: "21 / 9" },
           borderRadius: 2,
           mb: 6,
+          overflow: "hidden",
+          position: "relative",
+          width: "100%",
         }}
-      />
+      >
+        <Skeleton
+          variant="rectangular"
+          sx={{
+            height: "100%",
+            left: 0,
+            position: "absolute",
+            top: 0,
+            width: "100%",
+          }}
+        />
+      </Box>
 
-      <Stack gap={1.25}>
-        <Skeleton variant="text" width="96%" height={24} />
-        <Skeleton variant="text" width="100%" height={24} />
-        <Skeleton variant="text" width="91%" height={24} />
-        <Skeleton variant="text" width="76%" height={24} />
-      </Stack>
+      <Box sx={{ display: { xs: "block", lg: "flex" }, gap: { lg: 4, xl: 5 } }}>
+        <Stack gap={1.25} sx={{ flex: 1, minWidth: 0, minHeight: 400 }}>
+          <Skeleton variant="text" width="96%" height={24} />
+          <Skeleton variant="text" width="100%" height={24} />
+          <Skeleton variant="text" width="91%" height={24} />
+          <Skeleton variant="text" width="76%" height={24} />
+          <Skeleton variant="text" width="88%" height={24} />
+        </Stack>
+        {showScrollSpy && (
+          <Stack
+            gap={1.5}
+            sx={{
+              display: { xs: "none", lg: "flex" },
+              flexShrink: 0,
+              width: 240,
+            }}
+          >
+            <Skeleton variant="text" width="90%" height={24} />
+            <Skeleton variant="text" width="72%" height={24} />
+            <Skeleton variant="text" width="82%" height={24} />
+          </Stack>
+        )}
+      </Box>
     </Box>
   );
 }
