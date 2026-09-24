@@ -17,6 +17,11 @@ export const feedbackChoiceSx: SxProps<Theme> = {
     borderColor: "primary.main",
     bgcolor: "action.selected",
   },
+  "&[data-selected='true'].Mui-disabled": {
+    borderColor: "primary.main",
+    bgcolor: "action.selected",
+    color: "text.primary",
+  },
 };
 
 export const feedbackMessageInputProps = {

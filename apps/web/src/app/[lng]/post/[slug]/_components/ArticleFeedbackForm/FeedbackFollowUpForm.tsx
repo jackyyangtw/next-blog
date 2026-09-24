@@ -1,13 +1,9 @@
 "use client";
 
 import {
-  startTransition,
   useActionState,
   useCallback,
-  useEffect,
   useOptimistic,
-  useRef,
-  useState,
   type ChangeEvent,
 } from "react";
 import Alert from "@mui/material/Alert";
@@ -24,10 +20,10 @@ import SubmitFeedbackButton from "./SubmitFeedbackButton";
 import { feedbackMessageInputProps, feedbackTextFieldSx } from "./styles";
 
 interface FeedbackFollowUpFormProps {
-  followUpToken?: string;
+  followUpToken: string;
   message: string;
   onMessageChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  submissionId?: string;
+  submissionId: string;
 }
 
 const initialState: SubmitArticleFeedbackFollowUpState = {};
@@ -45,38 +41,15 @@ export default function FeedbackFollowUpForm({
   const [optimisticSuccess, setOptimisticSuccess] = useOptimistic(
     state.success ?? false,
   );
-  const queuedFormData = useRef<FormData | null>(null);
-  const [hasQueuedSubmission, setHasQueuedSubmission] = useState(false);
-  const canSubmit = Boolean(submissionId && followUpToken);
-
-  useEffect(() => {
-    if (!submissionId || !followUpToken) return;
-
-    const queued = queuedFormData.current;
-    if (!queued) return;
-
-    queuedFormData.current = null;
-    queued.set("submissionId", submissionId);
-    queued.set("followUpToken", followUpToken);
-    startTransition(() => dispatchAction(queued));
-  }, [dispatchAction, followUpToken, submissionId]);
-
   const submitFollowUp = useCallback(
     async (formData: FormData) => {
-      if (!canSubmit) {
-        queuedFormData.current = formData;
-        setHasQueuedSubmission(true);
-        return;
-      }
-
-      setHasQueuedSubmission(false);
       setOptimisticSuccess(true);
       return dispatchAction(formData);
     },
-    [canSubmit, dispatchAction, setOptimisticSuccess],
+    [dispatchAction, setOptimisticSuccess],
   );
 
-  if (optimisticSuccess || (hasQueuedSubmission && !state.error)) {
+  if (optimisticSuccess) {
     return (
       <Alert severity="success" role="status">
         {state.success ? "補充意見已送出，謝謝！" : "正在送出補充意見…"}
@@ -86,8 +59,8 @@ export default function FeedbackFollowUpForm({
 
   return (
     <Box component="form" action={submitFollowUp}>
-      <input name="submissionId" type="hidden" value={submissionId ?? ""} />
-      <input name="followUpToken" type="hidden" value={followUpToken ?? ""} />
+      <input name="submissionId" type="hidden" value={submissionId} />
+      <input name="followUpToken" type="hidden" value={followUpToken} />
       <input
         aria-hidden="true"
         autoComplete="off"

@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useActionState,
-  useCallback,
-  useOptimistic,
-  useState,
-  type ChangeEvent,
-} from "react";
+import { useActionState, useCallback, useState, type ChangeEvent } from "react";
 import ThumbDownRoundedIcon from "@mui/icons-material/ThumbDownRounded";
 import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded";
 import Alert from "@mui/material/Alert";
@@ -35,13 +29,13 @@ export default function ArticleFeedbackForm({
   postId,
 }: ArticleFeedbackFormProps) {
   const [message, setMessage] = useState("");
-  const [state, dispatchAction] = useActionState(
+  const [state, dispatchAction, isPending] = useActionState(
     submitArticleFeedbackAction,
     initialState,
   );
-  const [optimisticSuccess, setOptimisticSuccess] = useOptimistic(
-    state.success ?? false,
-  );
+  const [selectedVote, setSelectedVote] = useState<
+    "helpful" | "notHelpful" | null
+  >(null);
   const handleMessageChange = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => setMessage(event.target.value),
     [],
@@ -49,15 +43,18 @@ export default function ArticleFeedbackForm({
 
   const submitVote = useCallback(
     async (formData: FormData) => {
-      setOptimisticSuccess(true);
+      const feedbackType = formData.get("feedbackType");
+      if (feedbackType === "helpful" || feedbackType === "notHelpful") {
+        setSelectedVote(feedbackType);
+      }
       return dispatchAction(formData);
     },
-    [dispatchAction, setOptimisticSuccess],
+    [dispatchAction],
   );
 
   return (
     <Paper component="section" elevation={0} sx={feedbackPanelSx}>
-      {optimisticSuccess ? (
+      {state.success ? (
         <Stack spacing={2}>
           <Typography
             aria-live="polite"
@@ -67,12 +64,14 @@ export default function ArticleFeedbackForm({
           >
             感謝回饋！
           </Typography>
-          <FeedbackFollowUpForm
-            followUpToken={state.followUpToken}
-            message={message}
-            onMessageChange={handleMessageChange}
-            submissionId={state.submissionId}
-          />
+          {state.followUpToken && state.submissionId ? (
+            <FeedbackFollowUpForm
+              followUpToken={state.followUpToken}
+              message={message}
+              onMessageChange={handleMessageChange}
+              submissionId={state.submissionId}
+            />
+          ) : null}
         </Stack>
       ) : (
         <Stack spacing={2}>
@@ -80,7 +79,7 @@ export default function ArticleFeedbackForm({
             這篇文章有幫助嗎？
           </Typography>
 
-          <Box component="form" action={submitVote}>
+          <Box aria-busy={isPending} component="form" action={submitVote}>
             <input name="postId" type="hidden" value={postId} />
             <input name="locale" type="hidden" value={locale} />
             <input name="message" type="hidden" value="" />
@@ -95,7 +94,8 @@ export default function ArticleFeedbackForm({
 
             <Stack direction="row" flexWrap="wrap" gap={1.5}>
               <Button
-                disabled={optimisticSuccess}
+                data-selected={isPending && selectedVote === "helpful"}
+                disabled={isPending}
                 name="feedbackType"
                 startIcon={<ThumbUpRoundedIcon aria-hidden="true" />}
                 sx={feedbackChoiceSx}
@@ -106,7 +106,8 @@ export default function ArticleFeedbackForm({
                 有幫助
               </Button>
               <Button
-                disabled={optimisticSuccess}
+                data-selected={isPending && selectedVote === "notHelpful"}
+                disabled={isPending}
                 name="feedbackType"
                 startIcon={<ThumbDownRoundedIcon aria-hidden="true" />}
                 sx={feedbackChoiceSx}
@@ -119,7 +120,9 @@ export default function ArticleFeedbackForm({
             </Stack>
           </Box>
 
-          {state.error ? <Alert severity="error">{state.error}</Alert> : null}
+          {state.error && !isPending ? (
+            <Alert severity="error">{state.error}</Alert>
+          ) : null}
         </Stack>
       )}
     </Paper>
