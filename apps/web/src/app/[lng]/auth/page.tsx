@@ -17,10 +17,10 @@ import type { Locale } from "@/i18n/types";
 
 // --------------------- next/navigation--------------------
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
+import CircularProgress from "@mui/material/CircularProgress";
+import { Suspense } from "react";
 import type { Metadata } from "next";
-
-// 需依每次請求的 session 決定是否轉址，無法安全預渲染或快取。
-export const instant = false;
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -30,12 +30,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function SignIn({
+export default function SignIn({
   params,
 }: {
   params: Promise<{ lng: Locale }>;
 }) {
+  return (
+    <Suspense fallback={<CircularProgress aria-label="Loading" />}>
+      <SignInContent params={params} />
+    </Suspense>
+  );
+}
+
+async function SignInContent({ params }: { params: Promise<{ lng: Locale }> }) {
   const { lng } = await params;
+  await connection();
   const session = await getServerSession(authOptions);
   const isAuthenticated = session?.user?.email;
   if (isAuthenticated) {
