@@ -20,7 +20,7 @@ export default function SubmitFeedbackButton() {
       type="submit"
       variant="contained"
     >
-      {pending ? "送出中…" : "送出回饋"}
+      {pending ? "送出中…" : "送出補充"}
     </Button>
   );
 }

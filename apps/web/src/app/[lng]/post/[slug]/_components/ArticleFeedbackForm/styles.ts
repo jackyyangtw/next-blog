@@ -1,14 +1,26 @@
 import type { SxProps, Theme } from "@mui/material/styles";
 import { semanticTokens } from "@jacky-dev/design-tokens";
 
-export const feedbackFormLabelSx: SxProps<Theme> = {
-  "&.Mui-focused": { color: semanticTokens.light.primary },
-  ".dark &.Mui-focused": { color: "primary.main" },
+export const feedbackPanelSx: SxProps<Theme> = {
+  border: 1,
+  borderColor: "divider",
+  p: { xs: 2, sm: 3 },
 };
 
-export const feedbackRadioSx: SxProps<Theme> = {
-  "&.Mui-checked": { color: semanticTokens.light.primary },
-  ".dark &.Mui-checked": { color: "primary.main" },
+export const feedbackChoiceSx: SxProps<Theme> = {
+  borderColor: "divider",
+  color: "text.primary",
+  minHeight: 44,
+  px: 2,
+  bgcolor: "action.hover",
+  "&:hover": {
+    borderColor: "primary.main",
+    bgcolor: "action.selected",
+  },
+};
+
+export const feedbackMessageInputProps = {
+  htmlInput: { maxLength: 2000 },
 };
 
 export const feedbackTextFieldSx: SxProps<Theme> = {

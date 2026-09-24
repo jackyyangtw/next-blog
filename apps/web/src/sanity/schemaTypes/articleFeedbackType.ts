@@ -34,7 +34,14 @@ export const articleFeedbackType = defineType({
       title: "Message",
       type: "text",
       rows: 5,
-      validation: (rule) => rule.required().max(2000),
+      validation: (rule) => rule.max(2000),
+    }),
+    defineField({
+      name: "followUpTokenHash",
+      title: "Follow-up token hash",
+      type: "string",
+      hidden: true,
+      readOnly: true,
     }),
     defineField({
       name: "locale",
@@ -60,6 +67,26 @@ export const articleFeedbackType = defineType({
     defineField({
       name: "emailNotificationError",
       title: "Email notification error",
+      type: "text",
+      readOnly: true,
+      hidden: ({ value }) => !value,
+    }),
+    defineField({
+      name: "followUpEmailNotificationStatus",
+      title: "Follow-up email notification status",
+      type: "string",
+      readOnly: true,
+      options: {
+        list: [
+          { title: "Pending", value: "pending" },
+          { title: "Sent", value: "sent" },
+          { title: "Failed", value: "failed" },
+        ],
+      },
+    }),
+    defineField({
+      name: "followUpEmailNotificationError",
+      title: "Follow-up email notification error",
       type: "text",
       readOnly: true,
       hidden: ({ value }) => !value,

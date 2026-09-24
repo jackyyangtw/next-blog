@@ -3,40 +3,30 @@
 import {
   useActionState,
   useCallback,
-  useEffect,
+  useOptimistic,
   useState,
   type ChangeEvent,
 } from "react";
+import ThumbDownRoundedIcon from "@mui/icons-material/ThumbDownRounded";
+import ThumbUpRoundedIcon from "@mui/icons-material/ThumbUpRounded";
 import Alert from "@mui/material/Alert";
 import Box from "@mui/material/Box";
-import Fade from "@mui/material/Fade";
-import FormControl from "@mui/material/FormControl";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
+import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 import {
   submitArticleFeedbackAction,
   type SubmitArticleFeedbackState,
 } from "@/features/article-feedback/actions/submitArticleFeedbackAction";
-import SubmitFeedbackButton from "./SubmitFeedbackButton";
-import {
-  feedbackFormLabelSx,
-  feedbackRadioSx,
-  feedbackTextFieldSx,
-} from "./styles";
+import FeedbackFollowUpForm from "./FeedbackFollowUpForm";
+import { feedbackChoiceSx, feedbackPanelSx } from "./styles";
 
 interface ArticleFeedbackFormProps {
   locale: string;
   postId: string;
 }
-
-type FeedbackType = "helpful" | "notHelpful" | "suggestion";
 
 const initialState: SubmitArticleFeedbackState = {};
 
@@ -44,123 +34,94 @@ export default function ArticleFeedbackForm({
   locale,
   postId,
 }: ArticleFeedbackFormProps) {
-  const [feedbackType, setFeedbackType] = useState<FeedbackType>("helpful");
-  const [successNoticeVersion, setSuccessNoticeVersion] = useState(0);
-  const submitFeedback = useCallback(
-    async (previousState: SubmitArticleFeedbackState, formData: FormData) => {
-      const nextState = await submitArticleFeedbackAction(
-        previousState,
-        formData,
-      );
-
-      setSuccessNoticeVersion((version) =>
-        nextState.success ? version + 1 : 0,
-      );
-
-      return nextState;
-    },
-    [],
+  const [message, setMessage] = useState("");
+  const [state, dispatchAction] = useActionState(
+    submitArticleFeedbackAction,
+    initialState,
   );
-  const [state, formAction] = useActionState(submitFeedback, initialState);
-  const isSuggestion = feedbackType === "suggestion";
-  const isSuccessNoticeVisible = successNoticeVersion > 0;
-  const handleFeedbackTypeChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setFeedbackType(event.target.value as FeedbackType);
-    },
+  const [optimisticSuccess, setOptimisticSuccess] = useOptimistic(
+    state.success ?? false,
+  );
+  const handleMessageChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => setMessage(event.target.value),
     [],
   );
 
-  useEffect(() => {
-    if (!isSuccessNoticeVisible) {
-      return;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      setSuccessNoticeVersion(0);
-    }, 3000);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [successNoticeVersion, isSuccessNoticeVisible]);
+  const submitVote = useCallback(
+    async (formData: FormData) => {
+      setOptimisticSuccess(true);
+      return dispatchAction(formData);
+    },
+    [dispatchAction, setOptimisticSuccess],
+  );
 
   return (
-    <Paper
-      component="section"
-      elevation={0}
-      sx={{ border: 1, borderColor: "divider", p: { xs: 2, sm: 3 } }}
-    >
-      <Stack spacing={2.5}>
-        <Box>
-          <Typography component="h2" variant="h5">
-            這篇文章對你有幫助嗎？
+    <Paper component="section" elevation={0} sx={feedbackPanelSx}>
+      {optimisticSuccess ? (
+        <Stack spacing={2}>
+          <Typography
+            aria-live="polite"
+            component="h2"
+            variant="h6"
+            fontWeight={700}
+          >
+            感謝回饋！
           </Typography>
-          <Typography color="text.secondary" variant="body2">
-            你的意見會幫助我們持續改善內容。
-          </Typography>
-        </Box>
-
-        <Box component="form" action={formAction} key={state.submissionId}>
-          <input name="postId" type="hidden" value={postId} />
-          <input name="locale" type="hidden" value={locale} />
-          <input
-            aria-hidden="true"
-            autoComplete="off"
-            hidden
-            name="website"
-            tabIndex={-1}
-            type="text"
+          <FeedbackFollowUpForm
+            followUpToken={state.followUpToken}
+            message={message}
+            onMessageChange={handleMessageChange}
+            submissionId={state.submissionId}
           />
+        </Stack>
+      ) : (
+        <Stack spacing={2}>
+          <Typography component="h2" variant="h6" fontWeight={700}>
+            這篇文章有幫助嗎？
+          </Typography>
 
-          <Stack spacing={2}>
-            <FormControl required>
-              <FormLabel sx={feedbackFormLabelSx}>你的看法</FormLabel>
-              <RadioGroup
-                name="feedbackType"
-                row
-                value={feedbackType}
-                onChange={handleFeedbackTypeChange}
-              >
-                <FormControlLabel
-                  control={<Radio sx={feedbackRadioSx} />}
-                  label="有幫助"
-                  value="helpful"
-                />
-                <FormControlLabel
-                  control={<Radio sx={feedbackRadioSx} />}
-                  label="沒有幫助"
-                  value="notHelpful"
-                />
-                <FormControlLabel
-                  control={<Radio sx={feedbackRadioSx} />}
-                  label="提供建議"
-                  value="suggestion"
-                />
-              </RadioGroup>
-            </FormControl>
-
-            <TextField
-              fullWidth
-              label="想告訴我們什麼？"
-              maxRows={8}
-              minRows={4}
-              name="message"
-              required={isSuggestion}
-              slotProps={{ htmlInput: { maxLength: 2000 } }}
-              sx={feedbackTextFieldSx}
-              multiline
+          <Box component="form" action={submitVote}>
+            <input name="postId" type="hidden" value={postId} />
+            <input name="locale" type="hidden" value={locale} />
+            <input name="message" type="hidden" value="" />
+            <input
+              aria-hidden="true"
+              autoComplete="off"
+              hidden
+              name="website"
+              tabIndex={-1}
+              type="text"
             />
 
-            {state.error ? <Alert severity="error">{state.error}</Alert> : null}
-            <Fade in={isSuccessNoticeVisible} timeout={250} unmountOnExit>
-              <Alert severity="success">謝謝你的回饋！</Alert>
-            </Fade>
+            <Stack direction="row" flexWrap="wrap" gap={1.5}>
+              <Button
+                disabled={optimisticSuccess}
+                name="feedbackType"
+                startIcon={<ThumbUpRoundedIcon aria-hidden="true" />}
+                sx={feedbackChoiceSx}
+                type="submit"
+                value="helpful"
+                variant="outlined"
+              >
+                有幫助
+              </Button>
+              <Button
+                disabled={optimisticSuccess}
+                name="feedbackType"
+                startIcon={<ThumbDownRoundedIcon aria-hidden="true" />}
+                sx={feedbackChoiceSx}
+                type="submit"
+                value="notHelpful"
+                variant="outlined"
+              >
+                沒幫助
+              </Button>
+            </Stack>
+          </Box>
 
-            <Box>
-              <SubmitFeedbackButton />
-            </Box>
-          </Stack>
-        </Box>
-      </Stack>
+          {state.error ? <Alert severity="error">{state.error}</Alert> : null}
+        </Stack>
+      )}
     </Paper>
   );
 }

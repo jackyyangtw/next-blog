@@ -2,16 +2,18 @@ import "server-only";
 
 import nodemailer from "nodemailer";
 
-import type { ArticleFeedbackInput } from "../schemas/articleFeedbackSchema";
-
 const FEEDBACK_TYPE_LABELS = {
   helpful: "有幫助",
   notHelpful: "沒有幫助",
   suggestion: "建議",
 } as const;
 
-type ArticleFeedbackEmailInput = ArticleFeedbackInput & {
+type ArticleFeedbackEmailInput = {
+  feedbackType: keyof typeof FEEDBACK_TYPE_LABELS;
+  locale: string;
+  message: string;
   postTitle: string;
+  isFollowUp?: boolean;
 };
 
 function getMailConfiguration() {
@@ -28,6 +30,7 @@ function getMailConfiguration() {
 
 export async function sendArticleFeedbackEmail({
   feedbackType,
+  isFollowUp = false,
   locale,
   message,
   postTitle,
@@ -40,18 +43,20 @@ export async function sendArticleFeedbackEmail({
     port: 465,
     secure: true,
   });
+  const textLines = [
+    `文章：${postTitle}`,
+    `類型：${feedbackTypeLabel}`,
+    `語系：${locale}`,
+  ];
+
+  if (message.trim()) {
+    textLines.push("", "回饋內容：", message.trim());
+  }
 
   await transporter.sendMail({
     from: user,
-    subject: `[文章回饋] ${postTitle}`,
-    text: [
-      `文章：${postTitle}`,
-      `類型：${feedbackTypeLabel}`,
-      `語系：${locale}`,
-      "",
-      "回饋內容：",
-      message,
-    ].join("\n"),
+    subject: `[文章回饋${isFollowUp ? "補充" : ""}] ${postTitle}`,
+    text: textLines.join("\n"),
     to: recipient,
   });
 }
