@@ -7,15 +7,6 @@ allowBuilds:
   sharp: false
   unrs-resolver: false
 
-# Metro 0.87.0 uses image-size only while bundling trusted local assets.
-# Both advisories point to an unpublished 2.0.3 release, while 2.x also drops
-# the synchronous API Metro depends on. Remove these once Expo ships a Metro
-# version that no longer depends on image-size 1.x.
-auditConfig:
-  ignoreGhsas:
-    - GHSA-w3rx-r6r6-pgpr
-    - GHSA-5p2g-fcmc-qvqq
-
 minimumReleaseAgeExclude:
   - smol-toml@1.8.0
   - adm-zip@0.6.1
@@ -49,8 +40,8 @@ overrides:
   "immutable@<4.3.8": ">=4.3.8"
   "dompurify@>=3.1.3 <=3.3.1": ">=3.3.2"
   "flatted@<3.4.0": ">=3.4.0"
-  "undici@>=6.0.0 <6.24.0": ">=6.24.0"
-  "undici@<6.24.0": ">=6.24.0"
+  "undici@>=6.0.0 <6.24.0": "8.10.2"
+  "undici@<6.24.0": "8.10.2"
   "next@>=9.5.0 <15.5.13": ">=15.5.13"
   "next@>=10.0.0 <16.1.7": ">=16.1.7"
   "brace-expansion@>=4.0.0 <5.0.5": ">=5.0.5"
@@ -89,7 +80,10 @@ overrides:
   dompurify: "3.4.13"
   "nanoid@<4": "3.3.18"
   "markdown-it@<=14.1.1": ">=14.2.0"
-  "undici@>=7.0.0 <7.29.0": "7.29.0"
+  "undici@>=7.0.0 <7.29.1": "7.29.1"
+  "undici@>=8.0.0 <8.10.2": "8.10.2"
   "smol-toml@<=1.7.0": "1.8.0"
   "adm-zip@<0.6.1": "0.6.1"
   brace-expansion@<=5.0.7: ^5.0.8
+  # Metro 0.87.1 removes image-size and its two high-severity advisories.
+  metro-config@0.87.0: 0.87.1

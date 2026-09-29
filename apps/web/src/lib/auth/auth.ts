@@ -1,11 +1,11 @@
 // src/lib/auth/auth.ts
-import type { NextAuthOptions, User } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { getOrCreateSanityUser } from "./sanity-user";
-
-type AuthSessionUser = User & {
-  image?: string | null;
-};
+import { getOrCreateSanityUser, getSanityUserByEmail } from "./sanity-user";
+import {
+  restoreAuthSessionUserImage,
+  type AuthSessionUser,
+} from "./session-user";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -32,6 +32,12 @@ export const authOptions: NextAuthOptions = {
           image: sanityUser.image || image,
           role: sanityUser.role,
         } satisfies AuthSessionUser;
+      } else if (token.user) {
+        token.user = await restoreAuthSessionUserImage(
+          token.user as AuthSessionUser,
+          token.picture,
+          async (email) => (await getSanityUserByEmail(email))?.image,
+        );
       }
       return token;
     },
@@ -40,7 +46,7 @@ export const authOptions: NextAuthOptions = {
         const tokenUser = token.user as AuthSessionUser;
         session.user = {
           ...tokenUser,
-          image: tokenUser.image || session.user?.image,
+          image: tokenUser.image || token.picture || session.user?.image,
         };
       }
       return session;

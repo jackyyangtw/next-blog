@@ -1,5 +1,6 @@
 // src/lib/auth/sanity-user.ts
 import { client } from "@/sanity/lib/client";
+import { defineQuery } from "next-sanity";
 
 interface SanityAuthUser {
   _id: string;
@@ -9,15 +10,26 @@ interface SanityAuthUser {
   role?: string;
 }
 
+const SANITY_AUTH_USER_QUERY = defineQuery(/* groq */ `
+  *[_type == "user" && email == $email][0]{
+    _id,
+    name,
+    email,
+    image,
+    role
+  }
+`);
+
+export function getSanityUserByEmail(email: string) {
+  return client.fetch<SanityAuthUser | null>(SANITY_AUTH_USER_QUERY, { email });
+}
+
 export async function getOrCreateSanityUser(user: {
   email: string;
   name?: string;
   image?: string;
 }) {
-  const query = `*[_type == "user" && email == $email][0]`;
-  const sanityUser = await client.fetch<SanityAuthUser | null>(query, {
-    email: user.email,
-  });
+  const sanityUser = await getSanityUserByEmail(user.email);
 
   if (!sanityUser) {
     const newUser = {
