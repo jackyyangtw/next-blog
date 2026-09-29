@@ -50,7 +50,6 @@ yarn-error.log*
 .next-docs/
 
 # agents
-.agents
 skills-lock.json
 
 # codegraph

@@ -32,6 +32,12 @@ export const POST_BANNER_PRESETS = [
     alt: "Abstract AI topics banner",
   },
   {
+    title: "AI Agent",
+    value: "ai-agent",
+    path: "/images/banners/ai-agent.png",
+    alt: "Abstract AI agent orchestrating tools, data, and multi-step workflows",
+  },
+  {
     title: "Testing Flow",
     value: "testing-flow",
     path: "/images/banners/testing-flow.svg",

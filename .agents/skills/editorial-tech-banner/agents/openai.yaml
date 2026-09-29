@@ -1,0 +1,4 @@
+interface:
+  display_name: "Editorial Tech Banner"
+  short_description: "Create restrained editorial-style technical banners"
+  default_prompt: "Use $editorial-tech-banner to create a technical blog banner in the project editorial style."
