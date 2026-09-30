@@ -135,8 +135,9 @@ export default function PostCards({
                   <Stack
                     direction="row"
                     spacing={1}
+                    useFlexGap
+                    flexWrap="wrap"
                     mb={2}
-                    sx={{ height: 32, overflow: "hidden" }}
                   >
                     {post.categories.map((cat) => (
                       <Chip
