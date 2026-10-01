@@ -98,7 +98,7 @@ export default function Footer({
         >
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography variant="caption" color="text.secondary">
-              © {CURRENT_YEAR} Jacky. All rights reserved.
+              Jacky Dev © {CURRENT_YEAR}
             </Typography>
             {showConsentSettings ? (
               <ConsentSettingsButton label={consentSettingsLabel} />
@@ -107,13 +107,17 @@ export default function Footer({
           <Typography
             variant="caption"
             color="text.secondary"
-            sx={{ letterSpacing: 0.5 }}
+            sx={{
+              maxWidth: 480,
+              textAlign: { xs: "center", md: "right" },
+              lineHeight: 1.8,
+            }}
           >
             Built with{" "}
             <Box component="span" sx={readableAccentSx}>
               Next.js
             </Box>
-            , TypeScript & Sanity.
+            , TypeScript, and an unreasonable amount of debugging.
           </Typography>
         </Stack>
       </Container>

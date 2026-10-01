@@ -1,71 +1,46 @@
-import {
-  AdminPanelSettings,
-  ManageSearch,
-  QueryStats,
-  Rule,
-} from "@mui/icons-material";
-import { Box, Grid, Typography } from "@mui/material";
-import CaseStudyCard from "./CaseStudyCard";
-import TransitionFrame from "./TransitionFrame";
+import { primitiveTokens } from "@jacky-dev/design-tokens";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { bodyCopySx, rem } from "../homeStyles";
+import SectionHeading from "./SectionHeading";
 import type { HomePageT } from "./types";
 
-interface CaseStudiesSectionProps {
-  t: HomePageT;
-}
+const CASE_STUDIES = ["state", "quality", "performance", "security"] as const;
 
-const CASE_STUDIES = [
-  {
-    key: "state",
-    icon: QueryStats,
-    tags: ["TanStack Query", "Zustand", "Custom Hooks"],
-  },
-  {
-    key: "quality",
-    icon: Rule,
-    tags: ["ESLint", "TypeScript", "Vitest", "Playwright"],
-  },
-  {
-    key: "performance",
-    icon: ManageSearch,
-    tags: ["Metadata", "Sitemap", "Revalidate", "Image"],
-  },
-  {
-    key: "security",
-    icon: AdminPanelSettings,
-    tags: ["CSP", "DAL", "Route Handler", "Session"],
-  },
-];
-
-export default function CaseStudiesSection({ t }: CaseStudiesSectionProps) {
+export default function CaseStudiesSection({ t }: { t: HomePageT }) {
   return (
-    <Box sx={{ py: 10 }}>
-      <TransitionFrame kind="fade" timeout={520}>
-        <Box sx={{ maxWidth: 760, mx: "auto", mb: 6, textAlign: "center" }}>
-          <Typography variant="h2" sx={{ mb: 2 }}>
-            {t("case_studies.section_title")}
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{ color: "text.secondary", lineHeight: 1.8 }}
-          >
-            {t("case_studies.description")}
-          </Typography>
-        </Box>
-      </TransitionFrame>
-      <Grid container spacing={3}>
-        {CASE_STUDIES.map((item, index) => (
-          <Grid key={item.key} size={{ xs: 12, md: 6 }}>
-            <TransitionFrame kind="grow" delay={index * 90} timeout={520}>
-              <CaseStudyCard
-                title={t(`case_studies.items.${item.key}.title`)}
-                description={t(`case_studies.items.${item.key}.description`)}
-                tags={item.tags}
-                icon={item.icon}
-              />
-            </TransitionFrame>
-          </Grid>
+    <Box component="section" aria-labelledby="experience-heading">
+      <SectionHeading id="experience-heading">
+        {t("case_studies.section_title")}
+      </SectionHeading>
+      <Typography
+        component="p"
+        sx={{ ...bodyCopySx, mb: rem(primitiveTokens.space.lg) }}
+      >
+        {t("case_studies.description")}
+      </Typography>
+      <Box
+        component="ul"
+        sx={{
+          m: 0,
+          pl: rem(primitiveTokens.space.lg),
+          display: "grid",
+          gap: rem(primitiveTokens.space.md),
+        }}
+      >
+        {CASE_STUDIES.map((key) => (
+          <Box component="li" key={key} sx={bodyCopySx}>
+            <Box
+              component="span"
+              sx={{ color: "text.primary", fontWeight: 600 }}
+            >
+              {t(`case_studies.items.${key}.title`)}
+            </Box>
+            {" — "}
+            {t(`case_studies.items.${key}.description`)}
+          </Box>
         ))}
-      </Grid>
+      </Box>
     </Box>
   );
 }

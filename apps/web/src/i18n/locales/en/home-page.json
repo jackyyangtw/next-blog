@@ -4,62 +4,65 @@
     "description": "Learn by building. Frontend development notes."
   },
   "hero": {
-    "title_line_1": "Turning complex frontend systems,",
-    "title_line_2": "into maintainable products.",
-    "description": "I'm Jacky Yang, focused on React, Next.js App Router, and TypeScript. I use clear data flows, testing, CI/CD, and well-defined permission boundaries to reduce long-term maintenance costs.",
-    "cta": "Read Engineering Notes"
+    "title_line_1": "I'm Jacky,",
+    "title_line_2": "and these are my frontend notes.",
+    "philosophy": "Breaking complex frontend problems into code we can maintain.",
+    "exploring": "Currently exploring",
+    "description": "Problems from building with React, Next.js, and TypeScript, along with the trade-offs and fixes I found along the way.",
+    "cta": "Read all posts"
   },
   "principles": {
-    "section_title": "Technical Principles",
+    "section_title": "How I approach the work",
     "items": {
       "component": {
-        "title": "Lean Components",
-        "description": "I don't like letting a single component carry too many responsibilities. When logic, UI, data fetching, and side effects are mixed together, every later change becomes a gamble."
+        "title": "Give each component a clear job",
+        "description": "When UI, data fetching, and effects start getting tangled, I sort out their responsibilities before deciding where to split the component."
       },
       "state": {
-        "title": "State Purity",
-        "description": "I strictly follow one-way data flow and avoid passing Hooks as props to preserve architectural purity."
+        "title": "Know where state belongs",
+        "description": "I separate server data from UI state. TanStack Query handles fetching and caching; Zustand handles UI state that needs to be shared."
       },
       "automation": {
-        "title": "Automated Quality",
-        "description": "A robust CI/CD pipeline ensures every line merged into the main branch meets quality standards."
+        "title": "Automate the repeatable checks",
+        "description": "Types, lint, and tests run in CI so they can be repeated with every change. That leaves review time for design and trade-offs."
       }
     }
   },
   "case_studies": {
-    "section_title": "Case Studies",
-    "description": "I don't write articles just to catalog terminology. I break down the messy scenarios I've encountered in practice: unclear data flows, tangled state ownership, testing gaps, ambiguous security boundaries, and trade-offs between SEO and performance. These problems rarely explode on day one, but they steadily add to the cost of long-term maintenance.",
+    "section_title": "Problems I have worked through",
+    "description": "A few topics from implementation work that I keep writing about.",
     "items": {
       "state": {
-        "title": "Complex State Refactoring",
-        "description": "I have worked through large legacy codebases with unclear state sources, confusing data flow, and tightly coupled components. By separating responsibilities with Custom Hooks, TanStack Query, and Zustand, data fetching, caching, and UI state became easier to trace."
+        "title": "State refactoring",
+        "description": "Separating fetching, caching, and UI state in existing projects to make data flow easier to trace."
       },
       "quality": {
-        "title": "Frontend Quality Gates",
-        "description": "I have introduced ESLint, TypeScript checks, Vitest unit tests, and Playwright E2E tests to turn error-prone manual review steps into repeatable verification."
+        "title": "Tests and CI",
+        "description": "Using Vitest, Playwright, and CI to cover workflows that manual checks tend to miss."
       },
       "performance": {
-        "title": "Performance and SEO",
-        "description": "I have handled metadata, sitemap, revalidation, and image optimization for content-heavy sites, balancing search visibility, loading speed, and cache freshness."
+        "title": "Content websites",
+        "description": "Working through metadata, sitemaps, images, and cache updates while balancing SEO and loading speed."
       },
       "security": {
-        "title": "Security and Permission Boundaries",
-        "description": "I have implemented CSP nonces, authenticated state checks, Route Handler authorization, and DAL layering to keep sensitive logic out of Client Components."
+        "title": "Permission boundaries",
+        "description": "Keeping sensitive logic on the server with CSP, Route Handler authorization, and a data access layer."
       }
     }
   },
   "featured_posts": {
-    "section_title": "Featured Posts",
-    "description": "Notes from my work on frontend architecture, state management, Next.js, and engineering quality. I keep the original problem context, trade-offs, and fixes after real implementation work.",
-    "cta": "Visit Blog"
+    "section_title": "Recent posts",
+    "description": "Implementation problems, solutions, and the choices behind them.",
+    "cta": "All posts",
+    "empty": "New notes are on the way. Check back soon."
   },
   "tech_stack": {
-    "section_title": "Tech Stack",
-    "description": "My daily work centers on Next.js, React, TypeScript, Testing, and Security, with state management, UI systems, and CI/CD added according to the problem."
+    "section_title": "Tools I use",
+    "description": "Mostly React, Next.js, and TypeScript. The rest depends on the problem."
   },
   "about": {
-    "section_title": "About / Contact",
-    "description": "I enjoy turning abstract frontend problems into maintainable structures and writing down the implementation path. If you want to talk about React, Next.js, engineering quality, or content-driven site architecture, you can reach me here.",
+    "section_title": "Say hello",
+    "description": "Working through frontend architecture, testing, or a content website? Feel free to get in touch.",
     "email": "Email",
     "github": "GitHub"
   }

@@ -47,7 +47,8 @@ test.describe("語言切換器", () => {
     await expect(page).toHaveURL(/\/en\/?$/);
     await expect(
       page.getByRole("heading", {
-        name: /Between logic and aesthetics,/,
+        level: 1,
+        name: /I'm Jacky,/,
       }),
     ).toBeVisible();
     await expectLocaleCookie(page, "en");
@@ -61,7 +62,9 @@ test.describe("語言切換器", () => {
     await page.getByRole("menuitem").nth(1).click();
 
     await expect(page).toHaveURL(/\/zh-TW\/?$/);
-    await expect(page.getByRole("heading", { name: /Jacky/ })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { level: 1, name: /我是 Jacky/ }),
+    ).toBeVisible();
     await expectLocaleCookie(page, "zh-TW");
   });
 });

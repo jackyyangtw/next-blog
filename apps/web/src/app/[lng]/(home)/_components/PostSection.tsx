@@ -1,11 +1,20 @@
-import Grid from "@mui/material/Grid";
+import { primitiveTokens } from "@jacky-dev/design-tokens";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import { cacheLife, cacheTag } from "next/cache";
-import PostCards from "@/components/features/post/PostCards";
+import HomePostRow from "./HomePostRow";
+import { bodyCopySx, rem } from "./homeStyles";
 import { publicClient } from "@/sanity/lib/client";
 import type { PostSummary } from "@/schema/type/post";
 import type { Locale } from "@/i18n/types";
 
-export default async function PostsSection({ lng }: { lng: Locale }) {
+export default async function PostsSection({
+  lng,
+  emptyMessage,
+}: {
+  lng: Locale;
+  emptyMessage: string;
+}) {
   "use cache";
 
   cacheLife({
@@ -48,9 +57,22 @@ export default async function PostsSection({ lng }: { lng: Locale }) {
     }`,
     {},
   );
+  if (posts.length === 0) {
+    return (
+      <Typography
+        component="p"
+        sx={{ ...bodyCopySx, py: rem(primitiveTokens.space.xl) }}
+      >
+        {emptyMessage}
+      </Typography>
+    );
+  }
+
   return (
-    <Grid container spacing={2} columns={12}>
-      <PostCards lng={lng} posts={posts} />
-    </Grid>
+    <Box component="ul" sx={{ listStyle: "none", p: 0, m: 0 }}>
+      {posts.map((post) => (
+        <HomePostRow key={post._id} post={post} lng={lng} />
+      ))}
+    </Box>
   );
 }

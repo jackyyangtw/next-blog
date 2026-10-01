@@ -1,29 +1,57 @@
-import { Box, Typography } from "@mui/material";
-import TechMarquee from "../TechMarquee";
-import TransitionFrame from "./TransitionFrame";
+import { primitiveTokens } from "@jacky-dev/design-tokens";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { bodyCopySx, rem } from "../homeStyles";
+import SectionHeading from "./SectionHeading";
 import type { HomePageT } from "./types";
 
-interface TechStackSectionProps {
-  t: HomePageT;
-}
+const TECH_STACK = [
+  "React",
+  "Next.js",
+  "TypeScript",
+  "TanStack Query",
+  "Zustand",
+  "Vitest",
+  "Playwright",
+] as const;
 
-export default function TechStackSection({ t }: TechStackSectionProps) {
+export default function TechStackSection({ t }: { t: HomePageT }) {
   return (
-    <Box sx={{ py: 10 }}>
-      <TransitionFrame kind="fade" timeout={520}>
-        <Box sx={{ maxWidth: 680, mx: "auto", mb: 4, textAlign: "center" }}>
-          <Typography variant="h2" sx={{ mb: 2 }}>
-            {t("tech_stack.section_title")}
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{ color: "text.secondary", lineHeight: 1.8 }}
+    <Box component="section" aria-labelledby="tools-heading">
+      <SectionHeading id="tools-heading" number="03">
+        {t("tech_stack.section_title")}
+      </SectionHeading>
+      <Typography
+        component="p"
+        sx={{ ...bodyCopySx, mb: rem(primitiveTokens.space.md) }}
+      >
+        {t("tech_stack.description")}
+      </Typography>
+      <Box
+        component="ul"
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          columnGap: rem(primitiveTokens.space.lg),
+          rowGap: rem(primitiveTokens.space.sm),
+          listStyle: "none",
+          p: 0,
+          m: 0,
+        }}
+      >
+        {TECH_STACK.map((tech) => (
+          <Box
+            component="li"
+            key={tech}
+            sx={{
+              fontSize: rem(primitiveTokens.typography.small),
+              lineHeight: 1.7,
+            }}
           >
-            {t("tech_stack.description")}
-          </Typography>
-        </Box>
-      </TransitionFrame>
-      <TechMarquee />
+            {tech}
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 }

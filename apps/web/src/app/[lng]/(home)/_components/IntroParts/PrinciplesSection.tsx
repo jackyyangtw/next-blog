@@ -1,70 +1,57 @@
-import { IntegrationInstructions, Layers, Storage } from "@mui/icons-material";
-import { Grid, Typography } from "@mui/material";
-import PhilosophyCard from "../PhilosophyCard";
-import TransitionFrame from "./TransitionFrame";
+import { primitiveTokens } from "@jacky-dev/design-tokens";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { bodyCopySx, rem } from "../homeStyles";
+import SectionHeading from "./SectionHeading";
 import type { HomePageT } from "./types";
 
-interface PrinciplesSectionProps {
-  t: HomePageT;
-}
+const PRINCIPLES = ["component", "state", "automation"] as const;
 
-const gridItemSx = { display: "flex", minWidth: 0 } as const;
-const cardTransitionSx = {
-  display: "flex",
-  minWidth: 0,
-  width: "100%",
-} as const;
-
-export default function PrinciplesSection({ t }: PrinciplesSectionProps) {
+export default function PrinciplesSection({ t }: { t: HomePageT }) {
   return (
-    <Grid container spacing={4} sx={{ py: 10 }}>
-      <Grid size={12}>
-        <TransitionFrame kind="fade" timeout={520}>
-          <Typography variant="h2" sx={{ mb: 4, textAlign: "center" }}>
-            {t("principles.section_title")}
-          </Typography>
-        </TransitionFrame>
-      </Grid>
-      <Grid size={{ xs: 12, sm: 6, md: 4 }} sx={gridItemSx}>
-        <TransitionFrame kind="fade" timeout={520} sx={cardTransitionSx}>
-          <PhilosophyCard
-            title={t("principles.items.component.title")}
-            icon={Layers}
-            description={t("principles.items.component.description")}
-            code="if (component.isHardToExplain()) split();"
-          />
-        </TransitionFrame>
-      </Grid>
-      <Grid size={{ xs: 12, sm: 6, md: 4 }} sx={gridItemSx}>
-        <TransitionFrame
-          kind="fade"
-          delay={90}
-          timeout={520}
-          sx={cardTransitionSx}
-        >
-          <PhilosophyCard
-            title={t("principles.items.state.title")}
-            icon={Storage}
-            description={t("principles.items.state.description")}
-            code="state.owner !== 'everyone'"
-          />
-        </TransitionFrame>
-      </Grid>
-      <Grid size={{ xs: 12, sm: 6, md: 4 }} sx={gridItemSx}>
-        <TransitionFrame
-          kind="fade"
-          delay={180}
-          timeout={520}
-          sx={cardTransitionSx}
-        >
-          <PhilosophyCard
-            title={t("principles.items.automation.title")}
-            icon={IntegrationInstructions}
-            description={t("principles.items.automation.description")}
-            code="main <- onlyIf(ci.passed)"
-          />
-        </TransitionFrame>
-      </Grid>
-    </Grid>
+    <Box component="section" aria-labelledby="principles-heading">
+      <SectionHeading id="principles-heading" number="02">
+        {t("principles.section_title")}
+      </SectionHeading>
+      <Box sx={{ display: "grid", gap: rem(primitiveTokens.space.xl) }}>
+        {PRINCIPLES.map((key, index) => (
+          <Box
+            key={key}
+            sx={{
+              display: "grid",
+              gridTemplateColumns: "20px minmax(0, 1fr)",
+              alignItems: "baseline",
+              columnGap: rem(primitiveTokens.space.md),
+            }}
+          >
+            <span className="home-principle-number" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <Box sx={{ minWidth: 0 }}>
+              <Typography
+                component="h3"
+                sx={{
+                  fontSize: rem(primitiveTokens.typography.heading6),
+                  fontWeight: 600,
+                  lineHeight: 1.6,
+                  mb: rem(primitiveTokens.space.sm),
+                }}
+              >
+                {t(`principles.items.${key}.title`)}
+              </Typography>
+              <Typography
+                component="p"
+                sx={{
+                  ...bodyCopySx,
+                  fontSize: rem(primitiveTokens.typography.small),
+                }}
+              >
+                {t(`principles.items.${key}.description`)}
+              </Typography>
+            </Box>
+          </Box>
+        ))}
+      </Box>
+    </Box>
   );
 }

@@ -1,92 +1,104 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
-import HeroMotionFrame from "./HeroMotionFrame";
-import HeroSystemGraph from "./HeroSystemGraph";
+import { primitiveTokens } from "@jacky-dev/design-tokens";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import NextLink from "next/link";
+import type { Locale } from "@/i18n/types";
+import { localizedPath } from "@/utils/seo";
+import { bodyCopySx, rem } from "../homeStyles";
+import AuthorProfile from "./AuthorProfile";
 
 interface HeroSectionProps {
+  lng: Locale;
   titleLine1: string;
   titleLine2: string;
+  philosophy: string;
+  exploring: string;
   description: string;
   cta: string;
 }
 
 export default function HeroSection({
+  lng,
   titleLine1,
   titleLine2,
+  philosophy,
+  exploring,
   description,
   cta,
 }: HeroSectionProps) {
   return (
-    <Box sx={{ pt: { xs: 12, md: 20 }, pb: { xs: 10, md: 15 } }}>
-      <Grid container spacing={6} alignItems="center">
-        <Grid size={{ xs: 12, md: 7 }}>
-          <HeroMotionFrame>
-            <Typography
-              variant="h1"
-              sx={{
-                mb: 3,
-                fontWeight: 800,
-                background:
-                  "linear-gradient(135deg, #0f5f6d 0%, #0b9aad 48%, #1d4f72 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                ".dark &": {
-                  background: "linear-gradient(135deg, #fff 0%, #60a5fa 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                },
-              }}
-            >
-              {titleLine1}
-              <br />
-              {titleLine2}
-            </Typography>
-          </HeroMotionFrame>
-          <HeroMotionFrame delay={120}>
-            <Typography
-              component="h2"
-              variant="h6"
-              sx={{
-                color: "text.secondary",
-                mb: 5,
-                maxWidth: 550,
-                lineHeight: 1.6,
-              }}
-            >
-              {description}
-            </Typography>
-          </HeroMotionFrame>
-          <HeroMotionFrame delay={240}>
-            <Stack direction="row" spacing={3} alignItems="center">
-              <Button
-                variant="contained"
-                size="large"
-                sx={{
-                  borderRadius: 2,
-                  px: 4,
-                  py: 1.5,
-                  fontWeight: 600,
-                  boxShadow: 2,
-                  transition:
-                    "box-shadow 220ms ease, transform 220ms ease, background-color 220ms ease",
-                  "&:hover": {
-                    transform: "translateY(-2px)",
-                    boxShadow: 5,
-                  },
-                }}
-                href="/post"
-              >
-                {cta}
-              </Button>
-            </Stack>
-          </HeroMotionFrame>
-        </Grid>
-
-        <Grid size={{ xs: 12, md: 5 }}>
-          <HeroMotionFrame delay={220}>
-            <HeroSystemGraph />
-          </HeroMotionFrame>
-        </Grid>
-      </Grid>
+    <Box
+      component="header"
+      sx={{
+        width: "100%",
+        pt: {
+          xs: rem(primitiveTokens.space.md),
+          md: rem(primitiveTokens.space.lg),
+        },
+        pb: {
+          xs: rem(primitiveTokens.space["2xl"]),
+          md: rem(primitiveTokens.space["3xl"]),
+        },
+      }}
+    >
+      <Box
+        className="home-hero-content"
+        sx={{
+          width: "100%",
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "minmax(0, 1fr)",
+            sm: "minmax(0, 1fr) 240px",
+            lg: "minmax(0, 1fr) 280px",
+          },
+          alignItems: "center",
+          gap: {
+            xs: rem(primitiveTokens.space.lg),
+            sm: rem(primitiveTokens.space["2xl"]),
+          },
+        }}
+      >
+        <Box sx={{ minWidth: 0 }}>
+          <Typography
+            component="h1"
+            sx={{
+              fontFamily: "inherit",
+              fontSize: "clamp(1.75rem, 3.4vw, 2.5rem)",
+              fontWeight: 600,
+              lineHeight: 1.45,
+              letterSpacing: "-0.02em",
+              overflowWrap: "anywhere",
+              mb: rem(primitiveTokens.space.lg),
+            }}
+          >
+            {titleLine1}
+            <br />
+            {titleLine2}
+          </Typography>
+          <Typography
+            component="p"
+            sx={{
+              ...bodyCopySx,
+              fontSize: rem(primitiveTokens.typography.small),
+              maxWidth: 600,
+              mb: rem(primitiveTokens.space.sm),
+            }}
+          >
+            {philosophy}
+          </Typography>
+          <Typography component="p" sx={{ ...bodyCopySx, maxWidth: 600 }}>
+            {description}
+          </Typography>
+          <NextLink
+            className="home-text-link"
+            href={localizedPath(lng, "/post")}
+            style={{ marginTop: rem(primitiveTokens.space.md) }}
+          >
+            {cta} <span aria-hidden="true">→</span>
+          </NextLink>
+        </Box>
+        <AuthorProfile exploring={exploring} />
+      </Box>
     </Box>
   );
 }
