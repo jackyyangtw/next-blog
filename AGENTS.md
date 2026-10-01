@@ -45,6 +45,15 @@
 
 取得使用者確認後再開始修改。
 
+## 設計 Token 與 UI 樣式規範
+
+- **先查既有架構**：修改 UI 或套用設計 skill 前，先檢查 `packages/design-tokens/src/index.ts`、目標平台的 theme 與相關元件樣式，確認既有 token 和語意樣式能否滿足需求。
+- **共用基礎 Token 的單一來源**：色彩、字級、間距、圓角、字型等可重用的基礎 token 統一維護在 `packages/design-tokens`，透過 `@jacky-dev/design-tokens` 引用。缺少共用值時擴充此套件，避免在頁面或元件重新建立一套尺度。
+- **沿用平台語意層**：Web 優先使用既有 MUI theme 與 `sx` 的語意值，例如 `text.secondary`、`background.default`、`action.hover`；跨平台基礎值使用共用 tokens。明暗主題差異由既有 theme 處理，避免另建頁面專用色盤。
+- **禁止平行 Token 系統**：不得另建 `tokens.css` 或其他重複定義基礎 tokens 的檔案。若平台需要 CSS variables 或別名，必須由既有共用 tokens／theme 衍生，不能再維護一份獨立數值表。
+- **保留元件排版彈性**：元件專用的欄寬、圖片比例、斷點排版與互動時間可就近放在 `sx` 或樣式檔；不必將每個一次性尺寸升級成共用 token。重複使用或代表設計尺度的值則應回到共用層。
+- **設計 Skill 必須適配專案**：skill 中的範例路徑與預設產出方式必須配合上述架構。不能因 skill 建議建立 token 檔案，就忽略既有設計系統；修改完成後檢查是否新增重複的 token 定義或未被使用的產出檔案。
+
 ## Web 測試規範
 
 - 單元測試使用 Vitest，不使用 Playwright 撰寫單元測試。遵循就近放原則：測試檔與被測程式碼放在同一目錄，以同名的 `.spec.ts` 檔案命名（例如 `post.ts` 對應 `post.spec.ts`），不要集中搬到獨立的單元測試目錄。測試檔位於 `apps/web/src/**/*.spec.ts`，從 `vitest` 匯入 `test`、`expect` 等測試 API；目前由 `apps/web/vitest.config.mts` 設定為 Node 環境。

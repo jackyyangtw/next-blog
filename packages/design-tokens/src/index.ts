@@ -68,9 +68,23 @@ export const primitiveTokens = {
     },
   },
   radius: { sm: 8, md: 12, lg: 20, xl: 24, full: 999 },
-  space: { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 },
+  space: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+    "2xl": 48,
+    "3xl": 64,
+    "4xl": 80,
+  },
+  fontFamily: {
+    // Ordered candidates; platform adapters choose or serialize the family list.
+    monospace: ["SFMono-Regular", "Consolas", "Liberation Mono", "monospace"],
+  },
   typography: {
     body: 16,
+    small: 14,
     caption: 12,
     heading1: 48,
     heading2: 36,

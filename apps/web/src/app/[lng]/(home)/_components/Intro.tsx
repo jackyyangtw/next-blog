@@ -1,7 +1,8 @@
+import { homeRootSx, rem } from "./homeStyles";
+import { primitiveTokens } from "@jacky-dev/design-tokens";
 import { Box } from "@mui/material";
 import { getServerTranslation } from "@/i18n/index";
 import type { Locale } from "@/i18n/types";
-import TrackingLight from "./TrackingLight";
 import CaseStudiesSection from "./IntroParts/CaseStudiesSection";
 import FeaturedPostsSection from "./IntroParts/FeaturedPostsSection";
 import HeroSection from "./IntroParts/HeroSection";
@@ -20,29 +21,66 @@ export default async function Intro({ lng }: IntroProps) {
 
   return (
     <Box
+      className="jacky-home"
       sx={{
-        minHeight: "100vh",
-        bgcolor: "background.default",
-        color: "text.primary",
-        position: "relative",
-        overflow: "hidden",
-        backgroundImage:
-          "radial-gradient(rgba(148, 163, 184, 0.22) 1px, transparent 1px)",
-        backgroundSize: "32px 32px",
+        ...homeRootSx,
+        // Match the toolbar's 16px gutters before its desktop breakpoint.
+        width: {
+          xs: "100%",
+          sm: `calc(100% + ${rem(primitiveTokens.space.md)})`,
+          md: "100%",
+        },
+        mx: { xs: 0, sm: rem(-primitiveTokens.space.sm), md: 0 },
       }}
     >
-      <TrackingLight />
-
-      <Box sx={{ position: "relative", zIndex: 2 }}>
-        <HeroSection
-          titleLine1={t("hero.title_line_1")}
-          titleLine2={t("hero.title_line_2")}
-          description={t("hero.description")}
-          cta={t("hero.cta")}
-        />
+      <HeroSection
+        lng={lng}
+        titleLine1={t("hero.title_line_1")}
+        titleLine2={t("hero.title_line_2")}
+        philosophy={t("hero.philosophy")}
+        exploring={t("hero.exploring")}
+        description={t("hero.description")}
+        cta={t("hero.cta")}
+      />
+      <FeaturedPostsSection lng={lng} t={t} />
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "minmax(0, 1fr)",
+            md: "repeat(2, minmax(0, 1fr))",
+          },
+          gap: {
+            xs: rem(primitiveTokens.space["2xl"]),
+            md: rem(primitiveTokens.space["3xl"]),
+            lg: rem(primitiveTokens.space["4xl"]),
+          },
+          py: {
+            xs: rem(primitiveTokens.space["2xl"]),
+            md: rem(primitiveTokens.space["3xl"]),
+          },
+          borderBottom: "1px solid",
+          borderColor: "divider",
+        }}
+      >
         <PrinciplesSection t={t} />
         <CaseStudiesSection t={t} />
-        <FeaturedPostsSection lng={lng} t={t} />
+      </Box>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "minmax(0, 1fr)",
+            md: "repeat(2, minmax(0, 1fr))",
+          },
+          gap: {
+            xs: rem(primitiveTokens.space["2xl"]),
+            md: rem(primitiveTokens.space["3xl"]),
+            lg: rem(primitiveTokens.space["4xl"]),
+          },
+          pt: rem(primitiveTokens.space["2xl"]),
+        }}
+      >
         <TechStackSection t={t} />
         <HomeFooterSection t={t} />
       </Box>

@@ -1,60 +1,48 @@
-import { ArrowForward } from "@mui/icons-material";
-import { Box, Button, Stack, Typography } from "@mui/material";
-import PostsSection from "../PostSection";
-import TransitionFrame from "./TransitionFrame";
-import type { HomePageT } from "./types";
+import { primitiveTokens } from "@jacky-dev/design-tokens";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import NextLink from "next/link";
 import type { Locale } from "@/i18n/types";
-
-interface FeaturedPostsSectionProps {
-  lng: Locale;
-  t: HomePageT;
-}
+import { localizedPath } from "@/utils/seo";
+import PostsSection from "../PostSection";
+import { bodyCopySx, rem } from "../homeStyles";
+import SectionHeading from "./SectionHeading";
+import type { HomePageT } from "./types";
 
 export default function FeaturedPostsSection({
   lng,
   t,
-}: FeaturedPostsSectionProps) {
+}: {
+  lng: Locale;
+  t: HomePageT;
+}) {
   return (
-    <Box sx={{ py: 10, maxWidth: 1200, mx: "auto" }}>
-      <TransitionFrame kind="fade" timeout={520}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={3}
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "flex-end" }}
-          sx={{ mb: 5 }}
-        >
-          <Box sx={{ maxWidth: 640 }}>
-            <Typography variant="h2" sx={{ mb: 2 }}>
-              {t("featured_posts.section_title")}
-            </Typography>
-            <Typography
-              variant="body1"
-              sx={{ color: "text.secondary", lineHeight: 1.8 }}
-            >
-              {t("featured_posts.description")}
-            </Typography>
-          </Box>
-          <Button
-            href="/post"
-            variant="outlined"
-            endIcon={<ArrowForward />}
-            sx={{
-              borderRadius: 2,
-              whiteSpace: "nowrap",
-              transition:
-                "border-color 220ms ease, box-shadow 220ms ease, transform 220ms ease",
-              "&:hover": {
-                boxShadow: 2,
-                transform: "translateY(-2px)",
-              },
-            }}
-          >
-            {t("featured_posts.cta")}
-          </Button>
-        </Stack>
-      </TransitionFrame>
-      <PostsSection lng={lng} />
+    <Box component="section" aria-labelledby="posts-heading">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: rem(primitiveTokens.space.md),
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          pb: rem(primitiveTokens.space.lg),
+        }}
+      >
+        <Box sx={{ minWidth: 0 }}>
+          <SectionHeading id="posts-heading" number="01" compact>
+            {t("featured_posts.section_title")}
+          </SectionHeading>
+          <Typography component="p" sx={bodyCopySx}>
+            {t("featured_posts.description")}
+          </Typography>
+        </Box>
+        <NextLink className="home-text-link" href={localizedPath(lng, "/post")}>
+          {t("featured_posts.cta")} <span aria-hidden="true">→</span>
+        </NextLink>
+      </Box>
+      <PostsSection lng={lng} emptyMessage={t("featured_posts.empty")} />
     </Box>
   );
 }

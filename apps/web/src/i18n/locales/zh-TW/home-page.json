@@ -4,62 +4,65 @@
     "description": "做中學，學中做。前端開發筆記。"
   },
   "hero": {
-    "title_line_1": "把複雜的前端系統，",
-    "title_line_2": "整理成可維護的產品。",
-    "description": "我是 Jacky 楊捷超，專注 React、Next.js App Router 與 TypeScript。習慣用清楚的資料流、測試、CI/CD 與權限邊界，降低專案長期維護成本。",
-    "cta": "閱讀工程筆記"
+    "title_line_1": "我是 Jacky，",
+    "title_line_2": "這裡是我的前端筆記。",
+    "philosophy": "把複雜的前端問題，拆成可以維護的程式碼。",
+    "exploring": "Currently exploring",
+    "description": "寫下 React、Next.js 與 TypeScript 開發時遇到的問題，也記錄取捨和踩坑後的修正。",
+    "cta": "閱讀所有文章"
   },
   "principles": {
-    "section_title": "技術堅持與原則",
+    "section_title": "寫程式時，我在意的事",
     "items": {
       "component": {
-        "title": "元件精簡化",
-        "description": "我不喜歡讓單一 Component 承擔太多責任。當邏輯、UI、資料取得與副作用混在一起，後續每次修改都會變成賭運氣。"
+        "title": "一個元件，先做好一件事",
+        "description": "當畫面、資料取得和副作用開始纏在一起，我會先拆清楚責任，再決定元件怎麼切。"
       },
       "state": {
-        "title": "狀態純粹度",
-        "description": "嚴格遵守單向資料流，避免將 Hook 當作 Prop 傳遞，以維護架構的純粹性。"
+        "title": "先釐清狀態放在哪裡",
+        "description": "伺服器資料和畫面狀態分開處理。用 TanStack Query 管資料與快取，讓 Zustand 留給需要共用的 UI 狀態。"
       },
       "automation": {
-        "title": "自動化品質",
-        "description": "配置完善的 CI/CD 流程，確保每一行進入主分支的程式碼都符合品質標準。"
+        "title": "把重複檢查交給工具",
+        "description": "把型別檢查、lint 和測試放進 CI，讓每次修改都能重跑，也讓 Review 留時間討論設計與取捨。"
       }
     }
   },
   "case_studies": {
-    "section_title": "實戰經驗",
-    "description": "我寫文章不是為了整理名詞，而是把實務上遇過的混亂場景拆開：資料流不清、狀態責任混在一起、測試缺口、安全邊界模糊、SEO 與效能取捨。這些問題通常不會第一天爆炸，但會在產品長期維護時慢慢變成成本。",
+    "section_title": "處理過的問題",
+    "description": "這些是我在實作中遇過，也持續整理成筆記的題目。",
     "items": {
       "state": {
-        "title": "複雜狀態重構",
-        "description": "曾在大型既有專案中處理狀態來源混亂、資料流不清楚與元件耦合問題，透過 Custom Hooks、TanStack Query 與 Zustand 職責切分，讓資料取得、快取與 UI 狀態更容易追蹤。"
+        "title": "狀態重構",
+        "description": "拆開既有專案的資料取得、快取與 UI 狀態，讓資料流更容易追蹤。"
       },
       "quality": {
-        "title": "前端品質防線",
-        "description": "在專案中導入 ESLint、TypeScript 檢查、Vitest 單元測試與 Playwright E2E，把容易靠人工遺漏的流程轉成可重複驗證的檢查。"
+        "title": "測試與 CI",
+        "description": "用 Vitest、Playwright 和 CI，補上容易被人工檢查漏掉的流程。"
       },
       "performance": {
-        "title": "效能與 SEO",
-        "description": "處理過 metadata、sitemap、revalidate 與圖片最佳化等議題，讓內容型網站在搜尋可見度、載入速度與快取更新之間取得平衡。"
+        "title": "內容網站",
+        "description": "處理 metadata、sitemap、圖片與快取更新，在 SEO 和載入速度之間做取捨。"
       },
       "security": {
-        "title": "安全與權限邊界",
-        "description": "實作過 CSP nonce、登入狀態檢查、Route Handler 權限驗證與 DAL 分層，避免敏感邏輯直接暴露在 Client Component。"
+        "title": "權限邊界",
+        "description": "透過 CSP、Route Handler 驗證與 DAL 分層，讓敏感邏輯留在伺服器。"
       }
     }
   },
   "featured_posts": {
-    "section_title": "精選文章",
-    "description": "整理我在前端架構、狀態管理、Next.js 與工程品質上的實作筆記。文章保留問題脈絡，也記錄取捨與踩坑後的修正。",
-    "cta": "前往部落格"
+    "section_title": "最近的文章",
+    "description": "從實作問題出發，記下解法和取捨。",
+    "cta": "所有文章",
+    "empty": "文章整理中，稍後再來看看。"
   },
   "tech_stack": {
-    "section_title": "技術棧",
-    "description": "日常主要圍繞 Next.js、React、TypeScript、Testing 與 Security，並依照需求搭配狀態管理、UI 系統與 CI/CD。"
+    "section_title": "常用工具",
+    "description": "主要圍繞 React、Next.js 和 TypeScript，其他工具依照問題選擇。"
   },
   "about": {
-    "section_title": "關於我 / 聯絡方式",
-    "description": "我喜歡把抽象的前端問題拆成可維護的結構，也樂於把實作過程整理成文章。若你想交流 React、Next.js、工程品質或內容型網站架構，可以從這裡找到我。",
+    "section_title": "聊聊前端",
+    "description": "如果你也在處理前端架構、測試或內容網站的問題，歡迎來信交流。",
     "email": "Email",
     "github": "GitHub"
   }
