@@ -18,20 +18,21 @@ minimumReleaseAgeExclude:
   - brace-expansion@5.0.12
   - postcss@8.5.23
   - undici@6.28.0 || 7.29.0
-  - "@next/eslint-plugin-next@16.3.6"
-  - eslint-config-next@16.3.6
-  - "@next/env@16.3.6"
-  - "@next/swc-darwin-arm64@16.3.6"
-  - "@next/swc-darwin-x64@16.3.6"
-  - "@next/swc-linux-arm64-gnu@16.3.6"
-  - "@next/swc-linux-arm64-musl@16.3.6"
-  - "@next/swc-linux-x64-gnu@16.3.6"
-  - "@next/swc-linux-x64-musl@16.3.6"
-  - "@next/swc-win32-arm64-msvc@16.3.6"
-  - "@next/swc-win32-x64-msvc@16.3.6"
-  - "@next/third-parties@16.3.6"
-  - next@16.3.6
-  - "@next/playwright@16.3.6"
+  - "@next/eslint-plugin-next@16.3.8"
+  - eslint-config-next@16.3.8
+  - "@next/env@16.3.8"
+  - "@next/swc-darwin-arm64@16.3.8"
+  - "@next/swc-darwin-x64@16.3.8"
+  - "@next/swc-linux-arm64-gnu@16.3.8"
+  - "@next/swc-linux-arm64-musl@16.3.8"
+  - "@next/swc-linux-x64-gnu@16.3.8"
+  - "@next/swc-linux-x64-musl@16.3.8"
+  - "@next/swc-win32-arm64-msvc@16.3.8"
+  - "@next/swc-win32-x64-msvc@16.3.8"
+  - "@next/third-parties@16.3.8"
+  - next@16.3.8
+  - "@next/playwright@16.3.8"
+  - dompurify@3.4.16
 
 overrides:
   browserslist: "4.28.7"
@@ -78,7 +79,7 @@ overrides:
   "dompurify@<3.4.9": ">=3.4.9"
   "dompurify@>=3.0.0 <=3.4.7": ">=3.4.8"
   "dompurify@<=3.4.6": ">=3.4.7"
-  dompurify: "3.4.13"
+  dompurify: "3.4.16"
   "nanoid@<4": "3.3.18"
   "markdown-it@<=14.3.0": "14.3.1"
   "@humanfs/node@<0.16.8": "0.16.8"
@@ -88,3 +89,6 @@ overrides:
   "adm-zip@<0.6.1": "0.6.1"
   # Metro 0.87.1 removes image-size and its two high-severity advisories.
   metro-config@0.87.0: 0.87.1
+
+patchedDependencies:
+  node-forge@1.4.0: patches/node-forge@1.4.0.patch
