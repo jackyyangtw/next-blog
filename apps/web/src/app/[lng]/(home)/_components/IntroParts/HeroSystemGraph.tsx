@@ -94,7 +94,7 @@ export default function HeroSystemGraph() {
         }}
       >
         <Image
-          src="/images/avatar.png"
+          src="/images/avatar.jpg"
           alt="Jacky"
           fill
           priority

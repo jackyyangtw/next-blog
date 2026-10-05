@@ -53,7 +53,7 @@ function getHomeStructuredData({
         name: "Jacky Yang",
         alternateName: "Jacky",
         url: siteUrl,
-        image: absoluteUrl("/images/avatar.png"),
+        image: absoluteUrl("/images/avatar.jpg"),
         jobTitle: "Frontend Engineer",
       },
       {

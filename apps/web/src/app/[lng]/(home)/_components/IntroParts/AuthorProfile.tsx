@@ -30,20 +30,20 @@ export default function AuthorProfile({ exploring }: { exploring: string }) {
       <Box
         sx={{
           justifySelf: "center",
-          width: { xs: 64, sm: 96, md: 128, lg: 160 },
-          height: { xs: 64, sm: 96, md: 128, lg: 160 },
+          width: { xs: 56, sm: 88, md: 116, lg: 144 },
+          height: { xs: 56, sm: 88, md: 116, lg: 144 },
           position: "relative",
           borderRadius: rem(primitiveTokens.radius.full),
           overflow: "clip",
         }}
       >
         <Image
-          src="/images/avatar.png"
+          src="/images/avatar.jpg"
           alt="Jacky Yang"
           fill
           loading="eager"
-          sizes="(max-width: 599px) 64px, (max-width: 899px) 96px, (max-width: 1199px) 128px, 160px"
-          style={{ objectFit: "cover" }}
+          sizes="(max-width: 599px) 56px, (max-width: 899px) 88px, (max-width: 1199px) 116px, 144px"
+          style={{ objectFit: "cover", objectPosition: "center 42%" }}
         />
       </Box>
       <Box sx={{ minWidth: 0 }}>
