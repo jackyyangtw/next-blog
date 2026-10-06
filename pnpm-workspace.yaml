@@ -8,7 +8,9 @@ allowBuilds:
   unrs-resolver: false
 
 minimumReleaseAgeExclude:
-  - smol-toml@1.8.0
+  - smol-toml@1.9.0
+  - source-map-js@1.2.2
+  - compression@1.8.2
   - adm-zip@0.6.1
   - js-yaml@4.3.2
   - markdown-it@14.3.1
@@ -85,10 +87,9 @@ overrides:
   "@humanfs/node@<0.16.8": "0.16.8"
   "undici@>=7.0.0 <7.29.1": "7.29.1"
   "undici@>=8.0.0 <8.10.2": "8.10.2"
-  "smol-toml@<=1.7.0": "1.8.0"
+  "smol-toml@<1.9.0": "1.9.0"
+  "source-map-js@>=1.0.0 <1.2.2": "1.2.2"
+  "compression@<1.8.2": "1.8.2"
   "adm-zip@<0.6.1": "0.6.1"
   # Metro 0.87.1 removes image-size and its two high-severity advisories.
   metro-config@0.87.0: 0.87.1
-
-patchedDependencies:
-  node-forge@1.4.0: patches/node-forge@1.4.0.patch
