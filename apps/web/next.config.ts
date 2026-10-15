@@ -4,11 +4,6 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
-  deprecated: {
-    // Preserve the article preview's parallel/intercepting routes on Next 16.4.
-    // Remove after migrating this route tree to strict route matching.
-    looseRouteMatching: true,
-  },
   experimental: {
     exposeTestingApiInProductionBuild:
       process.env.EXPOSE_TESTING_API === "1" ||
