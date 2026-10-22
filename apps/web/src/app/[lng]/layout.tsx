@@ -104,6 +104,7 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
     language: chrome.component.LangSwitcher.label,
     navigation: {
       posts: chrome.navigation["/post"],
+      projects: chrome.navigation["/projects"],
       studio: chrome.navigation["/studio"],
     },
   };

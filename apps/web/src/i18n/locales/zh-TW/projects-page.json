@@ -1,0 +1,35 @@
+{
+  "title": "作品",
+  "description": "工作之外動手做的 side project：從串接 TapPay 金流的訂閱結帳，到自己每天在用的求職追蹤工具。",
+  "links": {
+    "demo": "Live Demo",
+    "repo": "GitHub",
+    "new_tab": "（另開新分頁）"
+  },
+  "screenshot_alt": "{{name}} 畫面截圖",
+  "screenshot_pending": "截圖準備中",
+  "tech_stack_label": "使用技術",
+  "highlights_label": "技術亮點",
+  "items": {
+    "billing_vault": {
+      "name": "BillingVault",
+      "tagline": "模擬 SaaS 訂閱結帳，完整串接 TapPay 金流 API（Sandbox 環境）。",
+      "note": "Sandbox 測試環境，不會真的扣款。",
+      "highlights": {
+        "0": "以 TapPay Fields 取得 Prime 完成卡號 Tokenization，原始卡號不經過自己的伺服器；綁定的卡片再以 Pay by Token 扣款。",
+        "1": "訂閱請求附帶冪等鍵，搭配送出鎖定，避免重試或連點造成重複扣款。",
+        "2": "以 Supabase SSR 驗證登入狀態，並用 CSP Nonce 與重導向白名單防範注入和 Open Redirect。"
+      }
+    },
+    "job_tracker": {
+      "name": "投遞追蹤",
+      "tagline": "我自己求職時每天在用的投遞紀錄工具，可安裝到手機桌面。",
+      "note": "個人使用中的工具，未開放登入，可在 GitHub 查看原始碼。",
+      "highlights": {
+        "0": "PWA 架構，可安裝到桌面並透過 Service Worker 快取資源。",
+        "1": "以看板方式追蹤每筆投遞的進度，一眼看出卡在哪個階段。",
+        "2": "從自己的求職痛點出發，邊用邊迭代功能。"
+      }
+    }
+  }
+}

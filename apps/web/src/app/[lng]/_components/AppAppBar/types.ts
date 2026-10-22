@@ -7,6 +7,7 @@ export interface AppBarLabels {
   language: string;
   navigation: {
     posts: string;
+    projects: string;
     studio: string;
   };
 }
