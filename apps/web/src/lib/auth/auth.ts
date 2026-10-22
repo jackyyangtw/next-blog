@@ -1,6 +1,7 @@
 // src/lib/auth/auth.ts
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { isEmailAllowed, parseAllowedEmails } from "./allowed-emails";
 import { getOrCreateSanityUser, getSanityUserByEmail } from "./sanity-user";
 import {
   restoreAuthSessionUserImage,
@@ -16,6 +17,13 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
+    // 登入不對外開放，只允許 AUTH_ALLOWED_EMAILS 白名單內的帳號
+    async signIn({ user }) {
+      return isEmailAllowed(
+        user.email,
+        parseAllowedEmails(process.env.AUTH_ALLOWED_EMAILS),
+      );
+    },
     async jwt({ token, user }) {
       if (user?.email) {
         const { email, name, image } = user;

@@ -57,9 +57,7 @@ export default function JoyRide() {
   const tutorialSteps = useMemo<Step[]>(() => {
     const authStep: Step = {
       target: '[data-tour="auth-entry"]',
-      content: isAuthenticated
-        ? "你已登入，可以從這裡前往個人頁查看收藏清單。"
-        : "先從這裡登入，登入後才能使用收藏功能。",
+      content: "你已登入，可以從這裡前往個人頁查看收藏清單。",
       skipBeacon: true,
     };
     const guideStep: Step = {
@@ -76,18 +74,19 @@ export default function JoyRide() {
       return [authStep, guideStep];
     }
     return [authStep, toggleFavoriteStep, guideStep];
-  }, [hasFavoriteTarget, isAuthenticated]);
+  }, [hasFavoriteTarget]);
 
+  // 登入入口不對讀者公開，導覽只在登入後啟動
   useEffect(() => {
-    if (status === "loading" || hasCompleted || isRunning) return;
+    if (!isAuthenticated || hasCompleted || isRunning) return;
     startTour();
-  }, [status, hasCompleted, isRunning, startTour]);
+  }, [isAuthenticated, hasCompleted, isRunning, startTour]);
 
   return (
     <>
       <Animations />
       <Joyride
-        run={isRunning}
+        run={isAuthenticated && isRunning}
         continuous
         onEvent={handleTourCallback}
         steps={tutorialSteps}

@@ -17,7 +17,6 @@ import {
 } from "@/lib/api/bookmarks/hooks";
 
 // ------------- next -------------
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
 // ------------- store -------------
@@ -30,7 +29,6 @@ interface FavoriteButtonProps {
 export default function FavoriteButton({ postId }: FavoriteButtonProps) {
   const { showSnackbar } = useAppSnackbarStore();
   const { status } = useSession();
-  const router = useRouter();
 
   // --------------- isFavorite ---------------
   const { data: bookmarks } = useBookmarks();
@@ -45,12 +43,10 @@ export default function FavoriteButton({ postId }: FavoriteButtonProps) {
   const isMutating = addBookmark.isPending || removeBookmark.isPending;
   // 受控 tooltip，mutation 期間強制關閉
   const [tipOpen, setTipOpen] = React.useState(false);
+  // 登入入口不對讀者公開，未登入時不顯示收藏按鈕
+  if (status !== "authenticated") return null;
+
   const handleToggle = () => {
-    if (status === "unauthenticated") {
-      showSnackbar({ message: "請先登入", severity: "warning" });
-      router.push("/auth");
-      return;
-    }
     if (isMutating) return; // 忽略連點
 
     // 點擊就先把 tooltip 關掉，避免殘留

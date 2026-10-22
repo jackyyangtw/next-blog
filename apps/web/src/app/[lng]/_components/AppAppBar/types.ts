@@ -5,7 +5,6 @@ export interface AppBarLabels {
     system: string;
   };
   language: string;
-  login: string;
   navigation: {
     posts: string;
     studio: string;

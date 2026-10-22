@@ -102,7 +102,6 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
       system: chrome.component.ColorModeIconDropdown.system,
     },
     language: chrome.component.LangSwitcher.label,
-    login: chrome.auth.login,
     navigation: {
       posts: chrome.navigation["/post"],
       studio: chrome.navigation["/studio"],

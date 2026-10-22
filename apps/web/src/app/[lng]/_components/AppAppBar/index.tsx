@@ -144,14 +144,14 @@ export default function AppAppBar({
                 alignItems: "center",
               }}
             >
-              <LoginButton lng={lng} loginLabel={labels.login} />
+              <LoginButton lng={lng} />
               <ColorModeIconDropdown labels={labels.colorMode} />
               <LangSwitcher lng={lng} label={labels.language} />
             </Box>
 
             {/* 手機版 */}
             <Box sx={{ display: { xs: "flex", md: "none" }, gap: 1 }}>
-              <LoginButton lng={lng} loginLabel={labels.login} />
+              <LoginButton lng={lng} />
               <ColorModeIconDropdown labels={labels.colorMode} />
               <LangSwitcher lng={lng} label={labels.language} />
               <IconButton
