@@ -2,7 +2,7 @@
 export interface Project {
   key: "billing_vault" | "job_tracker";
   // demoUrl 與 repoUrl 皆選填，但每個專案至少要有一個（由 projects.spec.ts 檢查）
-  // 訪客無法登入使用的專案不放 demoUrl，避免連到進不去的登入頁
+  // 訪客無法登入使用的專案，demoUrl 要指向免登入的試用頁，避免連到進不去的登入頁
   demoUrl?: string;
   repoUrl?: string;
   // 放在 public/images/projects/，尚未提供時卡片改顯示文字佔位
@@ -22,6 +22,8 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     key: "job_tracker",
+    // 正式帳號只開放擁有者登入，demo 連到免登入的試用模式
+    demoUrl: "https://job-tracker-3qaw.vercel.app/demo/applications",
     repoUrl: "https://github.com/jackyyangtw/job-tracker",
     image: "/images/projects/job-tracker-mobile.webp",
     techStack: ["Next.js", "TypeScript", "PWA", "Google OAuth"],
