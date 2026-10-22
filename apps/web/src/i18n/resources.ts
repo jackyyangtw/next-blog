@@ -11,6 +11,7 @@ const RESOURCE_LOADERS: Record<Locale, Record<Namespace, ResourceLoader>> = {
     "home-page": () => import("./locales/en/home-page.json"),
     "nav-links": () => import("./locales/en/nav-links.json"),
     "posts-page": () => import("./locales/en/posts-page.json"),
+    "projects-page": () => import("./locales/en/projects-page.json"),
     "user-page": () => import("./locales/en/user-page.json"),
   },
   "zh-TW": {
@@ -21,6 +22,7 @@ const RESOURCE_LOADERS: Record<Locale, Record<Namespace, ResourceLoader>> = {
     "home-page": () => import("./locales/zh-TW/home-page.json"),
     "nav-links": () => import("./locales/zh-TW/nav-links.json"),
     "posts-page": () => import("./locales/zh-TW/posts-page.json"),
+    "projects-page": () => import("./locales/zh-TW/projects-page.json"),
     "user-page": () => import("./locales/zh-TW/user-page.json"),
   },
 };

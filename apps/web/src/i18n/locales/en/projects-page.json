@@ -1,0 +1,35 @@
+{
+  "title": "Projects",
+  "description": "Side projects built outside of work: from a subscription checkout integrated with the TapPay payment API to the job-search tracker I use every day.",
+  "links": {
+    "demo": "Live Demo",
+    "repo": "GitHub",
+    "new_tab": "(opens in a new tab)"
+  },
+  "screenshot_alt": "Screenshot of {{name}}",
+  "screenshot_pending": "Screenshot coming soon",
+  "tech_stack_label": "Tech stack",
+  "highlights_label": "Highlights",
+  "items": {
+    "billing_vault": {
+      "name": "BillingVault",
+      "tagline": "A mock SaaS subscription checkout wired to the TapPay sandbox payment flow.",
+      "note": "Sandbox environment. No real charges are made.",
+      "highlights": {
+        "0": "TapPay Fields tokenize card data into a Prime, so raw card numbers never reach my own server; saved cards are charged via Pay by Token.",
+        "1": "Subscription requests carry an idempotency key plus a submit lock, so retries and double clicks never double charge.",
+        "2": "Sessions are verified with Supabase SSR, with CSP nonces and a redirect allowlist guarding against injection and open redirects."
+      }
+    },
+    "job_tracker": {
+      "name": "Job Tracker",
+      "tagline": "The application tracker I use daily during my own job search, installable to the home screen.",
+      "note": "A tool I use personally. Sign-in is closed, but the source code is on GitHub.",
+      "highlights": {
+        "0": "Built as a PWA: installable, with assets cached by a service worker.",
+        "1": "A kanban board tracks every application so stalled stages stand out at a glance.",
+        "2": "Born from my own job-search pain points and iterated on while using it."
+      }
+    }
+  }
+}

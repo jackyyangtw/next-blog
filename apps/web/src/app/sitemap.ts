@@ -29,13 +29,22 @@ type SitemapPost = {
   } | null;
 };
 
-const STATIC_PATHS = ["", "/post"] as const;
+const STATIC_PATHS = ["", "/post", "/projects"] as const;
+
+const STATIC_CHANGE_FREQUENCY = {
+  "": "weekly",
+  "/post": "daily",
+  "/projects": "monthly",
+} as const satisfies Record<
+  (typeof STATIC_PATHS)[number],
+  MetadataRoute.Sitemap[number]["changeFrequency"]
+>;
 
 function staticEntries(origin: string): MetadataRoute.Sitemap {
   return STATIC_PATHS.flatMap((path) =>
     languages.map((lng) => ({
       url: localizedUrl(lng, path, origin),
-      changeFrequency: path === "" ? "weekly" : "daily",
+      changeFrequency: STATIC_CHANGE_FREQUENCY[path],
       priority: path === "" ? 1 : 0.8,
       alternates: {
         languages: languageAlternates(path, origin),

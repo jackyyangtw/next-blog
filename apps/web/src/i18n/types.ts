@@ -13,6 +13,7 @@ export type Namespace =
   | "posts-page"
   | "home-page"
   | "auth-page"
+  | "projects-page"
   // nav-links
   | "nav-links";
 

@@ -11,12 +11,16 @@ export interface NavLink {
 
 export function getNavLinks(
   lng: Locale,
-  labels: { posts: string; studio: string },
+  labels: { posts: string; projects: string; studio: string },
 ) {
   return [
     {
       label: labels.posts,
       href: `/${lng}/post`,
+    },
+    {
+      label: labels.projects,
+      href: `/${lng}/projects`,
     },
     {
       label: labels.studio,
