@@ -10,15 +10,18 @@ type Advisory = {
   findings?: { version?: string }[];
 };
 
-const allowlist: Allowlist = JSON.parse(
-  readFileSync(
-    new URL(
-      "../../../../../.github/workflows/scripts/cve-allowlist.json",
-      import.meta.url,
+// 以 2026-10-06 加入的兩筆紀錄驗證機制，後續新增的紀錄不影響固定時間點的斷言。
+const allowlist: Allowlist = (
+  JSON.parse(
+    readFileSync(
+      new URL(
+        "../../../../../.github/workflows/scripts/cve-allowlist.json",
+        import.meta.url,
+      ),
+      "utf8",
     ),
-    "utf8",
-  ),
-);
+  ) as Allowlist
+).filter((entry) => ["node-forge", "braces"].includes(entry.package));
 const now = new Date("2026-10-06T09:00:00+08:00");
 const forge: Advisory = {
   github_advisory_id: "GHSA-86w9-cpqp-85rv",

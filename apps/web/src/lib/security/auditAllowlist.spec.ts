@@ -81,11 +81,12 @@ describe("CVE allowlist 紀錄", () => {
       });
       expect(result.status).toBe(0);
       const report = JSON.parse(result.stdout);
-      expect(report.allowlist).toHaveLength(2);
+      expect(report.allowlist).toHaveLength(3);
       expect(report.allowedAdvisories).toEqual({});
       expect(result.stderr).toContain("CVE allowlist");
       expect(result.stderr).toContain("node-forge");
       expect(result.stderr).toContain("braces");
+      expect(result.stderr).toContain("zod");
       expect(result.stderr).toContain(entry.expiresAt);
       expect(readFileSync(summary, "utf8")).toBe(result.stderr);
     } finally {
