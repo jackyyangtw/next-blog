@@ -9,12 +9,12 @@ import { notFound } from "next/navigation";
 
 // ------------- Components -------------
 import PostDetailContent from "./_components/PostDetailContent";
-import PostDetailPageSkeleton from "./_components/PostDetailPageSkeleton";
 import RelatedPostsSection from "./_components/RelatedPostsSection";
 import RichText from "./_components/RichText/RichText";
 
 // ------------- utils -------------
 import { getPost } from "../_lib/getPost";
+import { publicClient } from "@/sanity/lib/client";
 import { getPostBannerImageSrc } from "@/sanity/postBanner";
 import {
   absoluteUrl,
@@ -28,6 +28,15 @@ import type { Locale } from "@/i18n/types";
 
 interface PostPageProps {
   params: Promise<{ slug: string; lng: Locale }>;
+}
+
+// 預先產生所有文章，讓標題、banner 與內文直接進入靜態 shell，
+// 避免 skeleton 與實際內容高度不同造成的 CLS；未列出的新文章仍會在首次請求時產生
+export async function generateStaticParams() {
+  const slugs = await publicClient.fetch<string[]>(
+    `*[_type == "post" && defined(slug.current)].slug.current`,
+  );
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PostPageProps) {
@@ -166,11 +175,8 @@ async function PostPageContent({ params }: PostPageProps) {
   );
 }
 
-// support PPR (Partial Prerendering)
-export default function PostPage({ params }: PostPageProps) {
-  return (
-    <Suspense fallback={<PostDetailPageSkeleton />}>
-      <PostPageContent params={params} />
-    </Suspense>
-  );
-}
+// params 不包 Suspense：已預先產生的文章完整進入靜態 HTML，不會先畫 skeleton 再替換；
+// 未列出的新文章首次請求會等待完整渲染（blocking），之後由 ISR 快取
+export const instant = false;
+
+export default PostPageContent;
