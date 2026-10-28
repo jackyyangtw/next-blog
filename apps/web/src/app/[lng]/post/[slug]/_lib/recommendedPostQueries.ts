@@ -1,4 +1,6 @@
-export const FALLBACK_RECOMMENDED_POSTS_QUERY = `
+import { defineQuery } from "next-sanity";
+
+export const FALLBACK_RECOMMENDED_POSTS_QUERY = defineQuery(/* groq */ `
   *[_type == "post" && slug.current != $slug] | order(_createdAt desc) [0...$limit] {
     _id,
     _createdAt,
@@ -23,9 +25,9 @@ export const FALLBACK_RECOMMENDED_POSTS_QUERY = `
       "slug": slug.current
     }
   }
-`;
+`);
 
-export const RELATED_RECOMMENDED_POSTS_QUERY = `
+export const RELATED_RECOMMENDED_POSTS_QUERY = defineQuery(/* groq */ `
   *[
     _type == "post" &&
     slug.current != $slug &&
@@ -54,4 +56,4 @@ export const RELATED_RECOMMENDED_POSTS_QUERY = `
       "slug": slug.current
     }
   }
-`;
+`);

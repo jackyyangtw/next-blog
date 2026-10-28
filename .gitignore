@@ -58,3 +58,6 @@ skills-lock.json
 
 # claude code (.claude/skills is a junction to .agents/skills)
 .claude/skills
+
+# Sanity TypeGen 中間產物（型別檔 apps/web/src/sanity/sanity.types.ts 會 commit）
+apps/web/schema.json

@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "start:instant": "next start -p 3201",
+    "sanity:typegen": "sanity schema extract --enforce-required-fields && sanity typegen generate",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"next.config.ts\" \"eslint.config.mjs\"",
     "typecheck": "tsc --noEmit && tsc --project tsconfig.tests.json",
     "prettier:check": "prettier . --check",

@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 
 // ------------- next -------------
 import { notFound } from "next/navigation";
+import { defineQuery } from "next-sanity";
 
 // ------------- Components -------------
 import PostDetailContent from "./_components/PostDetailContent";
@@ -26,6 +27,10 @@ import {
 import { fallbackLng } from "@/i18n/config";
 import type { Locale } from "@/i18n/types";
 
+const POST_SLUGS_QUERY = defineQuery(
+  /* groq */ `*[_type == "post" && defined(slug.current)].slug.current`,
+);
+
 interface PostPageProps {
   params: Promise<{ slug: string; lng: Locale }>;
 }
@@ -33,9 +38,7 @@ interface PostPageProps {
 // 預先產生所有文章，讓標題、banner 與內文直接進入靜態 shell，
 // 避免 skeleton 與實際內容高度不同造成的 CLS；未列出的新文章仍會在首次請求時產生
 export async function generateStaticParams() {
-  const slugs = await publicClient.fetch<string[]>(
-    `*[_type == "post" && defined(slug.current)].slug.current`,
-  );
+  const slugs = await publicClient.fetch(POST_SLUGS_QUERY);
   return slugs.map((slug) => ({ slug }));
 }
 

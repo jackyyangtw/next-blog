@@ -4,12 +4,13 @@ import {
 } from "@/sanity/constants/postBanners";
 import { urlFor } from "@/sanity/lib/image";
 
+// Sanity 查詢結果的缺值為 null，zod 解析後則為 undefined，兩者都要接受
 type SanityPhoto = {
   asset?: {
     metadata?: {
-      lqip?: string;
-    };
-  };
+      lqip?: string | null;
+    } | null;
+  } | null;
 };
 
 type PostBannerInput = {
@@ -56,7 +57,7 @@ export function getPostBannerAlt(post: PostBannerInput) {
 }
 
 export function getPostBannerBlurDataURL(post: PostBannerInput) {
-  return post.photo?.asset?.metadata?.lqip;
+  return post.photo?.asset?.metadata?.lqip ?? undefined;
 }
 
 export function hasPostBannerImage(post: PostBannerInput) {

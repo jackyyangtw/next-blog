@@ -10,25 +10,27 @@ import {
   postCanonicalUrl,
 } from "@/utils/seo";
 import { getPostBannerImageSrc } from "@/sanity/postBanner";
+import { defineQuery } from "next-sanity";
 
-type SitemapPost = {
-  slug: string;
-  title: string;
-  _createdAt: string;
-  _updatedAt?: string;
-  bannerSource?: string | null;
-  presetBanner?: string | null;
-  photo?: {
-    asset?: {
-      _id?: string;
-      url?: string;
-      metadata?: {
-        lqip?: string;
-      };
-    };
-    alt?: string;
-  } | null;
-};
+const SITEMAP_POSTS_QUERY =
+  defineQuery(/* groq */ `*[_type == "post" && defined(slug.current)] | order(_createdAt desc) {
+  "slug": slug.current,
+  title,
+  _createdAt,
+  _updatedAt,
+  bannerSource,
+  presetBanner,
+  photo{
+    asset->{
+      _id,
+      url,
+      metadata{
+        lqip
+      }
+    },
+    alt
+  }
+}`);
 
 const STATIC_PATHS = ["", "/post", "/projects"] as const;
 
@@ -55,26 +57,7 @@ function staticEntries(origin: string): MetadataRoute.Sitemap {
 }
 
 async function postEntries(origin: string): Promise<MetadataRoute.Sitemap> {
-  const posts = await publicClient.fetch<SitemapPost[]>(
-    `*[_type == "post" && defined(slug.current)] | order(_createdAt desc) {
-      "slug": slug.current,
-      title,
-      _createdAt,
-      _updatedAt,
-      bannerSource,
-      presetBanner,
-      photo{
-        asset->{
-          _id,
-          url,
-          metadata{
-            lqip
-          }
-        },
-        alt
-      }
-    }`,
-  );
+  const posts = await publicClient.fetch(SITEMAP_POSTS_QUERY);
 
   // 文章內容只有中文，只列出標準網址（zh-TW），不輸出其他語系版本
   return posts.map((post) => {
