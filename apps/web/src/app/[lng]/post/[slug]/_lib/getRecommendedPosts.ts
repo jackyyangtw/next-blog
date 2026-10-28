@@ -5,33 +5,15 @@ import {
   RELATED_RECOMMENDED_POSTS_QUERY,
 } from "./recommendedPostQueries";
 import { getRecommendationScore } from "./recommendationScore";
+import type {
+  FALLBACK_RECOMMENDED_POSTS_QUERY_RESULT,
+  RELATED_RECOMMENDED_POSTS_QUERY_RESULT,
+} from "@/sanity/sanity.types";
 
-interface CategoryLite {
-  _id: string;
-  slug: string;
-  title: string;
-}
-
-interface RecommendedPost {
-  _id: string;
-  _createdAt: string;
-  title: string;
-  description: string;
-  slug: string;
-  photo: {
-    asset: {
-      _id: string;
-      url?: string;
-      metadata?: {
-        lqip?: string;
-      };
-    };
-    alt?: string;
-  } | null;
-  bannerSource?: string;
-  presetBanner?: string;
-  categories: CategoryLite[];
-}
+// 兩支查詢的 projection 相同，產生的型別結構一致
+type RecommendedPost =
+  | FALLBACK_RECOMMENDED_POSTS_QUERY_RESULT[number]
+  | RELATED_RECOMMENDED_POSTS_QUERY_RESULT[number];
 
 interface GetRecommendedPostsInput {
   slug: string;
@@ -39,9 +21,9 @@ interface GetRecommendedPostsInput {
   limit?: number;
 }
 
-interface ScoredPost extends RecommendedPost {
+type ScoredPost = RecommendedPost & {
   _score: number;
-}
+};
 
 interface RecommendedPostsQueryParams {
   categoryIds?: string[];
@@ -50,7 +32,9 @@ interface RecommendedPostsQueryParams {
 }
 
 async function fetchRecommendedPosts(
-  query: string,
+  query:
+    | typeof FALLBACK_RECOMMENDED_POSTS_QUERY
+    | typeof RELATED_RECOMMENDED_POSTS_QUERY,
   params: RecommendedPostsQueryParams,
 ): Promise<RecommendedPost[]> {
   return publicClient.fetch<RecommendedPost[]>(query, params);

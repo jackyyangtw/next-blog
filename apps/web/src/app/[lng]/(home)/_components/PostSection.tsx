@@ -7,6 +7,39 @@ import { bodyCopySx, rem } from "./homeStyles";
 import { publicClient } from "@/sanity/lib/client";
 import type { PostSummary } from "@/schema/type/post";
 import type { Locale } from "@/i18n/types";
+import { defineQuery } from "next-sanity";
+
+const LATEST_POSTS_QUERY =
+  defineQuery(/* groq */ `*[_type == "post"] | order(_createdAt desc)[0...4] {
+  _id,
+  _createdAt,
+  title,
+  description,
+  bannerSource,
+  presetBanner,
+  photo{
+    asset->{
+      _id,
+      url,
+      metadata{
+        lqip
+      }
+    },
+    alt
+  },
+  "slug": slug.current,
+  categories[]->{
+    _id,
+    title,
+    "slug": slug.current
+  },
+  author->{
+    _id,
+    name,
+    "slug": slug.current,
+    avatar
+  }
+}`);
 
 export default async function PostsSection({
   lng,
@@ -24,39 +57,7 @@ export default async function PostsSection({
   });
   cacheTag("posts");
 
-  const posts = await publicClient.fetch<PostSummary[]>(
-    `*[_type == "post"] | order(_createdAt desc)[0...4] {
-      _id,
-      _createdAt,
-      title,
-      description,
-      bannerSource,
-      presetBanner,
-      photo{
-        asset->{
-          _id,
-          url,
-          metadata{
-            lqip
-          }
-        },
-        alt
-      },
-      "slug": slug.current,
-      categories[]->{
-        _id,
-        title,
-        "slug": slug.current
-      },
-      author->{
-        _id,
-        name,
-        "slug": slug.current,
-        avatar
-      }
-    }`,
-    {},
-  );
+  const posts = await publicClient.fetch<PostSummary[]>(LATEST_POSTS_QUERY, {});
   if (posts.length === 0) {
     return (
       <Typography
