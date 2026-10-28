@@ -1,4 +1,5 @@
 "use client";
+import { Suspense } from "react";
 import AppAppBar from "@/app/[lng]/_components/AppAppBar";
 import { useAppSnackbarStore } from "@/store/useAppSnackbarStore";
 import { useFeatureTourStore } from "@/store/useFeatureTourStore";
@@ -30,7 +31,11 @@ export default function AppWrapper({
 
   return (
     <>
-      <AppAppBar labels={appBarLabels} lng={lng} />
+      {/* AppBar 使用 usePathname，動態路由需要 Suspense；它是 fixed 定位，
+          fallback 為 null 也不會推動版面，頁面內容則留在靜態 shell 避免 CLS */}
+      <Suspense fallback={null}>
+        <AppAppBar labels={appBarLabels} lng={lng} />
+      </Suspense>
       {hasHydratedTour && !hasCompletedTour ? <JoyRide /> : null}
       {open ? (
         <AppSnackbar
