@@ -17,6 +17,7 @@ import {
   getArticleReviewModel,
 } from "./model";
 import { mockReview } from "./mockReview";
+import { buildPrompt, buildSystemPrompt } from "./prompt";
 
 const ARTICLE_REVIEW_TIMEOUT_MS = 90_000;
 
@@ -32,26 +33,6 @@ export class ArticleReviewError extends Error {
   }
 }
 
-function buildPrompt(input: ReviewArticleRequest) {
-  const libraries =
-    input.technicalContext?.libraries
-      ?.map(
-        ({ name, version }) =>
-          `${name}${version ? `: ${version}` : ": version unspecified"}`,
-      )
-      .join("\n") || "(none provided)";
-
-  return [
-    `Locale: ${input.locale}`,
-    `Title: ${input.title || "(empty)"}`,
-    `Description: ${input.description || "(empty)"}`,
-    `Categories: ${input.categories.join(", ") || "(none)"}`,
-    "Technical context:",
-    libraries,
-    "Article content:",
-    input.content,
-  ].join("\n\n");
-}
 function getApiCallError(error: unknown) {
   if (APICallError.isInstance(error)) {
     return error;
@@ -155,42 +136,7 @@ export async function reviewArticle(
       }),
       maxRetries: 0,
       timeout: ARTICLE_REVIEW_TIMEOUT_MS,
-      system: [
-        "You are a senior technical editor reviewing a draft technical article before publication.",
-
-        "Prioritize technical correctness over the number of issues found.",
-        "Do not invent issues merely to make the report more comprehensive.",
-
-        "Review each technical claim using the full surrounding context.",
-        "When reviewing boolean expressions or code conditions, evaluate the entire expression rather than isolated variables.",
-
-        "Distinguish clearly between:",
-        "1. factual or technical errors,",
-        "2. potentially misleading explanations,",
-        "3. optional readability improvements.",
-
-        "Do not describe an optional simplification as a correctness bug.",
-
-        "Infer library or framework versions only when the article provides strong evidence.",
-        "If the version materially affects correctness and is not explicitly stated, report the missing version as the issue instead of assuming a version.",
-
-        "Do not mix APIs or terminology from different major versions.",
-        "When uncertain about a technical claim, lower the confidence or omit the issue.",
-
-        "Return only high-confidence, actionable issues.",
-        "Prefer fewer accurate issues over many speculative issues.",
-
-        "Evaluate technical correctness first, then readability, code examples, missing context, and SEO.",
-        "SEO suggestions must not outweigh or distract from technical review.",
-
-        "Only provide review suggestions. Do not rewrite the article and do not generate patches.",
-        "Scores must be numbers from 0 to 10.",
-        "Issues should be concise and explain why the issue matters.",
-
-        input.locale === "zh-TW"
-          ? "Write the report in Traditional Chinese using terminology common in Taiwan."
-          : "Write the report in English.",
-      ].join(" "),
+      system: buildSystemPrompt(input.locale),
       prompt: buildPrompt(input),
     });
 

@@ -101,21 +101,28 @@ features/
     │   reviewArticleAction.ts
     │
     ├── server/
-    │   reviewArticle.ts
+    │   reviewArticle.ts          # 呼叫 AI 與錯誤轉換
+    │   prompt.ts                 # system prompt 與文章輸入組裝
+    │   prompt.spec.ts
     │   mockReview.ts
     │   model.ts
     │
     ├── schemas/
-    │   reviewSchema.ts
+    │   reviewArticleRequestSchema.ts
+    │   reviewReportSchema.ts
     │
     ├── components/
-    │   ReviewButton.tsx
+    │   ArticleReviewAssistantInput.tsx   # 掛在 Sanity post 欄位的審稿入口
     │   ReviewReport.tsx
     │   ReviewIssueCard.tsx
     │
-    └── hooks/
-        useReviewArticle.ts
+    ├── hooks/
+    │   useReviewArticle.ts
+    │
+    └── types.ts
 ```
+
+審稿請求除了標題、描述、內文與分類，也可附上 `technicalContext.libraries`（套件名稱與版本），讓 AI 判斷 API 是否符合該版本。
 
 ---
 
@@ -237,7 +244,26 @@ AI：
 
 ---
 
-## 6. Overall Quality
+## 6. Content Quality
+
+在技術正確性之後，檢查搜尋引擎與 AI 回答引擎重視的內容品質訊號。沿用既有 issue 分類，不另增 category：
+
+| 面向 | 檢查內容 | 分類 |
+| --- | --- | --- |
+| 資訊增益 | 是否提供官方文件或常見教學以外的內容（實測數據、除錯過程、取捨、版本特有問題） | `content` |
+| 親身經驗 | 效能、行為、結果等說法是否有作者自己的量測、程式碼、截圖或重現步驟佐證；概念說明不強求 | `content` |
+| 搜尋意圖 | 標題與描述承諾的內容是否真的交付，主要問題是否被回答 | `seo` |
+| 結論先行 | 開頭幾句是否直接給出結論，段落能否單獨被引用（AEO） | `readability` |
+| 時效性 | 依賴快速演進的工具時，是否標明版本或驗證日期 | `technical` |
+
+限制：
+
+- AI 無法搜尋網路，資訊增益只能依一般知識判斷，必須以建議語氣提出，不能聲稱比較過其他文章。
+- SEO 建議聚焦在搜尋意圖、標題與描述清晰度、標題層級，不建議提高關鍵字密度。
+
+---
+
+## 7. Overall Quality
 
 例如：
 
@@ -263,9 +289,13 @@ Completeness
 
 # Structured Output
 
+實際定義與長度限制以 `schemas/reviewReportSchema.ts` 為準（issues 最多 12 項）。
+
 ```ts
 interface ReviewReport {
   summary: string;
+
+  overallScore: number;
 
   score: {
     readability: number;
@@ -488,9 +518,9 @@ Review Article
 
 - Error State
 
-- Unit Test
+- Unit Test（目前只有 `server/prompt.spec.ts`）
 
-- Playwright
+- Playwright（尚未實作）
 
 ---
 
