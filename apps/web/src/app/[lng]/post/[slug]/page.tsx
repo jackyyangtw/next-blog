@@ -18,11 +18,12 @@ import { getPost } from "../_lib/getPost";
 import { getPostBannerImageSrc } from "@/sanity/postBanner";
 import {
   absoluteUrl,
-  languageAlternates,
   localizedUrl,
   openGraphLocale,
+  postCanonicalUrl,
   stringifyStructuredData,
 } from "@/utils/seo";
+import { fallbackLng } from "@/i18n/config";
 import type { Locale } from "@/i18n/types";
 
 interface PostPageProps {
@@ -30,14 +31,14 @@ interface PostPageProps {
 }
 
 export async function generateMetadata({ params }: PostPageProps) {
-  const { slug, lng } = await params;
+  const { slug } = await params;
   const post = await getPost(slug);
   if (!post) {
     return { title: "Post Not Found" };
   }
 
-  const postPath = `/post/${slug}`;
-  const canonicalUrl = localizedUrl(lng, postPath);
+  // 文章內容只有中文：所有語系都以中文版為標準網址，也不輸出 hreflang
+  const canonicalUrl = postCanonicalUrl(slug);
   const imageSrc = getPostBannerImageSrc(post, { width: 1200, height: 630 });
   const imageUrl = imageSrc ? absoluteUrl(imageSrc) : "";
 
@@ -46,14 +47,13 @@ export async function generateMetadata({ params }: PostPageProps) {
     description: post.description,
     alternates: {
       canonical: canonicalUrl,
-      languages: languageAlternates(postPath),
     },
     openGraph: {
       title: post.title,
       description: post.description,
       url: canonicalUrl,
       type: "article",
-      locale: openGraphLocale(lng),
+      locale: openGraphLocale(fallbackLng),
       publishedTime: post._createdAt,
       modifiedTime: post._updatedAt ?? post._createdAt,
       authors: post.author?.name ? [post.author.name] : undefined,
@@ -84,8 +84,7 @@ async function PostPageContent({ params }: PostPageProps) {
   if (!post) {
     notFound();
   }
-  const postPath = `/post/${slug}`;
-  const canonicalUrl = localizedUrl(lng, postPath);
+  const canonicalUrl = postCanonicalUrl(slug);
   const imageSrc = getPostBannerImageSrc(post, { width: 1200, height: 630 });
   const imageUrl = imageSrc ? absoluteUrl(imageSrc) : "";
 
@@ -104,7 +103,7 @@ async function PostPageContent({ params }: PostPageProps) {
         },
         datePublished: post._createdAt,
         dateModified: post._updatedAt ?? post._createdAt,
-        inLanguage: lng,
+        inLanguage: fallbackLng,
         keywords: post.categories.map((category) => category.title),
         mainEntityOfPage: {
           "@type": "WebPage",
