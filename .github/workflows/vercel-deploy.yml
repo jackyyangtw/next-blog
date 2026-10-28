@@ -133,7 +133,7 @@ jobs:
       - name: Deploy preview prebuilt output
         id: deploy-preview
         run: |
-          deployment_url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN" \
+          deployment_url=$(vercel deploy --prebuilt --archive=tgz --token="$VERCEL_TOKEN" \
             --meta githubDeployment=1 \
             --meta githubCommitSha="$GITHUB_SHA" \
             --meta githubCommitRef="$GITHUB_REF_NAME" \
@@ -213,7 +213,7 @@ jobs:
 
       - name: Deploy prebuilt output
         run: |
-          vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" \
+          vercel deploy --prebuilt --prod --archive=tgz --token="$VERCEL_TOKEN" \
             --meta githubDeployment=1 \
             --meta githubCommitSha="$GITHUB_SHA" \
             --meta githubCommitRef="$GITHUB_REF_NAME" \
