@@ -146,11 +146,9 @@ export default async function RootLayout(props: LayoutProps<"/[lng]">) {
                     flexGrow: 1, // 讓主內容區塊自動填滿剩餘空間
                   }}
                 >
-                  <Suspense fallback={null}>
-                    <AppWrapper appBarLabels={appBarLabels} lng={lng}>
-                      {children}
-                    </AppWrapper>
-                  </Suspense>
+                  <AppWrapper appBarLabels={appBarLabels} lng={lng}>
+                    {children}
+                  </AppWrapper>
                 </Container>
 
                 {/* Footer 移出 Container，但在 Providers 內 */}

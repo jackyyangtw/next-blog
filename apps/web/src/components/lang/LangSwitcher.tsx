@@ -7,7 +7,7 @@ import { Language as LanguageIcon } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import type { Locale } from "@/i18n/types";
 import { LOCALES, languages } from "@/i18n/config";
 import { persistLocaleCookie } from "@/i18n/cookie";
@@ -20,7 +20,6 @@ export default function LangSwitcher({
   label: string;
 }) {
   const pathName = usePathname();
-  const searchParams = useSearchParams();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
   const currentLocale =
@@ -37,10 +36,9 @@ export default function LangSwitcher({
     const newPathName = hasLocaleSegment
       ? `/${[newValue, ...segments.slice(2)].join("/")}`
       : `/${newValue}${pathName === "/" ? "" : pathName}`;
-    const queryString = searchParams.toString();
-    const targetUrl = queryString
-      ? `${newPathName}?${queryString}`
-      : newPathName;
+    // 只在點擊時讀取 query：useSearchParams 會讓整個 navbar 與頁面內容掉出靜態 shell，
+    // 造成 footer 先出現再被推走的 CLS
+    const targetUrl = `${newPathName}${window.location.search}`;
 
     persistLocaleCookie(newValue);
     window.location.assign(targetUrl);
