@@ -37,6 +37,7 @@ minimumReleaseAgeExclude:
   - dompurify@3.4.16
   - sharp@0.35.5
   - shell-quote@1.11.0
+  - node-forge@1.4.2
 
 overrides:
   browserslist: "4.28.7"
@@ -94,5 +95,6 @@ overrides:
   "compression@<1.8.2": "1.8.2"
   "adm-zip@<0.6.1": "0.6.1"
   "zod@>=4.0.0 <4.6.6": "4.6.6"
+  "node-forge@<1.4.1": "1.4.2"
   # Metro 0.87.1 removes image-size and its two high-severity advisories.
   metro-config@0.87.0: 0.87.1

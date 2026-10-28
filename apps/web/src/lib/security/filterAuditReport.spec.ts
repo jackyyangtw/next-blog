@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { describe, expect, test } from "vitest";
 import { filterAuditReport } from "./filterAuditReport.mjs";
 
@@ -10,18 +9,27 @@ type Advisory = {
   findings?: { version?: string }[];
 };
 
-// 以 2026-10-06 加入的兩筆紀錄驗證機制，後續新增的紀錄不影響固定時間點的斷言。
-const allowlist: Allowlist = (
-  JSON.parse(
-    readFileSync(
-      new URL(
-        "../../../../../.github/workflows/scripts/cve-allowlist.json",
-        import.meta.url,
-      ),
-      "utf8",
-    ),
-  ) as Allowlist
-).filter((entry) => ["node-forge", "braces"].includes(entry.package));
+// 使用固定 fixture 驗證機制，實際 allowlist 增刪紀錄不影響固定時間點的斷言。
+const allowlist: Allowlist = [
+  {
+    package: "node-forge",
+    advisory: "GHSA-86w9-cpqp-85rv",
+    cve: "CVE-2026-85393",
+    versions: ["1.4.0"],
+    reason: "等待官方修復版",
+    addedAt: "2026-10-06T00:00:00+08:00",
+    expiresAt: "2026-11-06T00:00:00+08:00",
+  },
+  {
+    package: "braces",
+    advisory: "GHSA-vfj7-8cjw-p6xm",
+    cve: "CVE-2026-93687",
+    versions: ["3.0.3"],
+    reason: "等待官方修復版",
+    addedAt: "2026-10-06T00:00:00+08:00",
+    expiresAt: "2026-11-06T00:00:00+08:00",
+  },
+];
 const now = new Date("2026-10-06T09:00:00+08:00");
 const forge: Advisory = {
   github_advisory_id: "GHSA-86w9-cpqp-85rv",

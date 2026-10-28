@@ -60,6 +60,7 @@ overrides:
   compression@<1.8.2: 1.8.2
   adm-zip@<0.6.1: 0.6.1
   zod@>=4.0.0 <4.6.6: 4.6.6
+  node-forge@<1.4.1: 1.4.2
   metro-config@0.87.0: 0.87.1
 
 importers:
@@ -10940,10 +10941,10 @@ packages:
       encoding:
         optional: true
 
-  node-forge@1.4.0:
+  node-forge@1.4.2:
     resolution:
       {
-        integrity: sha512-LarFH0+6VfriEhqMMcLX2F7SwSXeWwnEAJEsYm5QKWchiVYVvJyV9v7UDvUv+w5HO23ZpQTXDv/GxdDdMyOuoQ==,
+        integrity: sha512-rRtAR5XLJ8gCKd9du4qrKAsgCG1ObGP4gLeNJMa4vYSeq4bmBMOJk5IHkrviBV0q7uoAJlVd8HEQYQSVUb4FGQ==,
       }
     engines: { node: ">= 6.13.0" }
 
@@ -15736,7 +15737,7 @@ snapshots:
       glob: 13.0.6
       lan-network: 0.2.1
       multitars: 1.0.2
-      node-forge: 1.4.0
+      node-forge: 1.4.2
       npm-package-arg: 11.0.3
       ora: 3.4.0
       picomatch: 4.0.5
@@ -15773,7 +15774,7 @@ snapshots:
 
   "@expo/code-signing-certificates@0.0.6":
     dependencies:
-      node-forge: 1.4.0
+      node-forge: 1.4.2
 
   "@expo/config-plugins@57.0.9(typescript@6.0.3)":
     dependencies:
@@ -22149,7 +22150,7 @@ snapshots:
     dependencies:
       whatwg-url: 5.0.0
 
-  node-forge@1.4.0: {}
+  node-forge@1.4.2: {}
 
   node-html-parser@7.1.0:
     dependencies:

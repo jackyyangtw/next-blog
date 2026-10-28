@@ -22,6 +22,15 @@ const cli = fileURLToPath(
     import.meta.url,
   ),
 );
+const allowlist = JSON.parse(
+  readFileSync(
+    new URL(
+      "../../../../../.github/workflows/scripts/cve-allowlist.json",
+      import.meta.url,
+    ),
+    "utf8",
+  ),
+) as (typeof entry)[];
 
 describe("CVE allowlist 紀錄", () => {
   test.each([
@@ -81,13 +90,13 @@ describe("CVE allowlist 紀錄", () => {
       });
       expect(result.status).toBe(0);
       const report = JSON.parse(result.stdout);
-      expect(report.allowlist).toHaveLength(3);
+      expect(report.allowlist).toHaveLength(allowlist.length);
       expect(report.allowedAdvisories).toEqual({});
       expect(result.stderr).toContain("CVE allowlist");
-      expect(result.stderr).toContain("node-forge");
-      expect(result.stderr).toContain("braces");
-      expect(result.stderr).toContain("zod");
-      expect(result.stderr).toContain(entry.expiresAt);
+      for (const record of allowlist) {
+        expect(result.stderr).toContain(record.package);
+        expect(result.stderr).toContain(record.expiresAt);
+      }
       expect(readFileSync(summary, "utf8")).toBe(result.stderr);
     } finally {
       unlinkSync(summary);
