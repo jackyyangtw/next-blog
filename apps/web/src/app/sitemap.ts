@@ -7,6 +7,7 @@ import {
   getSiteUrl,
   languageAlternates,
   localizedUrl,
+  postCanonicalUrl,
 } from "@/utils/seo";
 import { getPostBannerImageSrc } from "@/sanity/postBanner";
 
@@ -75,21 +76,18 @@ async function postEntries(origin: string): Promise<MetadataRoute.Sitemap> {
     }`,
   );
 
-  return posts.flatMap((post) => {
-    const postPath = `/post/${post.slug}`;
+  // 文章內容只有中文，只列出標準網址（zh-TW），不輸出其他語系版本
+  return posts.map((post) => {
     const imageSrc = getPostBannerImageSrc(post, { width: 1200, height: 630 });
     const images = imageSrc ? [absoluteUrl(imageSrc, origin)] : undefined;
 
-    return languages.map((lng) => ({
-      url: localizedUrl(lng, postPath, origin),
+    return {
+      url: postCanonicalUrl(post.slug, origin),
       lastModified: new Date(post._updatedAt ?? post._createdAt),
       changeFrequency: "weekly",
       priority: 0.7,
       images,
-      alternates: {
-        languages: languageAlternates(postPath, origin),
-      },
-    }));
+    };
   });
 }
 

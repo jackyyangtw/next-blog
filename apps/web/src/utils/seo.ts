@@ -71,6 +71,14 @@ export function languageAlternates(path = "", fallback?: string) {
   };
 }
 
+/**
+ * 文章內容只有繁體中文，所有語系的文章頁都以中文版為標準網址，
+ * 避免 /en/post/* 被 Google 視為重複內容。
+ */
+export function postCanonicalUrl(slug: string, fallback?: string) {
+  return localizedUrl(fallbackLng, `/post/${slug}`, fallback);
+}
+
 export function openGraphLocale(lng: Locale | string) {
   return lng.replace("-", "_");
 }
