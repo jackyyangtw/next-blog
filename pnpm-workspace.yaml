@@ -42,7 +42,7 @@ minimumReleaseAgeExclude:
 overrides:
   browserslist: "4.28.7"
   decode-uri-component: "0.5.1"
-  minimatch: "10.2.5"
+  minimatch: "11.0.3"
   "rollup@>=4.0.0 <4.59.0": "4.59.0"
   "ajv@<6.14.0": "6.14.0"
   "immutable@<4.3.8": ">=4.3.8"
@@ -96,5 +96,6 @@ overrides:
   "adm-zip@<0.6.1": "0.6.1"
   "zod@>=4.0.0 <4.6.6": "4.6.6"
   "node-forge@<1.4.1": "1.4.2"
+  "glob@>=9.0.0 <14.0.2": "14.0.3"
   # Metro 0.87.1 removes image-size and its two high-severity advisories.
   metro-config@0.87.0: 0.87.1
