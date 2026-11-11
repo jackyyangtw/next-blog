@@ -113,6 +113,8 @@ describe("CVE allowlist 紀錄", () => {
     expect(result.status).toBe(1);
     expect(JSON.parse(result.stdout).error.message).toBeTruthy();
     expect(result.stderr).toContain("CVE allowlist");
-    expect(result.stderr).toContain(entry.expiresAt);
+    for (const record of allowlist) {
+      expect(result.stderr).toContain(record.expiresAt);
+    }
   });
 });
