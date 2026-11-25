@@ -1,7 +1,8 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
-import type { BottomTabBarProps } from "expo-router/build/react-navigation/bottom-tabs";
+import type { BottomTabBarProps } from "expo-router/js-tabs";
 import { useCallback } from "react";
+import type { ColorValue } from "react-native";
 
 import FloatingTabBar from "../../components/FloatingTabBar";
 import { useAppPreferences } from "../../providers/AppProviders";
@@ -29,7 +30,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
-              color={color}
+              color={toIconColor(color)}
               name={focused ? "home-variant" : "home-variant-outline"}
               size={22}
             />
@@ -42,7 +43,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
-              color={color}
+              color={toIconColor(color)}
               name={focused ? "book-open-variant" : "book-open-variant-outline"}
               size={22}
             />
@@ -55,7 +56,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
-              color={color}
+              color={toIconColor(color)}
               name={focused ? "account" : "account-outline"}
               size={22}
             />
@@ -68,7 +69,7 @@ export default function TabLayout() {
         options={{
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
-              color={color}
+              color={toIconColor(color)}
               name={focused ? "cog" : "cog-outline"}
               size={22}
             />
@@ -78,4 +79,10 @@ export default function TabLayout() {
       />
     </Tabs>
   );
+}
+
+// RN 0.88 widened ColorValue (number | null), but @expo/vector-icons still
+// expects string colors. FloatingTabBar only passes theme strings.
+function toIconColor(color: ColorValue) {
+  return typeof color === "string" ? color : undefined;
 }

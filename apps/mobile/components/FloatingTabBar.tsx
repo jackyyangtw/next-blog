@@ -1,4 +1,4 @@
-import type { BottomTabBarProps } from "expo-router/build/react-navigation/bottom-tabs";
+import type { BottomTabBarProps } from "expo-router/js-tabs";
 import { useMemo } from "react";
 import { StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -13,7 +13,8 @@ const barRadius = 30;
 
 export default function FloatingTabBar({
   descriptors,
-  navigation,
+  emitter,
+  navigateToTab,
   state,
 }: BottomTabBarProps) {
   const colors = useAppColors();
@@ -44,14 +45,14 @@ export default function FloatingTabBar({
             size: 20,
           });
           const handlePress = () => {
-            const event = navigation.emit({
+            const event = emitter.emit({
               canPreventDefault: true,
               target: route.key,
               type: "tabPress",
             });
 
             if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name, route.params);
+              navigateToTab(route.key);
             }
           };
 
@@ -63,7 +64,7 @@ export default function FloatingTabBar({
               isFocused={isFocused}
               key={route.key}
               onLongPress={() =>
-                navigation.emit({ target: route.key, type: "tabLongPress" })
+                emitter.emit({ target: route.key, type: "tabLongPress" })
               }
               onPress={handlePress}
               label={label}
