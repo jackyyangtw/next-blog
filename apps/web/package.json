@@ -39,7 +39,7 @@
     "accept-language": "^3.0.20",
     "ai": "^7.0.28",
     "dayjs": "^1.11.19",
-    "i18next": "^25.8.5",
+    "i18next": "^26.7.2",
     "i18next-resources-to-backend": "^1.2.1",
     "next": "16.4.6",
     "next-auth": "^4.24.15",
